@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Show do Milhão</string>
+    <string name="btn_txtJogar">Jogar</string>
+    <string name="txtCredito">App desenvolvido por Darlan Araujo</string>
+    <string name="btn_txtSalvar">Salvar</string>
+    <string name="txtTextoVazio">Por favor preencha todos os campos!</string>
+    <string name="txtJogadorSalvo">Jogador salvo com sucesso!</string>
+    <string name="txtJogador">Jogador:</string>
+    <string name="txtCartas">Escolha uma das 4 cartas abaixo. Boa sorte!</string>
+</resources>

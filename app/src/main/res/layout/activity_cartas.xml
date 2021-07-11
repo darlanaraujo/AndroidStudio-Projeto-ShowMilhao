@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primaria"
+    tools:context=".Cartas">
+
+    <ImageView
+        android:id="@+id/imageView23"
+        android:layout_width="163dp"
+        android:layout_height="124dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+    <ImageView
+        android:id="@+id/imageView24"
+        android:layout_width="249dp"
+        android:layout_height="141dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/silvio" />
+
+    <ImageView
+        android:id="@+id/imageView25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/nuvem_topo2" />
+
+    <ImageView
+        android:id="@+id/imageView26"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/rodape1" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView25">
+
+        <LinearLayout
+            android:layout_width="350dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtFrase"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/secundaria"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/txtCartas"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btnCarta0"
+                    android:layout_width="100dp"
+                    android:layout_height="160dp"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:clickable="false"
+                    android:onClick="clickCarta0"
+                    android:padding="5dp"
+                    android:scaleType="fitStart"
+                    app:srcCompat="@drawable/img_carta" />
+
+                <ImageButton
+                    android:id="@+id/btnCarta1"
+                    android:layout_width="100dp"
+                    android:layout_height="160dp"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:clickable="false"
+                    android:onClick="clickCarta1"
+                    android:padding="5dp"
+                    android:scaleType="fitStart"
+                    app:srcCompat="@drawable/img_carta" />
+
+                <ImageButton
+                    android:id="@+id/btnCarta2"
+                    android:layout_width="100dp"
+                    android:layout_height="160dp"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:onClick="clickCarta2"
+                    android:padding="5dp"
+                    android:scaleType="fitStart"
+                    app:srcCompat="@drawable/img_carta" />
+
+                <ImageButton
+                    android:id="@+id/btnCarta3"
+                    android:layout_width="100dp"
+                    android:layout_height="160dp"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:onClick="clickCarta3"
+                    android:padding="5dp"
+                    android:scaleType="fitStart"
+                    app:srcCompat="@drawable/img_carta" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView27"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:srcCompat="@drawable/nuvem_base" />
+
+    <ImageView
+        android:id="@+id/imageView28"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="420dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/img_ouro" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
