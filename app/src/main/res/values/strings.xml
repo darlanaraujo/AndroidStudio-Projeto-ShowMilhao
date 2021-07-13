@@ -7,4 +7,6 @@
     <string name="txtJogadorSalvo">Player salved successfully!</string>
     <string name="txtJogador">Player:</string>
     <string name="txtCartas">Choose one of the 4 cards below. Good luck!</string>
+    <string name="txtRanking">Ranking</string>
+    <string name="txtSair">Exit</string>
 </resources>

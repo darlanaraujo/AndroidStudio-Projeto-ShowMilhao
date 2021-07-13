@@ -14,6 +14,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Random;
+
 public class TelaPrincipal extends AppCompatActivity {
 
     TextView txtNomeJogador, txtTime, txtPergunta, txtErrar, txtParar, txtAcertar;
@@ -22,7 +24,7 @@ public class TelaPrincipal extends AppCompatActivity {
     MediaPlayer som;
     ImageButton btnCartas, btnPlacas, btnConvidados, btnPular, btnParar;
 
-    String resposta, resCerta;
+    String resposta, pergunta, opA, opB, opC, opD, resCerta;
     int rodada = 1;
     int errar, parar, acertar;
     String[] premio = {"R$ 0,00", "R$ 1.000", "R$ 2.000", "R$ 3.000"};
@@ -32,6 +34,10 @@ public class TelaPrincipal extends AppCompatActivity {
     int convidados;
     int placas1;
     int pular = 3;
+
+    String selecionado = "", eliminado1 = "", eliminado2 = "", eliminado3 = "";
+
+    Random random = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +67,10 @@ public class TelaPrincipal extends AppCompatActivity {
         intent = getIntent();
         txtNomeJogador.setText(intent.getExtras().getString("nome"));
 
-        // Comando para executar um som;
-        //som = MediaPlayer.create(this, R.raw.frase_inicio);
-        //som.start();
-
+        // Início das perguntas;
         rodada1();
+
+            
 
     }
 
@@ -73,33 +78,16 @@ public class TelaPrincipal extends AppCompatActivity {
         a.setBackgroundColor(getResources().getColor(R.color.amarelo));
         a.setTextColor(getResources().getColor(R.color.black));
         resposta = "A";
-
-        b.setBackgroundColor(getResources().getColor(R.color.secundaria));
-        b.setTextColor(getResources().getColor(R.color.white));
-
-        c.setBackgroundColor(getResources().getColor(R.color.secundaria));
-        c.setTextColor(getResources().getColor(R.color.white));
-
-        d.setBackgroundColor(getResources().getColor(R.color.secundaria));
-        d.setTextColor(getResources().getColor(R.color.white));
+        selecionado = "a";
 
         confimacao(resposta);
-
     }
 
     public void opcaoB(View view) {
         b.setBackgroundColor(getResources().getColor(R.color.amarelo));
         b.setTextColor(getResources().getColor(R.color.black));
         resposta = "B";
-
-        a.setBackgroundColor(getResources().getColor(R.color.secundaria));
-        a.setTextColor(getResources().getColor(R.color.white));
-
-        c.setBackgroundColor(getResources().getColor(R.color.secundaria));
-        c.setTextColor(getResources().getColor(R.color.white));
-
-        d.setBackgroundColor(getResources().getColor(R.color.secundaria));
-        d.setTextColor(getResources().getColor(R.color.white));
+        selecionado = "b";
 
         confimacao(resposta);
     }
@@ -108,15 +96,7 @@ public class TelaPrincipal extends AppCompatActivity {
         c.setBackgroundColor(getResources().getColor(R.color.amarelo));
         c.setTextColor(getResources().getColor(R.color.black));
         resposta = "C";
-
-        b.setBackgroundColor(getResources().getColor(R.color.secundaria));
-        b.setTextColor(getResources().getColor(R.color.white));
-
-        a.setBackgroundColor(getResources().getColor(R.color.secundaria));
-        a.setTextColor(getResources().getColor(R.color.white));
-
-        d.setBackgroundColor(getResources().getColor(R.color.secundaria));
-        d.setTextColor(getResources().getColor(R.color.white));
+        selecionado = "c";
 
         confimacao(resposta);
     }
@@ -125,30 +105,29 @@ public class TelaPrincipal extends AppCompatActivity {
         d.setBackgroundColor(getResources().getColor(R.color.amarelo));
         d.setTextColor(getResources().getColor(R.color.black));
         resposta = "D";
-
-        b.setBackgroundColor(getResources().getColor(R.color.secundaria));
-        b.setTextColor(getResources().getColor(R.color.white));
-
-        c.setBackgroundColor(getResources().getColor(R.color.secundaria));
-        c.setTextColor(getResources().getColor(R.color.white));
-
-        a.setBackgroundColor(getResources().getColor(R.color.secundaria));
-        a.setTextColor(getResources().getColor(R.color.white));
+        selecionado = "d";
 
         confimacao(resposta);
     }
 
-    public void time() {
-        for(int c = 30; c >= 0; c--) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+    /** Método pausa:
+     * @param tempo Recebe um valor em milessegundos para definir o tempo de pausa.
+     *
+     * Método que cria uma pausa definida pelo tempo passado como parametro em milessegundos.
+     * Tendo como execução o fecahemento da tela atual através do método finish().
+     */
+    public void pausa(int tempo){
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                som.stop();
+                finish();
             }
-            txtTime.setText(String.valueOf(c));
-        }
+        }, tempo);
     }
 
+    // FERRAMENTAS =================================================================================
     public void limparSelecao(boolean play) {
 
         if(play == true) {
@@ -158,17 +137,48 @@ public class TelaPrincipal extends AppCompatActivity {
             som.start();
         }
 
-        a.setBackgroundColor(getResources().getColor(R.color.secundaria));
-        a.setTextColor(getResources().getColor(R.color.white));
+        // Condição que verifica se algum dos botões foram eliminados, caso sim, a cor cinza não muda.
+        // Essa cor cinza é atribuida no método cartas.
+        if(! eliminado1.equals("a")){
+            if(! eliminado2.equals("a")){
+                if(! eliminado3.equals("a")){
+                    a.setBackgroundColor(getResources().getColor(R.color.secundaria));
+                    a.setTextColor(getResources().getColor(R.color.white));
+                    a.setEnabled(true);
+                }
+            }
+        }
 
-        b.setBackgroundColor(getResources().getColor(R.color.secundaria));
-        b.setTextColor(getResources().getColor(R.color.white));
+        if(! eliminado1.equals("b")){
+            if(! eliminado2.equals("b")){
+                if(! eliminado3.equals("b")){
+                    b.setBackgroundColor(getResources().getColor(R.color.secundaria));
+                    b.setTextColor(getResources().getColor(R.color.white));
+                    b.setEnabled(true);
+                }
+            }
+        }
 
-        c.setBackgroundColor(getResources().getColor(R.color.secundaria));
-        c.setTextColor(getResources().getColor(R.color.white));
+        if(! eliminado1.equals("c")){
+            if(! eliminado2.equals("c")){
+                if(! eliminado3.equals("c")){
+                    c.setBackgroundColor(getResources().getColor(R.color.secundaria));
+                    c.setTextColor(getResources().getColor(R.color.white));
+                    c.setEnabled(true);
+                }
+            }
+        }
 
-        d.setBackgroundColor(getResources().getColor(R.color.secundaria));
-        d.setTextColor(getResources().getColor(R.color.white));
+        if(! eliminado1.equals("d")){
+            if(! eliminado2.equals("d")){
+                if(! eliminado3.equals("d")){
+                    d.setBackgroundColor(getResources().getColor(R.color.secundaria));
+                    d.setTextColor(getResources().getColor(R.color.white));
+                    d.setEnabled(true);
+                }
+            }
+        }
+
     }
 
     public void confimacao(String r) {
@@ -210,7 +220,11 @@ public class TelaPrincipal extends AppCompatActivity {
         if(rodada == 2){
             rodada2();
         } else if(rodada == 3){
-            Toast.makeText(this, "Em Construção!", Toast.LENGTH_LONG).show();
+            rodada3();
+        } else if(rodada == 4){
+            rodada4();
+        } else if(rodada == 5){
+            rodada5();
         }
     }
 
@@ -248,6 +262,9 @@ public class TelaPrincipal extends AppCompatActivity {
             som.start();
 
             // Limpa a seleção atual;
+            eliminado1 = "";
+            eliminado2 = "";
+            eliminado3 = "";
             limparSelecao(false);
 
             // Verifica qual o proximo nivel da rodada;
@@ -266,57 +283,196 @@ public class TelaPrincipal extends AppCompatActivity {
     }
 
     // AJUDAS ======================================================================================
-    public void clickCartas(View view){
-        som.stop();
-        Toast.makeText(this, "Resposta Certa: "+ resCerta, Toast.LENGTH_LONG).show();
+    public void clickCartas(View view) {
+        cartas = random.nextInt(4);
 
-        // Chama a tela das cartas;
+        //Toast.makeText(this, "Resposta Certa: "+ resCerta, Toast.LENGTH_LONG).show();
+
+        som.stop();
+
+        // Chama a tela das cartas e passagem do valor do sorteio;
         intent = new Intent(this, Cartas.class);
+        intent.putExtra("valor", cartas);
         startActivity(intent);
 
         // Boqueia e muda a imagem do botão cartas;
         btnCartas.setEnabled(false);
         btnCartas.setImageResource(R.drawable.cartas2);
 
-        // Comando que recebe o valor da carta;
-
-
-        if(resCerta.equals("A")){
-            if(cartas == 1){
+        // Condição que define as respostas a serem eliminadas;
+        if (resCerta.equals("A")) {
+            if (cartas == 1) {
                 c.setBackgroundColor(getResources().getColor(R.color.cinza));
                 c.setEnabled(false);
-            } else if(cartas == 2) {
+                eliminado1 = "c";
+
+            } else if (cartas == 2) {
                 b.setBackgroundColor(getResources().getColor(R.color.cinza));
                 b.setEnabled(false);
+                eliminado1 = "b";
+
                 d.setBackgroundColor(getResources().getColor(R.color.cinza));
                 d.setEnabled(false);
-            } else if(cartas == 3){
+                eliminado2 = "d";
+
+            } else if (cartas == 3) {
                 b.setBackgroundColor(getResources().getColor(R.color.cinza));
                 b.setEnabled(false);
+                eliminado1 = "b";
+
                 c.setBackgroundColor(getResources().getColor(R.color.cinza));
                 c.setEnabled(false);
+                eliminado2 = "c";
+
                 d.setBackgroundColor(getResources().getColor(R.color.cinza));
                 d.setEnabled(false);
+                eliminado3 = "d";
+            }
+            //====================================================================================
+        } else if (resCerta.equals("B")) {
+            if (cartas == 1) {
+                d.setBackgroundColor(getResources().getColor(R.color.cinza));
+                d.setEnabled(false);
+                eliminado1 = "d";
+
+            } else if (cartas == 2) {
+                a.setBackgroundColor(getResources().getColor(R.color.cinza));
+                a.setEnabled(false);
+                eliminado1 = "a";
+
+                c.setBackgroundColor(getResources().getColor(R.color.cinza));
+                c.setEnabled(false);
+                eliminado2 = "c";
+
+            } else if (cartas == 3) {
+                a.setBackgroundColor(getResources().getColor(R.color.cinza));
+                a.setEnabled(false);
+                eliminado1 = "a";
+
+                c.setBackgroundColor(getResources().getColor(R.color.cinza));
+                c.setEnabled(false);
+                eliminado2 = "c";
+
+                d.setBackgroundColor(getResources().getColor(R.color.cinza));
+                d.setEnabled(false);
+                eliminado3 = "d";
+            }
+        } else if (resCerta.equals("C")) {
+            if (cartas == 1) {
+                b.setBackgroundColor(getResources().getColor(R.color.cinza));
+                b.setEnabled(false);
+                eliminado1 = "b";
+
+            } else if (cartas == 2) {
+                a.setBackgroundColor(getResources().getColor(R.color.cinza));
+                a.setEnabled(false);
+                eliminado1 = "a";
+
+                d.setBackgroundColor(getResources().getColor(R.color.cinza));
+                d.setEnabled(false);
+                eliminado2 = "d";
+
+            } else if (cartas == 3) {
+                a.setBackgroundColor(getResources().getColor(R.color.cinza));
+                a.setEnabled(false);
+                eliminado1 = "a";
+
+                b.setBackgroundColor(getResources().getColor(R.color.cinza));
+                b.setEnabled(false);
+                eliminado2 = "b";
+
+                d.setBackgroundColor(getResources().getColor(R.color.cinza));
+                d.setEnabled(false);
+                eliminado3 = "d";
+            }
+        } else if (resCerta.equals("D")) {
+            if (cartas == 1) {
+                b.setBackgroundColor(getResources().getColor(R.color.cinza));
+                b.setEnabled(false);
+                eliminado1 = "b";
+
+            } else if (cartas == 2) {
+                b.setBackgroundColor(getResources().getColor(R.color.cinza));
+                b.setEnabled(false);
+                eliminado1 = "b";
+
+                c.setBackgroundColor(getResources().getColor(R.color.cinza));
+                c.setEnabled(false);
+                eliminado2 = "c";
+
+            } else if (cartas == 3) {
+                a.setBackgroundColor(getResources().getColor(R.color.cinza));
+                a.setEnabled(false);
+                eliminado1 = "a";
+
+                b.setBackgroundColor(getResources().getColor(R.color.cinza));
+                b.setEnabled(false);
+                eliminado2 = "b";
+
+                c.setBackgroundColor(getResources().getColor(R.color.cinza));
+                c.setEnabled(false);
+                eliminado3 = "c";
             }
         }
-
     }
 
-    // PERGUNTAS ===================================================================================
+    // FORMATAÇÃO DAS PERGUNTAS POR NÍVEL ==========================================================
+    public void formatacaoNivel1(){
+        // Criação do objeto que recebe a classe Perguntas como instancia;
+        Perguntas dados = new Perguntas();
+
+        // Atribuição dos dados aos atributos;
+        pergunta = dados.setPerguntaNivel1().get(0);
+        opA = dados.setPerguntaNivel1().get(1);
+        opB = dados.setPerguntaNivel1().get(2);
+        opC = dados.setPerguntaNivel1().get(3);
+        opD = dados.setPerguntaNivel1().get(4);
+
+        // Formatação dos dados adicionando-os aos botões;
+        txtPergunta.setText(pergunta);
+        a.setText(opA);
+        b.setText(opB);
+        c.setText(opC);
+        d.setText(opD);
+        resCerta = dados.setPerguntaNivel1().get(5);
+
+        // Premiação;
+        //premiacao();
+    }
+
+    public void formatacaoNivel2(){
+        // Criação do objeto que recebe a classe Perguntas como instancia;
+        Perguntas dados = new Perguntas();
+
+        // Atribuição dos dados aos atributos;
+        pergunta = dados.setPerguntaNivel2().get(0);
+        opA = dados.setPerguntaNivel2().get(1);
+        opB = dados.setPerguntaNivel2().get(2);
+        opC = dados.setPerguntaNivel2().get(3);
+        opD = dados.setPerguntaNivel2().get(4);
+
+        // Formatação dos dados adicionando-os aos botões;
+        txtPergunta.setText(pergunta);
+        a.setText(opA);
+        b.setText(opB);
+        c.setText(opC);
+        d.setText(opD);
+        resCerta = dados.setPerguntaNivel2().get(5);
+
+        // Premiação;
+        premiacao();
+    }
+
+    // CONTINUAÇÃO DOS NIVEIS ATÉ O NÍVEL 5 ---->>>>>>>>>
+
+    // PERGUNTAS POR RODADAS =======================================================================
     public void rodada1() {
         // Comando para executar um som;
         som = MediaPlayer.create(this, R.raw.frase_1mil);
         som.start();
 
-        txtPergunta.setText("Qual o nome do navegador que supostamente descobril o Brasil em 1500?");
-        a.setText("A) Pedro Alvares Cabral");
-        b.setText("B) Cristoval Colombo");
-        c.setText("C) Vasco da Gama");
-        d.setText("D) Dom pedro I");
-        resCerta = "A";
-
-        // Premiação;
-        premiacao();
+        // Chamada do método que faz o tratamento dos dados vindos da classe Perguntas;
+        formatacaoNivel1();
     }
 
     public void rodada2() {
@@ -325,16 +481,38 @@ public class TelaPrincipal extends AppCompatActivity {
         som = MediaPlayer.create(this, R.raw.frase_2mil);
         som.start();
 
-        txtPergunta.setText("Qual o nome do personagem biblico que foi engolido por um peixe ficando " +
-                "em seu estomago por 3 dias?");
-        a.setText("A) Daniel");
-        b.setText("B) Sansão");
-        c.setText("C) Jonas");
-        d.setText("D) Pedro");
-        resCerta = "C";
+        // Chamada do método que faz o tratamento dos dados vindos da classe Perguntas;
+        formatacaoNivel1();
+    }
 
-        // Premiação;
-        premiacao();
+    public void rodada3() {
+        // Comando para executar um som;
+        som.stop();
+        som = MediaPlayer.create(this, R.raw.frase_3mil);
+        som.start();
+
+        // Chamada do método que faz o tratamento dos dados vindos da classe Perguntas;
+        formatacaoNivel1();
+    }
+
+    public void rodada4() {
+        // Comando para executar um som;
+        som.stop();
+        som = MediaPlayer.create(this, R.raw.frase_4mil);
+        som.start();
+
+        // Chamada do método que faz o tratamento dos dados vindos da classe Perguntas;
+        formatacaoNivel1();
+    }
+
+    public void rodada5() {
+        // Comando para executar um som;
+        som.stop();
+        som = MediaPlayer.create(this, R.raw.frase_5mil);
+        som.start();
+
+        // Chamada do método que faz o tratamento dos dados vindos da classe Perguntas;
+        formatacaoNivel1();
     }
 
 }

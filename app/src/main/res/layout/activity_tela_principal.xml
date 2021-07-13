@@ -9,19 +9,22 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="163dp"
-        android:layout_height="124dp"
+        android:layout_width="146dp"
+        android:layout_height="106dp"
         android:adjustViewBounds="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.098"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="249dp"
-        android:layout_height="141dp"
+        android:layout_width="203dp"
+        android:layout_height="113dp"
         android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView3"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/silvio" />
 
@@ -29,7 +32,7 @@
         android:id="@+id/imageView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="48dp"
         android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -37,330 +40,365 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/nuvem_topo2" />
 
-    <ImageView
-        android:id="@+id/imageView15"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
+        android:background="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/imageView10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6">
+
+        <LinearLayout
+            android:id="@+id/layFundo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/layJogador"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="30"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="@string/txtJogador"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtNomeJogador"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="Nome"
+                    android:textColor="@color/primariaDark"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layTextos"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtPergunta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/secundaria"
+                    android:gravity="center"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="Pergunta"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp" />
+
+                <Button
+                    android:id="@+id/btnA"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:lineSpacingExtra="8sp"
+                    android:onClick="opcaoA"
+                    android:textColor="@color/white"
+                    app:backgroundTint="@color/secundaria"
+                    app:backgroundTintMode="src_in"
+                    app:icon="@drawable/icon_a"
+                    app:iconTintMode="src_in" />
+
+                <Button
+                    android:id="@+id/btnB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:lineSpacingExtra="8sp"
+                    android:onClick="opcaoB"
+                    android:textColor="@color/white"
+                    app:backgroundTint="@color/secundaria"
+                    app:backgroundTintMode="src_in"
+                    app:icon="@drawable/icon_b"
+                    app:iconTintMode="src_in" />
+
+                <Button
+                    android:id="@+id/btnC"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:lineSpacingExtra="8sp"
+                    android:onClick="opcaoC"
+                    android:textColor="@color/white"
+                    app:backgroundTint="@color/secundaria"
+                    app:backgroundTintMode="src_in"
+                    app:icon="@drawable/icon_c" />
+
+                <Button
+                    android:id="@+id/btnD"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:lineSpacingExtra="8sp"
+                    android:onClick="opcaoD"
+                    android:textColor="@color/white"
+                    app:backgroundTint="@color/secundaria"
+                    app:backgroundTintMode="src_in"
+                    app:icon="@drawable/icon_d" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layPremio"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtErrar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/amarelo"
+                    android:clickable="true"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="R$ 0,00"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtParar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/amarelo"
+                    android:clickable="true"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="R$ 0,00"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtAcertar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@color/amarelo"
+                    android:clickable="true"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="R$ 0,00"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layTxtPremio"
+                android:layout_width="350dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                tools:layout_editor_absoluteX="-184dp"
+                tools:layout_editor_absoluteY="559dp">
+
+                <TextView
+                    android:id="@+id/textView20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="ERRAR"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView19"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="PARAR"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView17"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="ACERTAR"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@color/secundaria"
+                android:gravity="center"
+                android:text="----- APOIO -----"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/layAjuda"
+                android:layout_width="350dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="30dp"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btnCartas"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:onClick="clickCartas"
+                    android:scaleType="centerInside"
+                    app:srcCompat="@drawable/cartas" />
+
+                <ImageButton
+                    android:id="@+id/btnPlacas"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    app:srcCompat="@drawable/placas" />
+
+                <ImageButton
+                    android:id="@+id/btnConvidados"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    app:srcCompat="@drawable/convidados" />
+
+                <ImageButton
+                    android:id="@+id/btnPular"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    app:srcCompat="@drawable/pular" />
+
+                <ImageButton
+                    android:id="@+id/btnParar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    app:srcCompat="@drawable/parar" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="409dp"
+        android:layout_height="74dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/rodape1" />
-
-    <LinearLayout
-        android:id="@+id/layFundo"
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
-        android:background="@color/white"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView6">
-
-        <LinearLayout
-            android:id="@+id/layJogador"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/txtTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="30"
-                android:textColor="@color/black"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="@string/txtJogador"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txtNomeJogador"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                android:text="Nome"
-                android:textColor="@color/primariaDark"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layTextos"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/txtPergunta"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/secundaria"
-                android:gravity="center"
-                android:paddingLeft="5dp"
-                android:paddingTop="5dp"
-                android:paddingRight="5dp"
-                android:paddingBottom="5dp"
-                android:text="Pergunta"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp" />
-
-            <Button
-                android:id="@+id/btnA"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:lineSpacingExtra="8sp"
-                android:onClick="opcaoA"
-                android:text="A)"
-                android:textColor="@color/white"
-                app:backgroundTint="@color/secundaria"
-                app:backgroundTintMode="src_in" />
-
-            <Button
-                android:id="@+id/btnB"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:lineSpacingExtra="8sp"
-                android:onClick="opcaoB"
-                android:text="B)"
-                android:textColor="@color/white"
-                app:backgroundTint="@color/secundaria"
-                app:backgroundTintMode="src_in" />
-
-            <Button
-                android:id="@+id/btnC"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:lineSpacingExtra="8sp"
-                android:onClick="opcaoC"
-                android:text="C)"
-                android:textColor="@color/white"
-                app:backgroundTint="@color/secundaria"
-                app:backgroundTintMode="src_in" />
-
-            <Button
-                android:id="@+id/btnD"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:lineSpacingExtra="8sp"
-                android:onClick="opcaoD"
-                android:text="D)"
-                android:textColor="@color/white"
-                app:backgroundTint="@color/secundaria"
-                app:backgroundTintMode="src_in" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layPremio"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/txtErrar"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:background="@color/secundaria"
-                android:clickable="true"
-                android:drawableStart="@drawable/icon_ouro2"
-                android:gravity="center_vertical"
-                android:text="R$ 0,00"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txtParar"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:background="@color/secundaria"
-                android:clickable="true"
-                android:drawableLeft="@drawable/icon_ouro2"
-                android:gravity="center_vertical"
-                android:text="R$ 0,00"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txtAcertar"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:background="@color/secundaria"
-                android:clickable="true"
-                android:drawableLeft="@drawable/icon_ouro2"
-                android:gravity="center_vertical"
-                android:text="R$ 0,00"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layTxtPremio"
-            android:layout_width="350dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:orientation="horizontal"
-            tools:layout_editor_absoluteX="-184dp"
-            tools:layout_editor_absoluteY="559dp">
-
-            <TextView
-                android:id="@+id/textView20"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="ERRAR"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textView19"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="PARAR"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textView17"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="ACERTAR"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2">
 
         <TextView
-            android:id="@+id/textView3"
-            android:layout_width="350dp"
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
             android:background="@color/secundaria"
-            android:gravity="center"
-            android:text="----- APOIO -----"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textSize="8sp" />
 
-        <LinearLayout
-            android:id="@+id/layAjuda"
-            android:layout_width="350dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/amarelo"
+            android:textSize="8sp" />
 
-            <ImageButton
-                android:id="@+id/btnCartas"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:onClick="clickCartas"
-                android:scaleType="centerInside"
-                app:srcCompat="@drawable/cartas" />
-
-            <ImageButton
-                android:id="@+id/btnPlacas"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                app:srcCompat="@drawable/placas" />
-
-            <ImageButton
-                android:id="@+id/btnConvidados"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                app:srcCompat="@drawable/convidados" />
-
-            <ImageButton
-                android:id="@+id/btnPular"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                app:srcCompat="@drawable/pular" />
-
-            <ImageButton
-                android:id="@+id/btnParar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                app:srcCompat="@drawable/parar" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:paddingLeft="130dp"
+            android:paddingTop="10dp"
+            android:text="@string/txtCredito"
+            android:textColor="@color/white" />
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView14"
-        android:layout_width="wrap_content"
+        android:id="@+id/imageView10"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="16dp"
         android:adjustViewBounds="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layFundo"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/nuvem_base" />
+        app:srcCompat="@drawable/barra_ouro" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
