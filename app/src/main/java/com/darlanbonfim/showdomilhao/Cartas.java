@@ -41,6 +41,7 @@ public class Cartas extends AppCompatActivity {
         intent = getIntent();
         valor = intent.getExtras().getInt("valor");
 
+
     }
 
     public void clickCarta0(View view){
@@ -180,12 +181,6 @@ public class Cartas extends AppCompatActivity {
         });
 
         pop.show();
-    }
-
-    public String Teste() {
-        String nome = "Darlan";
-
-        return nome;
     }
 
 }

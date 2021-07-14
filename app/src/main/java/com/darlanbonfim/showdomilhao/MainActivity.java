@@ -1,13 +1,17 @@
 package com.darlanbonfim.showdomilhao;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,11 +46,68 @@ public class MainActivity extends AppCompatActivity {
         decorView.setSystemUiVisibility(uiOptions);
     }
 
+    /** Método pausa:
+     * @param tempo Recebe um valor em milessegundos para definir o tempo de pausa.
+     *
+     * Método que cria uma pausa definida pelo tempo passado como parametro em milessegundos.
+     * Tendo como execução o fecahemento da tela atual através do método finish().
+     */
+    public void pausa(int tempo){
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        }, tempo);
+    }
+
 
     public void setTelaCadastro(View view) {
         som.stop();
         tela = new Intent(this, TelaCadastro.class);
         startActivity(tela);
         finish();
+    }
+
+    public void ranking(View view) {
+        AlertDialog.Builder pop = new AlertDialog.Builder(this);
+        pop.setTitle("Comando em Construção!");
+        pop.setIcon(R.drawable.logo);
+        pop.setMessage("Essa parte do projeto ainda está em desenvolvimento");
+
+        pop.setNegativeButton("Voltar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        });
+
+        pop.show();
+    }
+
+    public void finalizar(View view) {
+        AlertDialog.Builder pop = new AlertDialog.Builder(this);
+        pop.setTitle("Confirmação");
+        pop.setIcon(R.drawable.logo);
+        pop.setMessage("Deseja sair do App?");
+
+        pop.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        });
+
+        pop.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                finish();
+            }
+        });
+
+        pop.show();
+
     }
 }

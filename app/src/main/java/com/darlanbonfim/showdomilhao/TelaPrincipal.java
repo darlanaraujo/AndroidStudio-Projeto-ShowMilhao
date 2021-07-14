@@ -26,8 +26,11 @@ public class TelaPrincipal extends AppCompatActivity {
 
     String resposta, pergunta, opA, opB, opC, opD, resCerta;
     int rodada = 1;
-    int errar, parar, acertar;
-    String[] premio = {"R$ 0,00", "R$ 1.000", "R$ 2.000", "R$ 3.000"};
+    String errar, parar, acertar;
+    String[] premio = {"R$ 0,00", "R$ 1.000", "R$ 2.000", "R$ 3.000", "R$ 4.000", "R$ 5.000",
+                        "R$ 10.000", "R$ 20.000", "R$ 30.000", "R$ 40.000", "R$ 50.000",
+                        "R$ 100.000", "R$ 200.000", "R$ 300.000", "R$ 400.000", "R$ 500.000",
+                        "R$ 1.000.000"};
 
     // Atributos que recebe o valor gerado na tela de ajuda;
     int cartas;
@@ -69,8 +72,6 @@ public class TelaPrincipal extends AppCompatActivity {
 
         // Início das perguntas;
         rodada1();
-
-            
 
     }
 
@@ -231,23 +232,26 @@ public class TelaPrincipal extends AppCompatActivity {
     public void premiacao(){
 
         if(rodada == 1){
-            errar = 0;
-            parar = 0;
-            acertar = rodada;
+            errar = premio[0];
+            parar = premio[0];
+            acertar = premio[rodada];
         } else if(rodada == 2){
-            errar = 0;
-            parar = rodada -1;
-            acertar = rodada;
+            errar = premio[0];
+            parar = premio[rodada -1];
+            acertar = premio[rodada];
         } else if(rodada > 2){
-            errar = rodada -2;
-            parar = rodada -1;
-            acertar = rodada;
+            errar = premio[rodada -2];
+            parar = premio[rodada -1];
+            acertar = premio[rodada];
         }
 
         // Premiação;
-        txtErrar.setText(premio[errar]);
-        txtParar.setText(premio[parar]);
-        txtAcertar.setText(premio[acertar]);
+        //txtErrar.setText(premio[errar]);
+        //txtParar.setText(premio[parar]);
+        //txtAcertar.setText(premio[acertar]);
+        txtErrar.setText(errar);
+        txtParar.setText(parar);
+        txtAcertar.setText(acertar);
     }
 
     public void verificaResposta(int rod, String rc, String r) {
@@ -437,7 +441,7 @@ public class TelaPrincipal extends AppCompatActivity {
         resCerta = dados.setPerguntaNivel1().get(5);
 
         // Premiação;
-        //premiacao();
+        premiacao();
     }
 
     public void formatacaoNivel2(){

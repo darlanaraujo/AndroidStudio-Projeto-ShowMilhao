@@ -383,7 +383,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left"
-            android:paddingLeft="130dp"
+            android:paddingLeft="150dp"
             android:paddingTop="10dp"
             android:text="@string/txtCredito"
             android:textColor="@color/white" />
