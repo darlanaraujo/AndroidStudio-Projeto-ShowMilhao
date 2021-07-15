@@ -17,30 +17,40 @@ public class Perguntas {
             "Fidel Castro nasceu em qual país?;A) Jamaica;B) Cuba;C) El Salvador;D) México;B",
             "Quem proclamou a república no Brasil em 1889?;A) Duque de Caxias;B) Marechal Rondon;C) Dom Pedro II;D) Marechal Deodoro;C",
             "Quem é o patrono do exército brasileiro?;A) MARECHAL DEODORO;B) BARÃO DE MAUÁ;C) DUQUE DE CAXIAS;D) MARQUÊS DE POMBAL;C"
-    };
+    }; // Perguntas de nivel 1
 
-    String[] perguntasNivel2 = {};
+    String[] perguntasNivel2 = {}; // Perguntas de nivel 2
 
-    String[] perguntasNivel3 = {};
+    String[] perguntasNivel3 = {}; // Perguntas de nivel 3
 
-    String[] perguntasNivel4 = {};
+    String[] perguntasNivel4 = {}; // Perguntas de nivel 4
 
-    String[] perguntasNivel5 = {};
+    String[] perguntasNivel5 = {}; // Perguntas de nivel 5
 
     // =============================================================================================
 
-    // Método random() para gerar número aleatório;
+    /** Método random() para gerar número aleatório;
+     * @return Retorna o valor gerado.
+     */
     public Integer random(){
         int random = (int )(Math.random() * perguntasNivel1.length);
         return random;
     }
 
     // Atributos globais;
-    int random = random();
-    String sorteio;
+    int random = random(); // Atributo que recebe o valor gerado no método random();
+    String sorteio; // atributo que vai receber uma pergunta vindo da lista de perguntas;
 
     // Método para gerar as perguntas de nível1 ====================================================
 
+    /** Esse método gera uma pergunta aleatoria vinda da lista perguntaNivel1. Dentro do método foi
+     * criado um Array para guardar temporariamente a pergunta gerada fazendo a separação do texto
+     * cada vez que o ";" é encontrado, esse texto separado é adicionado a um espaço dentro do
+     * atributo texto. No final ele adiciona o atributo texto dentro do atributo pergunta que será
+     * enviado para Tela principal para formatação do texto com o layout do App. Apos isso o atributo
+     * texto é limpado para poder receber novamente o texto quando o método for chamado.
+     * @return Retorna a pergunta que foi gerada no método.
+     */
     public ArrayList<String> setPerguntaNivel1(){
         ArrayList<String> pergunta = new ArrayList<>();
         ArrayList<String> temp = new ArrayList<>();
@@ -70,6 +80,14 @@ public class Perguntas {
 
     // Método para gerar as perguntas de nível1 ====================================================
 
+    /** Esse método gera uma pergunta aleatoria vinda da lista perguntaNivel2. Dentro do método foi
+     * criado um Array para guardar temporariamente a pergunta gerada fazendo a separação do texto
+     * cada vez que o ";" é encontrado, esse texto separado é adicionado a um espaço dentro do
+     * atributo texto. No final ele adiciona o atributo texto dentro do atributo pergunta que será
+     * enviado para Tela principal para formatação do texto com o layout do App. Apos isso o atributo
+     * texto é limpado para poder receber novamente o texto quando o método for chamado.
+     * @return Retorna a pergunta que foi gerada no método.
+     */
     public ArrayList<String> setPerguntaNivel2(){
         ArrayList<String> pergunta = new ArrayList<>();
         ArrayList<String> temp = new ArrayList<>();
@@ -99,6 +117,14 @@ public class Perguntas {
 
     // Método para gerar as perguntas de nível1 ====================================================
 
+    /** Esse método gera uma pergunta aleatoria vinda da lista perguntaNivel3. Dentro do método foi
+     * criado um Array para guardar temporariamente a pergunta gerada fazendo a separação do texto
+     * cada vez que o ";" é encontrado, esse texto separado é adicionado a um espaço dentro do
+     * atributo texto. No final ele adiciona o atributo texto dentro do atributo pergunta que será
+     * enviado para Tela principal para formatação do texto com o layout do App. Apos isso o atributo
+     * texto é limpado para poder receber novamente o texto quando o método for chamado.
+     * @return Retorna a pergunta que foi gerada no método.
+     */
     public ArrayList<String> setPerguntaNivel3(){
         ArrayList<String> pergunta = new ArrayList<>();
         ArrayList<String> temp = new ArrayList<>();
@@ -128,6 +154,14 @@ public class Perguntas {
 
     // Método para gerar as perguntas de nível1 ====================================================
 
+    /** Esse método gera uma pergunta aleatoria vinda da lista perguntaNivel4. Dentro do método foi
+     * criado um Array para guardar temporariamente a pergunta gerada fazendo a separação do texto
+     * cada vez que o ";" é encontrado, esse texto separado é adicionado a um espaço dentro do
+     * atributo texto. No final ele adiciona o atributo texto dentro do atributo pergunta que será
+     * enviado para Tela principal para formatação do texto com o layout do App. Apos isso o atributo
+     * texto é limpado para poder receber novamente o texto quando o método for chamado.
+     * @return Retorna a pergunta que foi gerada no método.
+     */
     public ArrayList<String> setPerguntaNivel4(){
         ArrayList<String> pergunta = new ArrayList<>();
         ArrayList<String> temp = new ArrayList<>();
@@ -157,6 +191,14 @@ public class Perguntas {
 
     // Método para gerar as perguntas de nível1 ====================================================
 
+    /** Esse método gera uma pergunta aleatoria vinda da lista perguntaNivel5. Dentro do método foi
+     * criado um Array para guardar temporariamente a pergunta gerada fazendo a separação do texto
+     * cada vez que o ";" é encontrado, esse texto separado é adicionado a um espaço dentro do
+     * atributo texto. No final ele adiciona o atributo texto dentro do atributo pergunta que será
+     * enviado para Tela principal para formatação do texto com o layout do App. Apos isso o atributo
+     * texto é limpado para poder receber novamente o texto quando o método for chamado.
+     * @return Retorna a pergunta que foi gerada no método.
+     */
     public ArrayList<String> setPerguntaNivel5(){
         ArrayList<String> pergunta = new ArrayList<>();
         ArrayList<String> temp = new ArrayList<>();

@@ -21,7 +21,7 @@ public class Cartas extends AppCompatActivity {
     MediaPlayer som;
     Intent intent;
 
-    int valor;
+    int valor; // Atributo que recebe o valor vindo da Tela Principal. Esse valor vai definir o valor dado a carta sorteada.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +35,22 @@ public class Cartas extends AppCompatActivity {
         btnCarta2 = findViewById(R.id.btnCarta2);
         btnCarta3 = findViewById(R.id.btnCarta3);
 
+        // Comando para gerar um som ao programa;
         som = MediaPlayer.create(this, R.raw.frase_cartas);
         som.start();
 
+        // Comando que recebe o valor vindo da Tela Principal e passado para o atributo valor;
         intent = getIntent();
         valor = intent.getExtras().getInt("valor");
 
 
     }
 
+    /** Esse método gera várias condições que avaliam o valor da carta. De acordo com esse valor
+     * o método janela() é chamado para exibir um popup na tela que vai mostrar um texto personalizado.
+     * Ao escolher uma das cartas o método faz com que as outras sejam bloqueadas para o jogador.
+     * @param view Parametro que posibilita a chamada do método pelo botão no layout;
+     */
     public void clickCarta0(View view){
         //valor = intent.getExtras().getInt("valor");
 
@@ -73,6 +80,11 @@ public class Cartas extends AppCompatActivity {
 
     }
 
+    /** Esse método gera várias condições que avaliam o valor da carta. De acordo com esse valor
+     * o método janela() é chamado para exibir um popup na tela que vai mostrar um texto personalizado.
+     * Ao escolher uma das cartas o método faz com que as outras sejam bloqueadas para o jogador.
+     * @param view Parametro que posibilita a chamada do método pelo botão no layout;
+     */
     public void clickCarta1(View view){
         //valor = intent.getExtras().getInt("valor");
 
@@ -98,6 +110,11 @@ public class Cartas extends AppCompatActivity {
 
     }
 
+    /** Esse método gera várias condições que avaliam o valor da carta. De acordo com esse valor
+     * o método janela() é chamado para exibir um popup na tela que vai mostrar um texto personalizado.
+     * Ao escolher uma das cartas o método faz com que as outras sejam bloqueadas para o jogador.
+     * @param view Parametro que posibilita a chamada do método pelo botão no layout;
+     */
     public void clickCarta2(View view){
         //valor = intent.getExtras().getInt("valor");
 
@@ -123,6 +140,11 @@ public class Cartas extends AppCompatActivity {
 
     }
 
+    /** Esse método gera várias condições que avaliam o valor da carta. De acordo com esse valor
+     * o método janela() é chamado para exibir um popup na tela que vai mostrar um texto personalizado.
+     * Ao escolher uma das cartas o método faz com que as outras sejam bloqueadas para o jogador.
+     * @param view Parametro que posibilita a chamada do método pelo botão no layout;
+     */
     public void clickCarta3(View view){
         //valor = intent.getExtras().getInt("valor");
 
@@ -165,6 +187,12 @@ public class Cartas extends AppCompatActivity {
         }, tempo);
     }
 
+
+    /** Esse método gera uma janela de popup com algumas personalizações do jogo. Ele recebe um texto
+     * que sera exibido e também chama o método pausa() que faz com que a Activity Cartas fique
+     * aberta por um tempo e depois se elimine apos o jogador clicar no botão voltar.
+     * @param txt Parametro que recebe um texto a ser exibido na janela de popup.
+     */
     public void janela(String txt) {
 
         AlertDialog.Builder pop = new AlertDialog.Builder(this);

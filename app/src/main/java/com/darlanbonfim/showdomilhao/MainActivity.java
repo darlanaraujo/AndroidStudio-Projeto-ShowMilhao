@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
-
+        // Comando que gera um som no jogo;
         som = MediaPlayer.create(MainActivity.this, R.raw.abertura);
         som.start();
 
@@ -63,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /** Esse método permite a chamada da tela de cadastro do jogador.
+     * @param view Parametro que posibilita a chamada do método pelo botão no layout;
+     */
     public void setTelaCadastro(View view) {
         som.stop();
         tela = new Intent(this, TelaCadastro.class);
@@ -70,6 +73,10 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+
+    /** Esse método permite a chamada da tela que vai mostrar o ranking do jogo.
+     * @param view Parametro que posibilita a chamada do método pelo botão no layout;
+     */
     public void ranking(View view) {
         AlertDialog.Builder pop = new AlertDialog.Builder(this);
         pop.setTitle("Comando em Construção!");
@@ -86,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
         pop.show();
     }
 
+    /** Esse método permite ao jogador fechar o App.
+     * @param view Parametro que posibilita a chamada do método pelo botão no layout;
+     */
     public void finalizar(View view) {
         AlertDialog.Builder pop = new AlertDialog.Builder(this);
         pop.setTitle("Confirmação");
