@@ -112,6 +112,15 @@ public class MainActivity extends AppCompatActivity {
         pop.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                som.stop();
+                som = MediaPlayer.create(MainActivity.this, R.raw.frase_tchau);
+                som.start();
+
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 finish();
             }
@@ -119,5 +128,18 @@ public class MainActivity extends AppCompatActivity {
 
         pop.show();
 
+    }
+
+    public void finalizar(){
+
+
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        finish();
     }
 }

@@ -36,6 +36,7 @@ public class Cartas extends AppCompatActivity {
         btnCarta3 = findViewById(R.id.btnCarta3);
 
         // Comando para gerar um som ao programa;
+        som.stop();
         som = MediaPlayer.create(this, R.raw.frase_cartas);
         som.start();
 

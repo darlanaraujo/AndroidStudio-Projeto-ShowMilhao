@@ -14,6 +14,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class TelaPrincipal extends AppCompatActivity {
@@ -25,9 +27,9 @@ public class TelaPrincipal extends AppCompatActivity {
     ImageButton btnCartas, btnPlacas, btnConvidados, btnPular, btnParar;
 
     String resposta; // Recebe a resposta dada pelo jogador ao selecionar o botão A B C ou D;
-    String pergunta; // Recebe a pergunta gerada pelo sistema na classe Perguntas;
-    String opA, opB, opC, opD; // Recebe as opções de resposta gerada pelo sistema na classe Perguntas;
-    String resCerta; // Recebe a resposta certa gerada pelo sistema na classe Perguntas;
+    ArrayList<String> pergunta; // Recebe a pergunta gerada pelo sistema na classe Perguntas;
+    //String opA, opB, opC, opD; // Recebe as opções de resposta gerada pelo sistema na classe Perguntas;
+    String respCerta; // Recebe a resposta certa gerada pelo sistema na classe Perguntas;
 
     int rodada = 1; // Recebe +1 a cada pergunta certa registrando o numero da rodada atual;
 
@@ -47,6 +49,10 @@ public class TelaPrincipal extends AppCompatActivity {
     String selecionado = "", eliminado1 = "", eliminado2 = "", eliminado3 = "";
 
     Random random = new Random(); // Objeto da classe random para gerar números aleatórios;
+
+    //Integer[] indice; // Atributo que recebe 8 numeros aleatorios sem repetição gerado na classe Perguntas;
+    ArrayList<Integer> indice; // Atributo que recebe 8 numeros aleatorios sem repetição gerado na classe Perguntas;
+    String[] nivelPergunta; // Atributo que recebe o nivel atual das perguntas no jogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +84,8 @@ public class TelaPrincipal extends AppCompatActivity {
         txtNomeJogador.setText(intent.getExtras().getString("nome"));
 
         // Início das perguntas;
+        nivel();
+        popUP("Alerta", "Numeros: "+ indice);
         rodada1();
 
     }
@@ -147,6 +155,23 @@ public class TelaPrincipal extends AppCompatActivity {
     }
 
     // FERRAMENTAS =================================================================================
+
+    public void popUP(String titulo, String msg){
+        AlertDialog.Builder pop = new AlertDialog.Builder(this);
+        pop.setIcon(R.drawable.logo);
+        pop.setTitle(titulo);
+        pop.setMessage(msg);
+
+        pop.setNegativeButton("Voltar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        pop.show();
+    }
+
     /** Método pausa:
      * @param tempo Recebe um valor em milessegundos para definir o tempo de pausa.
      *
@@ -250,7 +275,7 @@ public class TelaPrincipal extends AppCompatActivity {
         pop.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                verificaResposta(rodada, resCerta, r);
+                verificaResposta(rodada, respCerta, r);
             }
         });
 
@@ -270,8 +295,37 @@ public class TelaPrincipal extends AppCompatActivity {
 
     /** Esse método verifica qual o valor da rodada. De acordo com a rodada é chamado o método da
      * proxima rodada que gera uma nova pergunta e tudo mais relacionado ao jogo.
+     *
+     * A primeira condição define o nivel atual das perguntas e o indice do sorteio, a cada 5 rodadas
+     * esses dados mudam para que as perguntas do proximo nivel comece a ser sorteadas.
+     *
+     * A segunda condição faz o jogo avança para a proxima rodada sendo um total de 16 até a pergunta
+     * final.
      */
     public void nivel() {
+
+        Perguntas dados = new Perguntas();
+
+        // Condição que define o nivel das perguntas e o indice do sorteio;
+        if(rodada <= 5){
+            //indice = dados.setSorteio(dados.perguntasNivel1);
+            indice = dados.setIndice();
+            nivelPergunta = dados.perguntasNivel1;
+        } else if(rodada <= 10){
+            //indice = dados.setSorteio(dados.perguntasNivel2);
+            indice = dados.setIndice();
+            nivelPergunta = dados.perguntasNivel2;
+        } else if(rodada <= 15){
+            //indice = dados.setSorteio(dados.perguntasNivel3);
+            indice = dados.setIndice();
+            nivelPergunta = dados.perguntasNivel3;
+        } else if(rodada == 16){
+            //indice = dados.setSorteio(dados.perguntasNivel4);
+            indice = dados.setIndice();
+            nivelPergunta = dados.perguntasNivel4;
+        }
+
+        // Essa condição faz com que o programa mostra uma nova pergunta a cada rodada;
         if(rodada == 2){
             rodada2();
         } else if(rodada == 3){
@@ -281,6 +335,7 @@ public class TelaPrincipal extends AppCompatActivity {
         } else if(rodada == 5){
             rodada5();
         }
+        // Continuar até a rodada 16....
     }
 
 
@@ -321,11 +376,11 @@ public class TelaPrincipal extends AppCompatActivity {
      * @param r Parametro que recebe a resposta selecionada pelo jogador;
      */
     public void verificaResposta(int rod, String rc, String r) {
-        resCerta = rc;
+        respCerta = rc;
         resposta = r;
         rodada = rod;
 
-        if(resposta.equals(resCerta)) {
+        if(resposta.equals(respCerta)) {
             // Comando para executar o som;
             som.stop();
             som = MediaPlayer.create(this, R.raw.frase_acerto);
@@ -352,6 +407,71 @@ public class TelaPrincipal extends AppCompatActivity {
 
     }
 
+
+    // AJUDAS ======================================================================================
+
+    /** Método que permite ao jogador efetuar o pulo da pergunta. O jogo começa com 3 pulos e a cada
+     * pulo o valor recebe -1.
+     * Ao clicar no botão pular uma janela de confirmação é exibida dando a possibilidade de voltar
+     * a pergunta atual. Caso o jogador clique em sim é gerado uma nova pergunta, essa ação ocorre
+     * da mesma forma que uma pergunta normal do jogo, passando o parametro com o nivel da pergunta
+     * e o indice. Quando o jogador utiliza os 3 pulos o botão de pular é desativado.
+     * @param view Parametro que permite a associação do método com o botão;
+     *
+     * NOTA: Assim como nas rodadas, a cada 5 rodadas o nível do jogo muda, então as perguntas
+     *       geradas para o pulo acompanham o nivel de perguntas atual do jogo, sendo atualizadas
+     *       a cada 5 rodadas.
+     */
+    public void setPulo(View view) {
+        // Comando para executar um som;
+        som.stop();
+        som = MediaPlayer.create(this, R.raw.frase_pular);
+        som.start();
+
+        if(pular == 1){
+            btnPular.setEnabled(false);
+            btnPular.setImageResource(R.drawable.pular2);
+        }
+
+        AlertDialog.Builder pop = new AlertDialog.Builder(this);
+        pop.setTitle("Confirmação!");
+        pop.setIcon(R.drawable.logo);
+        pop.setMessage("Você realmente deseja pular essa pergunta?");
+
+        pop.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        pop.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                pular -= 1;
+
+                Perguntas dados = new Perguntas();
+
+                int numIndice = indice.indexOf(5);
+
+                if(pular == 3){
+                    numIndice = indice.indexOf(5);
+                } else if(pular == 2){
+                    numIndice = indice.indexOf(6);
+                } else if(pular == 1){
+                    numIndice = indice.indexOf(7);
+                }
+
+                pergunta = dados.setNivel(nivelPergunta, numIndice);
+                // Teste -->> Toast.makeText(TelaPrincipal.this, "Indice: "+ numIndice, Toast.LENGTH_LONG).show();
+                formatacaoPergunta(pergunta);
+            }
+        });
+
+        pop.show();
+
+    }
+
     /** Esse método gera um numero aleatorio de 0 a 3. Esse valor é passado como parametro usando
      * o intent junto com a chamada da Activity Cartas, essa Activity permite ao jogador escolher
      * uma carta que vai mostrar o valor gerado aletoriamente como sendo o numero de respostas a
@@ -360,13 +480,10 @@ public class TelaPrincipal extends AppCompatActivity {
      * bloqueadas e terão as cores do botão alterados para indicar que foram eliminadas.
      * @param view Parametro para o método ser usado com o botão no layout;
      */
-    // AJUDAS ======================================================================================
     public void clickCartas(View view) {
         cartas = random.nextInt(4);
 
         //Toast.makeText(this, "Resposta Certa: "+ resCerta, Toast.LENGTH_LONG).show();
-
-        som.stop();
 
         // Chama a tela das cartas e passagem do valor do sorteio;
         intent = new Intent(this, Cartas.class);
@@ -378,7 +495,7 @@ public class TelaPrincipal extends AppCompatActivity {
         btnCartas.setImageResource(R.drawable.cartas2);
 
         // Condição que define as respostas a serem eliminadas;
-        if (resCerta.equals("A")) {
+        if (respCerta.equals("A")) {
             if (cartas == 1) {
                 c.setBackgroundColor(getResources().getColor(R.color.cinza));
                 c.setEnabled(false);
@@ -407,7 +524,7 @@ public class TelaPrincipal extends AppCompatActivity {
                 eliminado3 = "d";
             }
             //====================================================================================
-        } else if (resCerta.equals("B")) {
+        } else if (respCerta.equals("B")) {
             if (cartas == 1) {
                 d.setBackgroundColor(getResources().getColor(R.color.cinza));
                 d.setEnabled(false);
@@ -435,7 +552,7 @@ public class TelaPrincipal extends AppCompatActivity {
                 d.setEnabled(false);
                 eliminado3 = "d";
             }
-        } else if (resCerta.equals("C")) {
+        } else if (respCerta.equals("C")) {
             if (cartas == 1) {
                 b.setBackgroundColor(getResources().getColor(R.color.cinza));
                 b.setEnabled(false);
@@ -463,7 +580,7 @@ public class TelaPrincipal extends AppCompatActivity {
                 d.setEnabled(false);
                 eliminado3 = "d";
             }
-        } else if (resCerta.equals("D")) {
+        } else if (respCerta.equals("D")) {
             if (cartas == 1) {
                 b.setBackgroundColor(getResources().getColor(R.color.cinza));
                 b.setEnabled(false);
@@ -494,137 +611,171 @@ public class TelaPrincipal extends AppCompatActivity {
         }
     }
 
-    // FORMATAÇÃO DAS PERGUNTAS POR NÍVEL ==========================================================
-    /** Esse método instancia a classe Perguntas() como objeto para ter acesso aos seus métodos.
-     * Ele recebe a pergunta que foi gerada dentro da classe e aqui é feito a formatação adicionando
-     * aos botões o texto da pergunta e das opções de resposta. Também é passado para o atributo
-     * respostaCerta a informação correta da resposta. Por fim o método chama o valor da premiação
-     * atual que sera exibida na tela.
-     *
-     * A cada 5 rodadas do jogo o método muda para um nivel mais alto. Tendo 1, 2, 3, 4 e 5.
+    // FORMATAÇÃO DAS PERGUNTAS ====================================================================
+
+    /** Esse método recebe como um parametro vindo da rodada, esse parametro é a pergunta que foi
+     * gerada na classe Perguntas.
+     * O texto vem sem formatação tendo apenas a separação da pergunta, opções de resposta e a
+     * resposta separada por posição, esse método utiliza essa posição para distribuir os texto
+     * no layout da tela. Ele também adiciona ao atributo respCerta a opção correta entre A, B, C ou D.
+     * por fim ele chama o método premiacao() que mostra o valor do premio atual do jogo a cada rodada.
      */
-    public void formatacaoNivel1(){
-        // Criação do objeto que recebe a classe Perguntas como instancia;
-        Perguntas dados = new Perguntas();
-
-        // Atribuição dos dados aos atributos;
-        pergunta = dados.setPerguntaNivel1().get(0);
-        opA = dados.setPerguntaNivel1().get(1);
-        opB = dados.setPerguntaNivel1().get(2);
-        opC = dados.setPerguntaNivel1().get(3);
-        opD = dados.setPerguntaNivel1().get(4);
+    public void formatacaoPergunta(ArrayList<String> pergunta){
 
         // Formatação dos dados adicionando-os aos botões;
-        txtPergunta.setText(pergunta);
-        a.setText(opA);
-        b.setText(opB);
-        c.setText(opC);
-        d.setText(opD);
-        resCerta = dados.setPerguntaNivel1().get(5);
+        txtPergunta.setText(pergunta.get(0));
+        a.setText(pergunta.get(1));
+        b.setText(pergunta.get(2));
+        c.setText(pergunta.get(3));
+        d.setText(pergunta.get(4));
+        respCerta = pergunta.get(5);
 
         // Premiação;
         premiacao();
     }
-
-    public void formatacaoNivel2(){
-        // Criação do objeto que recebe a classe Perguntas como instancia;
-        Perguntas dados = new Perguntas();
-
-        // Atribuição dos dados aos atributos;
-        pergunta = dados.setPerguntaNivel2().get(0);
-        opA = dados.setPerguntaNivel2().get(1);
-        opB = dados.setPerguntaNivel2().get(2);
-        opC = dados.setPerguntaNivel2().get(3);
-        opD = dados.setPerguntaNivel2().get(4);
-
-        // Formatação dos dados adicionando-os aos botões;
-        txtPergunta.setText(pergunta);
-        a.setText(opA);
-        b.setText(opB);
-        c.setText(opC);
-        d.setText(opD);
-        resCerta = dados.setPerguntaNivel2().get(5);
-
-        // Premiação;
-        premiacao();
-    }
-
-    // CONTINUAÇÃO DOS NIVEIS ATÉ O NÍVEL 5 ---->>>>>>>>>
 
     // PERGUNTAS POR RODADAS =======================================================================
 
-    /** Esse método define o primeiro nivel de perguntas do jogo. São 15 rodadas no total.
-     * Ele emitindo os sons personalizados de cada pergunta e chama o método que gera a pergunta
-     * utilizando o método formatacaoNivel1() para definir a pergunta a ser exibida. A cada
-     * 5 rodadas o formatacaoNivel1() é alterada para gerar perguntas mais dificeis.
+    /** Esse método define uma rodada de perguntas do jogo. São 16 rodadas no total.
+     * Ele faz o instanciamento da classe Perguntas para ter acesso ao método setNivel().
+     * O método setNivel() recebe dois parametros, nivelPergunta e indice, ele gera um pergunta
+     * aleatória e retorna esse dado para dentro do atributo pergunta. Essa pergunta vem sem
+     * formatação tendo o texto separado por posição, para fazer a formatação do texto a ser
+     * apresentado na tela ele chama o método formatacaoPergunta() e recebe a pergutna como parametro.
+     *
+     * NOTA: A cada nova rodada o indice vai mudando de 0 até 5 que são os 5 primeiros números
+     * sorteados no método setIndice() na classe Perguntas. Os outros 3 números são reservados para
+     * os 3 pulos, que podem ocorrer no nivel atual de perguntas.
+     *
+     * Depois de 5 rodadas o método nivel() muda os atributos nivelPergunta para o proximo nivel
+     * e o indice chama o método setIndice() para gerar novos números. Assim a cada 5 rodadas o
+     * jogo atualiza sozinho o nivel de perguntas.
      */
     public void rodada1() {
         // Comando para executar um som;
         som = MediaPlayer.create(this, R.raw.frase_1mil);
         som.start();
 
-        // Chamada do método que faz o tratamento dos dados vindos da classe Perguntas;
-        formatacaoNivel1();
+        Perguntas dados = new Perguntas();
+
+        pergunta = dados.setNivel(nivelPergunta, indice.indexOf(0));
+        // teste -->> Toast.makeText(this, "Indice: "+ indice.indexOf(0), Toast.LENGTH_LONG).show();
+
+        formatacaoPergunta(pergunta);
     }
 
-    /** Esse método define o primeiro nivel de perguntas do jogo. São 15 rodadas no total.
-     * Ele emitindo os sons personalizados de cada pergunta e chama o método que gera a pergunta
-     * utilizando o método formatacaoNivel1() para definir a pergunta a ser exibida. A cada
-     * 5 rodadas o formatacaoNivel1() é alterada para gerar perguntas mais dificeis.
+    /** Esse método define uma rodada de perguntas do jogo. São 16 rodadas no total.
+     * Ele faz o instanciamento da classe Perguntas para ter acesso ao método setNivel().
+     * O método setNivel() recebe dois parametros, nivelPergunta e indice, ele gera um pergunta
+     * aleatória e retorna esse dado para dentro do atributo pergunta. Essa pergunta vem sem
+     * formatação tendo o texto separado por posição, para fazer a formatação do texto a ser
+     * apresentado na tela ele chama o método formatacaoPergunta() e recebe a pergutna como parametro.
+     *
+     * NOTA: A cada nova rodada o indice vai mudando de 0 até 5 que são os 5 primeiros números
+     * sorteados no método setIndice() na classe Perguntas. Os outros 3 números são reservados para
+     * os 3 pulos, que podem ocorrer no nivel atual de perguntas.
+     *
+     * Depois de 5 rodadas o método nivel() muda os atributos nivelPergunta para o proximo nivel
+     * e o indice chama o método setIndice() para gerar novos números. Assim a cada 5 rodadas o
+     * jogo atualiza sozinho o nivel de perguntas.
      */
     public void rodada2() {
         // Comando para executar um som;
-        som.stop();
         som = MediaPlayer.create(this, R.raw.frase_2mil);
         som.start();
 
-        // Chamada do método que faz o tratamento dos dados vindos da classe Perguntas;
-        formatacaoNivel1();
+        Perguntas dados = new Perguntas();
+
+        pergunta = dados.setNivel(nivelPergunta, indice.indexOf(1));
+        // teste -->> Toast.makeText(this, "Indice: "+ indice.indexOf(1), Toast.LENGTH_LONG).show();
+
+        formatacaoPergunta(pergunta);
     }
 
-    /** Esse método define o primeiro nivel de perguntas do jogo. São 15 rodadas no total.
-     * Ele emitindo os sons personalizados de cada pergunta e chama o método que gera a pergunta
-     * utilizando o método formatacaoNivel1() para definir a pergunta a ser exibida. A cada
-     * 5 rodadas o formatacaoNivel1() é alterada para gerar perguntas mais dificeis.
+    /** Esse método define uma rodada de perguntas do jogo. São 16 rodadas no total.
+     * Ele faz o instanciamento da classe Perguntas para ter acesso ao método setNivel().
+     * O método setNivel() recebe dois parametros, nivelPergunta e indice, ele gera um pergunta
+     * aleatória e retorna esse dado para dentro do atributo pergunta. Essa pergunta vem sem
+     * formatação tendo o texto separado por posição, para fazer a formatação do texto a ser
+     * apresentado na tela ele chama o método formatacaoPergunta() e recebe a pergutna como parametro.
+     *
+     * NOTA: A cada nova rodada o indice vai mudando de 0 até 5 que são os 5 primeiros números
+     * sorteados no método setIndice() na classe Perguntas. Os outros 3 números são reservados para
+     * os 3 pulos, que podem ocorrer no nivel atual de perguntas.
+     *
+     * Depois de 5 rodadas o método nivel() muda os atributos nivelPergunta para o proximo nivel
+     * e o indice chama o método setIndice() para gerar novos números. Assim a cada 5 rodadas o
+     * jogo atualiza sozinho o nivel de perguntas.
      */
     public void rodada3() {
         // Comando para executar um som;
-        som.stop();
         som = MediaPlayer.create(this, R.raw.frase_3mil);
         som.start();
 
-        // Chamada do método que faz o tratamento dos dados vindos da classe Perguntas;
-        formatacaoNivel1();
+        Perguntas dados = new Perguntas();
+
+        pergunta = dados.setNivel(nivelPergunta, indice.indexOf(2));
+        // Teste -->> Toast.makeText(this, "Indice: "+ indice.indexOf(2), Toast.LENGTH_LONG).show();
+
+        formatacaoPergunta(pergunta);
     }
 
-    /** Esse método define o primeiro nivel de perguntas do jogo. São 15 rodadas no total.
-     * Ele emitindo os sons personalizados de cada pergunta e chama o método que gera a pergunta
-     * utilizando o método formatacaoNivel1() para definir a pergunta a ser exibida. A cada
-     * 5 rodadas o formatacaoNivel1() é alterada para gerar perguntas mais dificeis.
+    /** Esse método define uma rodada de perguntas do jogo. São 16 rodadas no total.
+     * Ele faz o instanciamento da classe Perguntas para ter acesso ao método setNivel().
+     * O método setNivel() recebe dois parametros, nivelPergunta e indice, ele gera um pergunta
+     * aleatória e retorna esse dado para dentro do atributo pergunta. Essa pergunta vem sem
+     * formatação tendo o texto separado por posição, para fazer a formatação do texto a ser
+     * apresentado na tela ele chama o método formatacaoPergunta() e recebe a pergutna como parametro.
+     *
+     * NOTA: A cada nova rodada o indice vai mudando de 0 até 5 que são os 5 primeiros números
+     * sorteados no método setIndice() na classe Perguntas. Os outros 3 números são reservados para
+     * os 3 pulos, que podem ocorrer no nivel atual de perguntas.
+     *
+     * Depois de 5 rodadas o método nivel() muda os atributos nivelPergunta para o proximo nivel
+     * e o indice chama o método setIndice() para gerar novos números. Assim a cada 5 rodadas o
+     * jogo atualiza sozinho o nivel de perguntas.
      */
     public void rodada4() {
         // Comando para executar um som;
-        som.stop();
         som = MediaPlayer.create(this, R.raw.frase_4mil);
         som.start();
 
-        // Chamada do método que faz o tratamento dos dados vindos da classe Perguntas;
-        formatacaoNivel1();
+        Perguntas dados = new Perguntas();
+
+        pergunta = dados.setNivel(nivelPergunta, indice.indexOf(3));
+        // Teste -->> Toast.makeText(this, "Indice: "+ indice.indexOf(3), Toast.LENGTH_LONG).show();
+
+        formatacaoPergunta(pergunta);
     }
 
-    /** Esse método define o primeiro nivel de perguntas do jogo. São 15 rodadas no total.
-     * Ele emitindo os sons personalizados de cada pergunta e chama o método que gera a pergunta
-     * utilizando o método formatacaoNivel1() para definir a pergunta a ser exibida. A cada
-     * 5 rodadas o formatacaoNivel1() é alterada para gerar perguntas mais dificeis.
+    /** Esse método define uma rodada de perguntas do jogo. São 16 rodadas no total.
+     * Ele faz o instanciamento da classe Perguntas para ter acesso ao método setNivel().
+     * O método setNivel() recebe dois parametros, nivelPergunta e indice, ele gera um pergunta
+     * aleatória e retorna esse dado para dentro do atributo pergunta. Essa pergunta vem sem
+     * formatação tendo o texto separado por posição, para fazer a formatação do texto a ser
+     * apresentado na tela ele chama o método formatacaoPergunta() e recebe a pergutna como parametro.
+     *
+     * NOTA: A cada nova rodada o indice vai mudando de 0 até 5 que são os 5 primeiros números
+     * sorteados no método setIndice() na classe Perguntas. Os outros 3 números são reservados para
+     * os 3 pulos, que podem ocorrer no nivel atual de perguntas.
+     *
+     * Depois de 5 rodadas o método nivel() muda os atributos nivelPergunta para o proximo nivel
+     * e o indice chama o método setIndice() para gerar novos números. Assim a cada 5 rodadas o
+     * jogo atualiza sozinho o nivel de perguntas.
      */
     public void rodada5() {
         // Comando para executar um som;
-        som.stop();
         som = MediaPlayer.create(this, R.raw.frase_5mil);
         som.start();
 
-        // Chamada do método que faz o tratamento dos dados vindos da classe Perguntas;
-        formatacaoNivel1();
+        Perguntas dados = new Perguntas();
+
+        pergunta = dados.setNivel(nivelPergunta, indice.indexOf(4));
+        // Teste -->> Toast.makeText(this, "Indice: "+ indice.indexOf(4), Toast.LENGTH_LONG).show();
+
+        formatacaoPergunta(pergunta);
     }
+
+    // É PRECISO CONTINUAR ATÉ A RODADA 16 --->>>>
 
 }
