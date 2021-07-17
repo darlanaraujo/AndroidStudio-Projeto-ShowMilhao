@@ -13,7 +13,7 @@
         android:layout_height="106dp"
         android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.098"
+        app:layout_constraintHorizontal_bias="0.105"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
@@ -32,7 +32,7 @@
         android:id="@+id/imageView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="52dp"
         android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -43,9 +43,9 @@
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="535dp"
         android:background="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/imageView10"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -127,57 +127,67 @@
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp" />
+                    android:layout_marginTop="10dp" />
 
                 <Button
                     android:id="@+id/btnA"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="left"
+                    android:gravity="left|fill_vertical"
+                    android:insetTop="3dp"
+                    android:insetBottom="3dp"
                     android:lineSpacingExtra="8sp"
                     android:onClick="opcaoA"
                     android:textColor="@color/white"
                     app:backgroundTint="@color/secundaria"
                     app:backgroundTintMode="src_in"
                     app:icon="@drawable/icon_a"
-                    app:iconTintMode="src_in" />
+                    app:iconTintMode="multiply" />
 
                 <Button
                     android:id="@+id/btnB"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="left"
+                    android:gravity="left|fill_vertical"
+                    android:insetTop="3dp"
+                    android:insetBottom="3dp"
                     android:lineSpacingExtra="8sp"
                     android:onClick="opcaoB"
                     android:textColor="@color/white"
                     app:backgroundTint="@color/secundaria"
                     app:backgroundTintMode="src_in"
                     app:icon="@drawable/icon_b"
-                    app:iconTintMode="src_in" />
+                    app:iconTintMode="multiply" />
 
                 <Button
                     android:id="@+id/btnC"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="left"
+                    android:gravity="left|fill_vertical"
+                    android:insetTop="3dp"
+                    android:insetBottom="3dp"
                     android:lineSpacingExtra="8sp"
                     android:onClick="opcaoC"
                     android:textColor="@color/white"
                     app:backgroundTint="@color/secundaria"
                     app:backgroundTintMode="src_in"
-                    app:icon="@drawable/icon_c" />
+                    app:icon="@drawable/icon_c"
+                    app:iconTintMode="multiply" />
 
                 <Button
                     android:id="@+id/btnD"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="left"
+                    android:gravity="left|fill_vertical"
+                    android:insetTop="3dp"
+                    android:insetBottom="3dp"
                     android:lineSpacingExtra="8sp"
                     android:onClick="opcaoD"
                     android:textColor="@color/white"
                     app:backgroundTint="@color/secundaria"
                     app:backgroundTintMode="src_in"
-                    app:icon="@drawable/icon_d" />
+                    app:icon="@drawable/icon_d"
+                    app:iconTintMode="multiply" />
 
             </LinearLayout>
 
@@ -330,6 +340,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
+                    android:onClick="setConvidados"
                     android:scaleType="centerInside"
                     app:srcCompat="@drawable/convidados" />
 
@@ -359,12 +370,11 @@
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="409dp"
-        android:layout_height="74dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView2">
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/textView2"
@@ -387,8 +397,7 @@
             android:gravity="left"
             android:onClick="creditos"
             android:paddingLeft="150dp"
-            android:paddingTop="10dp"
-            android:text="@string/txtCredito"
+            android:paddingTop="5dp"
             android:textColor="@color/white" />
     </LinearLayout>
 
@@ -398,7 +407,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginBottom="16dp"
         android:adjustViewBounds="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -9,15 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ShowDoMilhao">
-        <activity android:name=".Cartas"
+        <activity android:name=".Convidados"></activity>
+        <activity
+            android:name=".Cartas"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".TelaPrincipal"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TelaPrincipal"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".TelaCadastro"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TelaCadastro"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation"

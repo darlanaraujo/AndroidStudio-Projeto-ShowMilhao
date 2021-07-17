@@ -40,10 +40,13 @@ public class TelaPrincipal extends AppCompatActivity {
     String errar, parar, acertar; // Recebe o valor do premio baseado no numero da rodada atual;
 
     // Atributos que recebe o valor gerado na tela de ajuda;
-    int cartas; // Recebe o valor sorteado pelas cartas para indicar quantas respostas serão eliminadas;
-    int convidados; // Recebe a opção correta indicada pelos convidados;
-    int placas; // Recebe o valor indicado pelas placas com a opção mais indicada como correta;
-    int pular = 3; // Quantidade de pulo no inicio do jogo, esse valor recebe -1 a cada utilização;
+    int valorCartas; // Recebe o valor sorteado pelas cartas para indicar quantas respostas serão eliminadas;
+
+    // Atributos que defini o valor para cada ajuda no ínicio do jogo.
+    int cartas = 1;
+    int convidados = 1;
+    int placas = 1;
+    int pular = 3;
 
     // Esse atributo recebe as opções a, b, c, ou d para indicar o botão que foi selecionado ou quais botões devem ser eliminados;
     String selecionado = "", eliminado1 = "", eliminado2 = "", eliminado3 = "";
@@ -86,11 +89,6 @@ public class TelaPrincipal extends AppCompatActivity {
         // Início das perguntas;
         nivel();
         rodada1();
-
-        AlertDialog.Builder pop = new AlertDialog.Builder(this);
-        pop.setMessage("Indice: "+indice);
-        pop.show();
-        // 12 2 18 11 9 16 6 4
 
     }
 
@@ -392,23 +390,21 @@ public class TelaPrincipal extends AppCompatActivity {
             som = MediaPlayer.create(this, R.raw.frase_acerto);
             som.start();
 
-            // Limpa a seleção atual;
-            eliminado1 = "";
-            eliminado2 = "";
-            eliminado3 = "";
-            limparSelecao(false);
-
-            // Comando que gera um tempo antes de executar o comando dentro do método rum();
-            // Esse comando é para atrazer o proximo audio que vem na rodada seguinte.
+            // Comando que retarda por 3 segundos antes de limpar a seleção dos botões e avançar o jogo;
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    // Limpa a seleção atual;
+                    eliminado1 = "";
+                    eliminado2 = "";
+                    eliminado3 = "";
+                    limparSelecao(false);
+
                     // Verifica qual o proximo nivel da rodada;
                     rodada += 1;
                     nivel();
                 }
-            }, 2000);
-
+            }, 3000);
 
         } else {
             // Comando para executar o som;
@@ -423,6 +419,39 @@ public class TelaPrincipal extends AppCompatActivity {
 
 
     // AJUDAS ======================================================================================
+
+    public void setConvidados(View view){
+        // Comando que chama a tela Convidados e passa como parametro a resposta certa da pergunta atual;
+        intent = new Intent(this, Convidados.class);
+        intent.putExtra("resposta", respCerta);
+        startActivity(intent);
+
+        // Comando que para o som atual;
+        som.stop();
+
+        // Comando que zera a possibilidade de usar a ajuda convidados novamente;
+        convidados -= 1;
+        btnConvidados.setImageResource(R.drawable.convidados2); // Muda a imagem do botão;
+        btnConvidados.setEnabled(false);
+
+        // Comando que gera um tempo de 3 segundos para execultar o código que muda a cor do botão;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Condição que muda a cor do botão que corresponde a resposta certa;
+                if(respCerta.equals("A")){
+                    a.setBackgroundColor(getResources().getColor(R.color.primaria));
+                } else if(respCerta.equals("B")){
+                    b.setBackgroundColor(getResources().getColor(R.color.primaria));
+                } else if(respCerta.equals("C")){
+                    c.setBackgroundColor(getResources().getColor(R.color.primaria));
+                } else if(respCerta.equals("D")){
+                    d.setBackgroundColor(getResources().getColor(R.color.primaria));
+                }
+            }
+        }, 3000);
+
+    }
 
     /** Método que permite ao jogador efetuar o pulo da pergunta. O jogo começa com 3 pulos e a cada
      * pulo o valor recebe -1.
@@ -495,7 +524,7 @@ public class TelaPrincipal extends AppCompatActivity {
      * @param view Parametro para o método ser usado com o botão no layout;
      */
     public void clickCartas(View view) {
-        cartas = random.nextInt(4);
+        valorCartas = random.nextInt(4);
 
         som.stop();
 
@@ -504,7 +533,7 @@ public class TelaPrincipal extends AppCompatActivity {
 
         // Chama a tela das cartas e passagem do valor do sorteio;
         intent = new Intent(this, Cartas.class);
-        intent.putExtra("valor", cartas);
+        intent.putExtra("valor", valorCartas);
         startActivity(intent);
 
         // Boqueia e muda a imagem do botão cartas;
@@ -526,12 +555,12 @@ public class TelaPrincipal extends AppCompatActivity {
 
         // Condição que define as respostas a serem eliminadas;
         if (respCerta.equals("A")) {
-            if (cartas == 1) {
+            if (valorCartas == 1) {
                 c.setBackgroundColor(getResources().getColor(R.color.cinza));
                 c.setEnabled(false);
                 eliminado1 = "c";
 
-            } else if (cartas == 2) {
+            } else if (valorCartas == 2) {
                 b.setBackgroundColor(getResources().getColor(R.color.cinza));
                 b.setEnabled(false);
                 eliminado1 = "b";
@@ -540,7 +569,7 @@ public class TelaPrincipal extends AppCompatActivity {
                 d.setEnabled(false);
                 eliminado2 = "d";
 
-            } else if (cartas == 3) {
+            } else if (valorCartas == 3) {
                 b.setBackgroundColor(getResources().getColor(R.color.cinza));
                 b.setEnabled(false);
                 eliminado1 = "b";
@@ -555,7 +584,7 @@ public class TelaPrincipal extends AppCompatActivity {
             }
             //====================================================================================
         } else if (respCerta.equals("B")) {
-            if (cartas == 1) {
+            if (valorCartas == 1) {
                 d.setBackgroundColor(getResources().getColor(R.color.cinza));
                 d.setEnabled(false);
                 eliminado1 = "d";
@@ -569,7 +598,7 @@ public class TelaPrincipal extends AppCompatActivity {
                 c.setEnabled(false);
                 eliminado2 = "c";
 
-            } else if (cartas == 3) {
+            } else if (valorCartas == 3) {
                 a.setBackgroundColor(getResources().getColor(R.color.cinza));
                 a.setEnabled(false);
                 eliminado1 = "a";
@@ -583,12 +612,12 @@ public class TelaPrincipal extends AppCompatActivity {
                 eliminado3 = "d";
             }
         } else if (respCerta.equals("C")) {
-            if (cartas == 1) {
+            if (valorCartas == 1) {
                 b.setBackgroundColor(getResources().getColor(R.color.cinza));
                 b.setEnabled(false);
                 eliminado1 = "b";
 
-            } else if (cartas == 2) {
+            } else if (valorCartas == 2) {
                 a.setBackgroundColor(getResources().getColor(R.color.cinza));
                 a.setEnabled(false);
                 eliminado1 = "a";
@@ -597,7 +626,7 @@ public class TelaPrincipal extends AppCompatActivity {
                 d.setEnabled(false);
                 eliminado2 = "d";
 
-            } else if (cartas == 3) {
+            } else if (valorCartas == 3) {
                 a.setBackgroundColor(getResources().getColor(R.color.cinza));
                 a.setEnabled(false);
                 eliminado1 = "a";
@@ -611,12 +640,12 @@ public class TelaPrincipal extends AppCompatActivity {
                 eliminado3 = "d";
             }
         } else if (respCerta.equals("D")) {
-            if (cartas == 1) {
+            if (valorCartas == 1) {
                 b.setBackgroundColor(getResources().getColor(R.color.cinza));
                 b.setEnabled(false);
                 eliminado1 = "b";
 
-            } else if (cartas == 2) {
+            } else if (valorCartas == 2) {
                 b.setBackgroundColor(getResources().getColor(R.color.cinza));
                 b.setEnabled(false);
                 eliminado1 = "b";
@@ -625,7 +654,7 @@ public class TelaPrincipal extends AppCompatActivity {
                 c.setEnabled(false);
                 eliminado2 = "c";
 
-            } else if (cartas == 3) {
+            } else if (valorCartas == 3) {
                 a.setBackgroundColor(getResources().getColor(R.color.cinza));
                 a.setEnabled(false);
                 eliminado1 = "a";
@@ -722,9 +751,6 @@ public class TelaPrincipal extends AppCompatActivity {
 
         formatacaoPergunta(pergunta);
 
-        AlertDialog.Builder pop = new AlertDialog.Builder(this);
-        pop.setMessage("Indice: "+indice);
-        pop.show();
     }
 
     /** Esse método define uma rodada de perguntas do jogo. São 16 rodadas no total.
@@ -754,9 +780,6 @@ public class TelaPrincipal extends AppCompatActivity {
 
         formatacaoPergunta(pergunta);
 
-        AlertDialog.Builder pop = new AlertDialog.Builder(this);
-        pop.setMessage("Indice: "+indice);
-        pop.show();
     }
 
     /** Esse método define uma rodada de perguntas do jogo. São 16 rodadas no total.
@@ -819,7 +842,7 @@ public class TelaPrincipal extends AppCompatActivity {
 
     public void rodada6() {
         // Condição que verifica se as ajudas foram usadas, caso não um som de parabéns é iniciado;
-        if(pular == 3 && cartas == 1){
+        if(pular == 3 && cartas == 1 && convidados == 1 && placas == 1){
             som = MediaPlayer.create(this, R.raw.frase1);
             som.start();
 
@@ -885,24 +908,9 @@ public class TelaPrincipal extends AppCompatActivity {
     }
 
     public void rodada10() {
-        // Condição que verifica se as ajudas foram usadas, caso não um som de parabéns é iniciado;
-        if(pular == 3 && cartas == 1){
-            som = MediaPlayer.create(this, R.raw.frase1);
-            som.start();
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    // Comando para executar um som;
-                    som = MediaPlayer.create(TelaPrincipal.this, R.raw.frase_50mil);
-                    som.start();
-                }
-            }, 5000);
-        } else {
-            // Comando para executar um som;
-            som = MediaPlayer.create(this, R.raw.frase_50mil);
-            som.start();
-        }
+        // Comando para executar um som;
+        som = MediaPlayer.create(this, R.raw.frase_50mil);
+        som.start();
 
         Perguntas dados = new Perguntas();
 
@@ -915,6 +923,25 @@ public class TelaPrincipal extends AppCompatActivity {
     // INÍCIO DO NÍVEL 3 ===========================================================================
 
     public void rodada11() {
+        if(pular == 3 && cartas == 1 && convidados == 1 && placas == 1){
+            som = MediaPlayer.create(this, R.raw.frase1);
+            som.start();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // Comando para executar um som;
+                    som = MediaPlayer.create(TelaPrincipal.this, R.raw.frase_100mil);
+                    som.start();
+                }
+            }, 5000);
+        } else {
+            // Comando para executar um som;
+            som = MediaPlayer.create(this, R.raw.frase_100mil);
+            som.start();
+        }
+
+
         // Comando para executar um som;
         som = MediaPlayer.create(this, R.raw.frase_100mil);
         som.start();
@@ -968,7 +995,7 @@ public class TelaPrincipal extends AppCompatActivity {
 
     public void rodada15() {
         // Condição que verifica se as ajudas foram usadas, caso não um som de parabéns é iniciado;
-        if(pular == 3 && cartas == 1){
+        if(pular == 3 && cartas == 1 && convidados == 1 && placas == 1){
             som = MediaPlayer.create(this, R.raw.frase1);
             som.start();
 
