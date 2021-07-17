@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     Intent tela;
+    Intent navegacao;
     MediaPlayer som;
 
     @Override
@@ -116,13 +118,9 @@ public class MainActivity extends AppCompatActivity {
                 som = MediaPlayer.create(MainActivity.this, R.raw.frase_tchau);
                 som.start();
 
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                closeContextMenu();
+                pausa(3000);
 
-                finish();
             }
         });
 
@@ -130,16 +128,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void finalizar(){
+    public void creditos(View view){
+        Toast.makeText(this, "Você será direcionado para o GitHub Darlan Araujo", Toast.LENGTH_LONG).show();
 
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                navegacao = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/darlanaraujo?tab=repositories"));
+                startActivity(navegacao);
+            }
+        }, 2000);
 
-
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        finish();
     }
+
 }

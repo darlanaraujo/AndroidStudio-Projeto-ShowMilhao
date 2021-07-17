@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -21,14 +22,13 @@ import java.util.Random;
 public class TelaPrincipal extends AppCompatActivity {
 
     TextView txtNomeJogador, txtTime, txtPergunta, txtErrar, txtParar, txtAcertar;
-    Intent intent;
+    Intent intent, navegacao;
     Button a, b, c, d;
     MediaPlayer som;
     ImageButton btnCartas, btnPlacas, btnConvidados, btnPular, btnParar;
 
-    String resposta; // Recebe a resposta dada pelo jogador ao selecionar o botão A B C ou D;
     ArrayList<String> pergunta; // Recebe a pergunta gerada pelo sistema na classe Perguntas;
-    //String opA, opB, opC, opD; // Recebe as opções de resposta gerada pelo sistema na classe Perguntas;
+    String resposta; // Recebe a resposta dada pelo jogador ao selecionar o botão A B C ou D;
     String respCerta; // Recebe a resposta certa gerada pelo sistema na classe Perguntas;
 
     int rodada = 1; // Recebe +1 a cada pergunta certa registrando o numero da rodada atual;
@@ -85,8 +85,12 @@ public class TelaPrincipal extends AppCompatActivity {
 
         // Início das perguntas;
         nivel();
-        popUP("Alerta", "Numeros: "+ indice);
         rodada1();
+
+        AlertDialog.Builder pop = new AlertDialog.Builder(this);
+        pop.setMessage("Indice: "+indice);
+        pop.show();
+        // 12 2 18 11 9 16 6 4
 
     }
 
@@ -103,7 +107,7 @@ public class TelaPrincipal extends AppCompatActivity {
         resposta = "A"; // Valor atribuido ao botão que representa a escolha A;
         selecionado = "a"; // Esse atributo recebe esse valor indicando qual foi a opção selecionada;
 
-        confimacao(resposta); // Chamada do método que verifica se o usuário está certo da resposta;
+        confirmacao(resposta); // Chamada do método que verifica se o usuário está certo da resposta;
     }
 
     /** Esse método permite que o jogador faça a escolha da resposta referente a pergunta atual.
@@ -119,7 +123,7 @@ public class TelaPrincipal extends AppCompatActivity {
         resposta = "B";
         selecionado = "b";
 
-        confimacao(resposta);
+        confirmacao(resposta);
     }
 
     /** Esse método permite que o jogador faça a escolha da resposta referente a pergunta atual.
@@ -135,7 +139,7 @@ public class TelaPrincipal extends AppCompatActivity {
         resposta = "C";
         selecionado = "c";
 
-        confimacao(resposta);
+        confirmacao(resposta);
     }
 
     /** Esse método permite que o jogador faça a escolha da resposta referente a pergunta atual.
@@ -151,44 +155,23 @@ public class TelaPrincipal extends AppCompatActivity {
         resposta = "D";
         selecionado = "d";
 
-        confimacao(resposta);
+        confirmacao(resposta);
     }
 
     // FERRAMENTAS =================================================================================
 
-    public void popUP(String titulo, String msg){
-        AlertDialog.Builder pop = new AlertDialog.Builder(this);
-        pop.setIcon(R.drawable.logo);
-        pop.setTitle(titulo);
-        pop.setMessage(msg);
-
-        pop.setNegativeButton("Voltar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-
-        pop.show();
-    }
-
-    /** Método pausa:
-     * @param tempo Recebe um valor em milessegundos para definir o tempo de pausa.
-     *
-     * Método que cria uma pausa definida pelo tempo passado como parametro em milessegundos.
-     * Tendo como execução o fecahemento da tela atual através do método finish().
-     */
-    public void pausa(int tempo){
+    public void creditos(View view){
+        Toast.makeText(this, "Você será direcionado para o GitHub Darlan Araujo", Toast.LENGTH_LONG).show();
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                som.stop();
-                finish();
+                navegacao = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/darlanaraujo?tab=repositories"));
+                startActivity(navegacao);
             }
-        }, tempo);
-    }
+        }, 2000);
 
+    }
 
     /** Esse método faz com que as cores dos botões retornem ao padrão do jogo eliminando a seleção
      * atual. Ele leva em consideração se algum botão que representa uma opção de resposta foi eliminado
@@ -257,7 +240,7 @@ public class TelaPrincipal extends AppCompatActivity {
      * parametro o valor da rodada, a resposta certa e a resposta do jogador.
      * @param r Parametro que recebe a resposta dada pelo jogador;
      */
-    public void confimacao(String r) {
+    public void confirmacao(String r) {
         // Comando para execultar um som;
         som.stop();
         som = MediaPlayer.create(this, R.raw.frase_pergunta);
@@ -293,36 +276,39 @@ public class TelaPrincipal extends AppCompatActivity {
     }
 
 
-    /** Esse método verifica qual o valor da rodada. De acordo com a rodada é chamado o método da
-     * proxima rodada que gera uma nova pergunta e tudo mais relacionado ao jogo.
+    /** Esse método é a espinha dorsal do jogo, aqui é definido as rodadas de perguntas e o nível
+     * atual do jogo.
      *
-     * A primeira condição define o nivel atual das perguntas e o indice do sorteio, a cada 5 rodadas
-     * esses dados mudam para que as perguntas do proximo nivel comece a ser sorteadas.
+     * Na primeira condição ele adiciona ao atributo nivelPergunta as perguntas de nível 1 vindas
+     * da classe Perguntas. Depois adiciona ao atributo indice uma lista de 8 números aleatórios
+     * sem repetição que vem da classe Perguntas pelo método setIndice() é passado como parametro
+     * o nome da lista de perguntas que vai ser usada como médida de tamanho.
      *
-     * A segunda condição faz o jogo avança para a proxima rodada sendo um total de 16 até a pergunta
-     * final.
+     * A cada 5 rodadas o atributo nivelPergunta recebem o proximo nível das perguntas e o indice
+     * recebe uma nova lista com 8 números. Esses atributos são usados nos métodos rodada() e
+     * pular() para regar uma nova pergunta.
+     *
+     * Na segunda condição faz o jogo ir avançando para a proxima rodada sendo um total de 16 até
+     * a pergunta final.
+
      */
     public void nivel() {
 
         Perguntas dados = new Perguntas();
 
         // Condição que define o nivel das perguntas e o indice do sorteio;
-        if(rodada <= 5){
-            //indice = dados.setSorteio(dados.perguntasNivel1);
-            indice = dados.setIndice();
+        if(rodada == 1){
             nivelPergunta = dados.perguntasNivel1;
-        } else if(rodada <= 10){
-            //indice = dados.setSorteio(dados.perguntasNivel2);
-            indice = dados.setIndice();
+            indice = dados.setIndice(nivelPergunta);
+        } else if(rodada == 6){
             nivelPergunta = dados.perguntasNivel2;
-        } else if(rodada <= 15){
-            //indice = dados.setSorteio(dados.perguntasNivel3);
-            indice = dados.setIndice();
+            indice = dados.setIndice(nivelPergunta);
+        } else if(rodada == 11){
             nivelPergunta = dados.perguntasNivel3;
+            indice = dados.setIndice(nivelPergunta);
         } else if(rodada == 16){
-            //indice = dados.setSorteio(dados.perguntasNivel4);
-            indice = dados.setIndice();
             nivelPergunta = dados.perguntasNivel4;
+            indice = dados.setIndice(nivelPergunta);
         }
 
         // Essa condição faz com que o programa mostra uma nova pergunta a cada rodada;
@@ -334,6 +320,26 @@ public class TelaPrincipal extends AppCompatActivity {
             rodada4();
         } else if(rodada == 5){
             rodada5();
+        } else if(rodada == 6){
+            rodada6();
+        } else if(rodada == 7){
+            rodada7();
+        } else if(rodada == 8){
+            rodada8();
+        } else if(rodada == 9){
+            rodada9();
+        } else if(rodada == 10){
+            rodada10();
+        } else if(rodada == 11){
+            rodada11();
+        } else if(rodada == 12){
+            rodada12();
+        } else if(rodada == 13){
+            rodada13();
+        } else if(rodada == 14){
+            rodada14();
+        } else if(rodada == 15){
+            rodada15();
         }
         // Continuar até a rodada 16....
     }
@@ -392,9 +398,17 @@ public class TelaPrincipal extends AppCompatActivity {
             eliminado3 = "";
             limparSelecao(false);
 
-            // Verifica qual o proximo nivel da rodada;
-            rodada += 1;
-            nivel();
+            // Comando que gera um tempo antes de executar o comando dentro do método rum();
+            // Esse comando é para atrazer o proximo audio que vem na rodada seguinte.
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // Verifica qual o proximo nivel da rodada;
+                    rodada += 1;
+                    nivel();
+                }
+            }, 2000);
+
 
         } else {
             // Comando para executar o som;
@@ -452,14 +466,14 @@ public class TelaPrincipal extends AppCompatActivity {
 
                 Perguntas dados = new Perguntas();
 
-                int numIndice = indice.indexOf(5);
+                int numIndice = indice.get(5);
 
                 if(pular == 3){
-                    numIndice = indice.indexOf(5);
+                    numIndice = indice.get(5);
                 } else if(pular == 2){
-                    numIndice = indice.indexOf(6);
+                    numIndice = indice.get(6);
                 } else if(pular == 1){
-                    numIndice = indice.indexOf(7);
+                    numIndice = indice.get(7);
                 }
 
                 pergunta = dados.setNivel(nivelPergunta, numIndice);
@@ -483,7 +497,10 @@ public class TelaPrincipal extends AppCompatActivity {
     public void clickCartas(View view) {
         cartas = random.nextInt(4);
 
-        //Toast.makeText(this, "Resposta Certa: "+ resCerta, Toast.LENGTH_LONG).show();
+        som.stop();
+
+
+        // Teste -->> Toast.makeText(this, "Resposta Certa: "+ respCerta, Toast.LENGTH_LONG).show();
 
         // Chama a tela das cartas e passagem do valor do sorteio;
         intent = new Intent(this, Cartas.class);
@@ -493,6 +510,19 @@ public class TelaPrincipal extends AppCompatActivity {
         // Boqueia e muda a imagem do botão cartas;
         btnCartas.setEnabled(false);
         btnCartas.setImageResource(R.drawable.cartas2);
+
+        // Comando que gera um tempo antes de executar o comando dentro do método rum();
+        // Esse comando é para atrazar as opções que serão eliminadas da pergunta;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                eliminaCarta();
+            }
+        }, 2000);
+
+    }
+
+    public void eliminaCarta(){
 
         // Condição que define as respostas a serem eliminadas;
         if (respCerta.equals("A")) {
@@ -658,10 +688,11 @@ public class TelaPrincipal extends AppCompatActivity {
 
         Perguntas dados = new Perguntas();
 
-        pergunta = dados.setNivel(nivelPergunta, indice.indexOf(0));
+        pergunta = dados.setNivel(nivelPergunta, indice.get(0));
         // teste -->> Toast.makeText(this, "Indice: "+ indice.indexOf(0), Toast.LENGTH_LONG).show();
 
         formatacaoPergunta(pergunta);
+
     }
 
     /** Esse método define uma rodada de perguntas do jogo. São 16 rodadas no total.
@@ -686,10 +717,14 @@ public class TelaPrincipal extends AppCompatActivity {
 
         Perguntas dados = new Perguntas();
 
-        pergunta = dados.setNivel(nivelPergunta, indice.indexOf(1));
+        pergunta = dados.setNivel(nivelPergunta, indice.get(1));
         // teste -->> Toast.makeText(this, "Indice: "+ indice.indexOf(1), Toast.LENGTH_LONG).show();
 
         formatacaoPergunta(pergunta);
+
+        AlertDialog.Builder pop = new AlertDialog.Builder(this);
+        pop.setMessage("Indice: "+indice);
+        pop.show();
     }
 
     /** Esse método define uma rodada de perguntas do jogo. São 16 rodadas no total.
@@ -714,10 +749,14 @@ public class TelaPrincipal extends AppCompatActivity {
 
         Perguntas dados = new Perguntas();
 
-        pergunta = dados.setNivel(nivelPergunta, indice.indexOf(2));
+        pergunta = dados.setNivel(nivelPergunta, indice.get(2));
         // Teste -->> Toast.makeText(this, "Indice: "+ indice.indexOf(2), Toast.LENGTH_LONG).show();
 
         formatacaoPergunta(pergunta);
+
+        AlertDialog.Builder pop = new AlertDialog.Builder(this);
+        pop.setMessage("Indice: "+indice);
+        pop.show();
     }
 
     /** Esse método define uma rodada de perguntas do jogo. São 16 rodadas no total.
@@ -742,7 +781,7 @@ public class TelaPrincipal extends AppCompatActivity {
 
         Perguntas dados = new Perguntas();
 
-        pergunta = dados.setNivel(nivelPergunta, indice.indexOf(3));
+        pergunta = dados.setNivel(nivelPergunta, indice.get(3));
         // Teste -->> Toast.makeText(this, "Indice: "+ indice.indexOf(3), Toast.LENGTH_LONG).show();
 
         formatacaoPergunta(pergunta);
@@ -770,12 +809,191 @@ public class TelaPrincipal extends AppCompatActivity {
 
         Perguntas dados = new Perguntas();
 
-        pergunta = dados.setNivel(nivelPergunta, indice.indexOf(4));
+        pergunta = dados.setNivel(nivelPergunta, indice.get(4));
         // Teste -->> Toast.makeText(this, "Indice: "+ indice.indexOf(4), Toast.LENGTH_LONG).show();
 
         formatacaoPergunta(pergunta);
     }
 
-    // É PRECISO CONTINUAR ATÉ A RODADA 16 --->>>>
+    // INÍCIO DO NÍVEL 2 ===========================================================================
+
+    public void rodada6() {
+        // Condição que verifica se as ajudas foram usadas, caso não um som de parabéns é iniciado;
+        if(pular == 3 && cartas == 1){
+            som = MediaPlayer.create(this, R.raw.frase1);
+            som.start();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // Comando para executar um som;
+                    som = MediaPlayer.create(TelaPrincipal.this, R.raw.frase_10mil);
+                    som.start();
+                }
+            }, 5000);
+        } else {
+            // Comando para executar um som;
+            som = MediaPlayer.create(this, R.raw.frase_10mil);
+            som.start();
+        }
+
+        Perguntas dados = new Perguntas();
+
+        pergunta = dados.setNivel(nivelPergunta, indice.get(0));
+        // Teste -->> Toast.makeText(this, "Indice: "+ indice.indexOf(4), Toast.LENGTH_LONG).show();
+
+        formatacaoPergunta(pergunta);
+    }
+
+    public void rodada7() {
+        // Comando para executar um som;
+        som = MediaPlayer.create(this, R.raw.frase_20mil);
+        som.start();
+
+        Perguntas dados = new Perguntas();
+
+        pergunta = dados.setNivel(nivelPergunta, indice.get(1));
+        // Teste -->> Toast.makeText(this, "Indice: "+ indice.indexOf(4), Toast.LENGTH_LONG).show();
+
+        formatacaoPergunta(pergunta);
+    }
+
+    public void rodada8() {
+        // Comando para executar um som;
+        som = MediaPlayer.create(this, R.raw.frase_30mil);
+        som.start();
+
+        Perguntas dados = new Perguntas();
+
+        pergunta = dados.setNivel(nivelPergunta, indice.get(2));
+        // Teste -->> Toast.makeText(this, "Indice: "+ indice.indexOf(4), Toast.LENGTH_LONG).show();
+
+        formatacaoPergunta(pergunta);
+    }
+
+    public void rodada9() {
+        // Comando para executar um som;
+        som = MediaPlayer.create(this, R.raw.frase_40mil);
+        som.start();
+
+        Perguntas dados = new Perguntas();
+
+        pergunta = dados.setNivel(nivelPergunta, indice.get(3));
+        // Teste -->> Toast.makeText(this, "Indice: "+ indice.indexOf(4), Toast.LENGTH_LONG).show();
+
+        formatacaoPergunta(pergunta);
+    }
+
+    public void rodada10() {
+        // Condição que verifica se as ajudas foram usadas, caso não um som de parabéns é iniciado;
+        if(pular == 3 && cartas == 1){
+            som = MediaPlayer.create(this, R.raw.frase1);
+            som.start();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // Comando para executar um som;
+                    som = MediaPlayer.create(TelaPrincipal.this, R.raw.frase_50mil);
+                    som.start();
+                }
+            }, 5000);
+        } else {
+            // Comando para executar um som;
+            som = MediaPlayer.create(this, R.raw.frase_50mil);
+            som.start();
+        }
+
+        Perguntas dados = new Perguntas();
+
+        pergunta = dados.setNivel(nivelPergunta, indice.get(4));
+        // Teste -->> Toast.makeText(this, "Indice: "+ indice.indexOf(4), Toast.LENGTH_LONG).show();
+
+        formatacaoPergunta(pergunta);
+    }
+
+    // INÍCIO DO NÍVEL 3 ===========================================================================
+
+    public void rodada11() {
+        // Comando para executar um som;
+        som = MediaPlayer.create(this, R.raw.frase_100mil);
+        som.start();
+
+        Perguntas dados = new Perguntas();
+
+        pergunta = dados.setNivel(nivelPergunta, indice.get(0));
+        // Teste -->> Toast.makeText(this, "Indice: "+ indice.indexOf(4), Toast.LENGTH_LONG).show();
+
+        formatacaoPergunta(pergunta);
+    }
+
+    public void rodada12() {
+        // Comando para executar um som;
+        som = MediaPlayer.create(this, R.raw.frase_200mil);
+        som.start();
+
+        Perguntas dados = new Perguntas();
+
+        pergunta = dados.setNivel(nivelPergunta, indice.get(1));
+        // Teste -->> Toast.makeText(this, "Indice: "+ indice.indexOf(4), Toast.LENGTH_LONG).show();
+
+        formatacaoPergunta(pergunta);
+    }
+
+    public void rodada13() {
+        // Comando para executar um som;
+        som = MediaPlayer.create(this, R.raw.frase_300mil);
+        som.start();
+
+        Perguntas dados = new Perguntas();
+
+        pergunta = dados.setNivel(nivelPergunta, indice.get(2));
+        // Teste -->> Toast.makeText(this, "Indice: "+ indice.indexOf(4), Toast.LENGTH_LONG).show();
+
+        formatacaoPergunta(pergunta);
+    }
+
+    public void rodada14() {
+        // Comando para executar um som;
+        som = MediaPlayer.create(this, R.raw.frase_400mil);
+        som.start();
+
+        Perguntas dados = new Perguntas();
+
+        pergunta = dados.setNivel(nivelPergunta, indice.get(3));
+        // Teste -->> Toast.makeText(this, "Indice: "+ indice.indexOf(4), Toast.LENGTH_LONG).show();
+
+        formatacaoPergunta(pergunta);
+    }
+
+    public void rodada15() {
+        // Condição que verifica se as ajudas foram usadas, caso não um som de parabéns é iniciado;
+        if(pular == 3 && cartas == 1){
+            som = MediaPlayer.create(this, R.raw.frase1);
+            som.start();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // Comando para executar um som;
+                    som = MediaPlayer.create(TelaPrincipal.this, R.raw.frase_500mil);
+                    som.start();
+                }
+            }, 5000);
+        } else {
+            // Comando para executar um som;
+            som = MediaPlayer.create(this, R.raw.frase_500mil);
+            som.start();
+        }
+
+        Perguntas dados = new Perguntas();
+
+        pergunta = dados.setNivel(nivelPergunta, indice.get(4));
+        // Teste -->> Toast.makeText(this, "Indice: "+ indice.indexOf(4), Toast.LENGTH_LONG).show();
+
+        formatacaoPergunta(pergunta);
+    }
+
+    // FALTA A ÚLTIMA RODADA - 16 --->>>>
 
 }

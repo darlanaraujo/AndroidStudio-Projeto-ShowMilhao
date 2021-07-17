@@ -23,6 +23,8 @@ public class Cartas extends AppCompatActivity {
 
     int valor; // Atributo que recebe o valor vindo da Tela Principal. Esse valor vai definir o valor dado a carta sorteada.
 
+    TelaPrincipal dados = new TelaPrincipal();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,14 +38,13 @@ public class Cartas extends AppCompatActivity {
         btnCarta3 = findViewById(R.id.btnCarta3);
 
         // Comando para gerar um som ao programa;
-        som.stop();
+        //som.stop();
         som = MediaPlayer.create(this, R.raw.frase_cartas);
         som.start();
 
         // Comando que recebe o valor vindo da Tela Principal e passado para o atributo valor;
         intent = getIntent();
         valor = intent.getExtras().getInt("valor");
-
 
     }
 

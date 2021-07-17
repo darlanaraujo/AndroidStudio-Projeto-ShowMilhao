@@ -115,6 +115,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/secundaria"
                     android:gravity="center"
+                    android:minHeight="80dp"
                     android:paddingLeft="5dp"
                     android:paddingTop="5dp"
                     android:paddingRight="5dp"
@@ -380,10 +381,11 @@
             android:textSize="8sp" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/txtDarlan2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left"
+            android:onClick="creditos"
             android:paddingLeft="150dp"
             android:paddingTop="10dp"
             android:text="@string/txtCredito"

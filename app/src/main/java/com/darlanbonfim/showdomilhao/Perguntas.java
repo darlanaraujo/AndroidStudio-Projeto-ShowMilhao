@@ -12,47 +12,92 @@ public class Perguntas {
     // ArreysList que vão receber as perguntas com os texto separados por indices;
     ArrayList<String> pergunta = new ArrayList<>();
 
-    ArrayList<String> pergunta1 = new ArrayList<>();
-    ArrayList<String> pergunta2 = new ArrayList<>();
-    ArrayList<String> pergunta3 = new ArrayList<>();
-    ArrayList<String> pergunta4 = new ArrayList<>();
-    ArrayList<String> pergunta5 = new ArrayList<>();
-    ArrayList<String> pulo1 = new ArrayList<>();
-    ArrayList<String> pulo2 = new ArrayList<>();
-    ArrayList<String> pulo3 = new ArrayList<>();
-
     // Definição dos níveis e das perguntas;
     String[] perguntasNivel1 = {
-            "Em que estado brasileiro nasceu a apresentadora Xuxa?;A) Rio de Janeiro;B) Rio Grande do Sul; C) Santa Catarina; D) Goiás;B",
-            "Qual o nome dado ao estado da água em forma de gelo?;A) Líquido;B) Sólido;C) Gasoso;D) Vaporoso;B",
-            "Qual era o apelido da cantora Elis Regina?;A) Gauchinha;B) Paulistinha;C) Pimentinha;D) Andorinha;C",
-            "Quem é a namorada do Mickey?;A) Margarida;B) Minnie;C) A pequena Sereia;D) Olívia Palito;B",
-            "Qual é o personagem brasileiro que tem uma perna só?;A) Cuca;B) Negrinho do Pastoreio;C) Boitatá;D) Saci-Pererê;D",
-            "Fidel Castro nasceu em qual país?;A) Jamaica;B) Cuba;C) El Salvador;D) México;B",
-            "Quem proclamou a república no Brasil em 1889?;A) Duque de Caxias;B) Marechal Rondon;C) Dom Pedro II;D) Marechal Deodoro;C",
-            "Quem é o patrono do exército brasileiro?;A) MARECHAL DEODORO;B) BARÃO DE MAUÁ;C) DUQUE DE CAXIAS;D) MARQUÊS DE POMBAL;C"
+            "Em que estado brasileiro nasceu a apresentadora Xuxa?;Rio de Janeiro;Rio Grande do Sul;Santa Catarina;Goiás;B",
+            "Qual o nome dado ao estado da água em forma de gelo?;Líquido;Sólido;Gasoso;Vaporoso;B",
+            "Qual era o apelido da cantora Elis Regina?;Gauchinha;Paulistinha;Pimentinha;Andorinha;C",
+            "Quem é a namorada do Mickey?;Margarida;Minnie;A pequena Sereia;Olívia Palito;B",
+            "Qual é o personagem brasileiro que tem uma perna só?;Cuca;Negrinho do Pastoreio;Boitatá;Saci-Pererê;D",
+            "Fidel Castro nasceu em qual país?;Jamaica;Cuba;El Salvador;México;B",
+            "Quem proclamou a república no Brasil em 1889?;Duque de Caxias;Marechal Rondon;Dom Pedro II;Marechal Deodoro;C",
+            "Quem é o patrono do exército brasileiro?;MARECHAL DEODORO;BARÃO DE MAUÁ;DUQUE DE CAXIAS;MARQUÊS DE POMBAL;C",
+            "Quem era o apresentador que reprovava os calouros tocando uma buzina?;RAUL GIL;BOLINHA;FLÁVIO CAVALCANTI;CHACRINHA;D",
+            "O que era Frankenstein, de Mary Shelley?;MONSTRO;GORILA;PRÍNCIPE;SAPO;A",
+            "Qual é o signo do zodíaco de quem nasce no dia do ano-novo?;VIRGEM;AQUÁRIO;CAPRICÓRNIO;ÁRIES;C",
+            "Quem fundou a fábrica de automóveis Ford?;HARRISON FORD;GERALD FORD;HENRY FORD;ANNA FORD;C",
+            "Qual é a cor que se associa com os grupos ecológicos?;PRETA;VERMELHA;AZUL;VERDE;D",
+            "A água ferve a quantos graus centígrados?;200;100;170;220;B",
+            "Quando é comemorado o dia da independência do Brasil?;21 DE ABRIL;12 DE OUTUBRO;7 DE SETEMBRO;25 DE DEZEMBRO;C",
+            "Qual lugar é também chamado de Santa Sé?;VENEZA;VITÓRIA;VANCOUVER;VATICANO;D",
+            "Quem tem por lema a frase: “Sempre alerta”?;MÉDICOS;ESCOTEIROS;BOMBEIROS;POLICIAIS;B",
+            "Quem foi o grande amor de Julieta?;ROMEU;ORFEU;HAMLET;IAGO;A",
+            "Quantos signos formam o zodíaco?;NOVE;DEZ;ONZE;DOZE;D",
+            "Vatapá é uma comida típica de qual estado?;PARANÁ;SANTA CATARINA;SÃO PAULO;BAHIA;D"
     }; // Perguntas de nivel 1 - R$ 1.000 até R$ 5.000;
 
-    String[] perguntasNivel2 = {}; // Perguntas de nivel 2 - R$ 10.000 até R$ 50.000;
+    String[] perguntasNivel2 = {
+            "Quantos jogadores um jogo de vôlei reúne na quadra?;SEIS;OITO;DEZ;DOZE;D",
+            "Qual é o país do tango?;URUGUAI;ARGENTINA;PARAGUAI;ESPANHA;B",
+            "Que imperador pôs fogo em Roma?;TRAJANO;NERO;BRUTUS;CALÍGULA;B",
+            "A cidade de Pompéia, que foi soterrada por um vulcão fica em qual desses países?;JAPÃO;MÉXICO;ITÁLIA;ESTADOS UNIDOS;C",
+            "Como é chamado quem nasce em Milão, na Itália?;MILANENSE;MILANOSO;MILISTA;MILANÊS;D",
+            "Que profissional usa uma ferramenta chamada formão?;CARPINTEIRO;RELOJOEIRO;CONFEITEIRO;BOMBEIRO;A",
+            "Em qual estádio Pelé marcou seu milésimo gol?;MORUMBI;PACAEMBU;MARACANÃ;MINEIRÃO;C",
+            "O que é um oboé?;VULCÃO;COMIDA;INSTRUMENTO MUSICAL;TRIBO INDÍGENA;C",
+            "Como eram chamados os pilotos suicidas da Segunda Guerra?;CAMICASES;SASHIMIS;HARAQUIRIS;SUMÔS;A",
+            "O que é gôndola?;EMBARCAÇÃO;BRINQUEDO;MÚSICA;SÍMBOLO;A",
+            "Sashimi é um prato originário de qual país?;JAPÃO;CHINA;ÍNDIA;INDONÉSIA;A",
+            "Como é chamada a cantora que representa o papel principal em uma ópera?;PRIMEIRA DAMA;DONA-PRIMA;PRIMA-DONA;OBRA-PRIMA;C",
+            "Peroba é uma espécie de?;INSETO;ÁRVORE;VERME;VERDURA;B",
+            "O alpinismo é praticado em que lugar?;MAR;MONTANHA;RIO;PRAIA;B",
+            "O Coliseu é um monumento histórico de que cidade européia?;PARIS;COPENHAGUE;ROMA;LONDRES;C",
+            "Qual é o ponto mais alto da Terra?;EVEREST;MONTE SINAI;MONTE CASTELO;MONT BLANC;A",
+            "Que rio corta a cidade de Londres, na Inglaterra?;TÂMISA;SENA;RENO;AUBE;A",
+            "Qual é a raça do personagem principal do filme “Beethoven”?;FILA;PASTOR ALEMÃO;POODLE;SÃO-BERNARDO;D",
+            "Quem foi eleito presidente da África do Sul em 1994?;NELSON PIQUET;NELSON MANDELA;NELSON NED;JOHN NELSON;B",
+            "Qual cantor ficou conhecido como “O rei da voz”?;ORLANDO SILVA;VICENTE CELESTINO;FRANCISCO ALVES;CARLOS GALHARDO;C"
+    }; // Perguntas de nivel 2 - R$ 10.000 até R$ 50.000;
 
-    String[] perguntasNivel3 = {}; // Perguntas de nivel 3 - R$ 100.000 até R$ 500.000;
+    String[] perguntasNivel3 = {
+            "Em qual espécie o macho choca os ovos e a fêmea procura alimento?;ANDORINHA;PATO SELVAGEM;PINGÜIM;MARRECO;C",
+            "Em qual país está localizado o “Muro das lamentações”?;ALEMANHA;BRASIL;VENEZUELA;ISRAEL;D",
+            "Qual desses países não fica na Ásia?;PAQUISTÃO;JAPÃO;TAILÂNDIA;EGITO;D",
+            "Qual desses astros de filmes de ação é belga?;ARNOLD SCHWARZENEGGER;SYLVESTER STALLONE;STEVEN SEAGAL;JEAN CLAUDE VAN DAMME;D",
+            "Onde foi conduzida a vitória das forças aliadas na Segunda Guerra Mundial?;CANNES;NORMANDIA;CAPRI;MARSELHA;B",
+            "Onde nasceu Van Gogh, o grande pintor impressionista?;POLÔNIA;FRANÇA;ITÁLIA;HOLANDA;D",
+            "Qual é a primeira letra do alfabeto grego?;DELTA;BETA;ALFA;GAMA;C",
+            "Qual presidente brasileiro instituiu o AI-5?;COSTA E SILVA;ERNESTO GEISEL;JOÃO FIGUEIREDO;ITAMAR FRANCO;A",
+            "O que significa literalmente Perestroika?;CONVERSÃO;INVOLUÇÃO;REESTRUTURAÇÃO;REGRESSÃO;C",
+            "Qual desses quatro pesos é o mais leve?;10 ONÇAS;10 GRAMAS;10 QUILOS;10 LIBRAS;B",
+            "Brahma é o deus de que religião?;HINDUÍSMO;XINTOÍSMO;BUDISMO;ISLAMISMO;A",
+            "Os nazistas foram julgados em:;BERLIM;NUREMBERGUE;MUNIQUE;PARIS;B",
+            "Que ramo da pecuária ocupa- se de bodes e cabras?;ASININO;CAPRINO;BUFALINO;MUAR;B",
+            "Qual oceano tem o maior volume de água?;ATLÂNTICO;PACÍFICO;ÍNDICO;ÁRTICO;B",
+            "Qual foi o último presidente militar do Brasil?;FERNANDO COLLOR;JOÃO FIGUEIREDO;TANCREDO NEVES;JOÃO GOULART;B",
+            "Que conflito ideológico envolveu os EUA e a União Soviética?;GUERRA FRIA;GUERRA DO VIETNÃ;GUERRA NAS ESTRELAS;GUERRA DA CORÉIA;A",
+            "O trapézio é um músculo que está situado:;NO PESCOÇO;NO OMBRO;NA CABEÇA;NO BRAÇO;B",
+            "Quem escreveu o livro “A sangue frio” em 1966?;TRUMAN CAPOTE;HENRY JAMES;JOHN STEINBECK;TONI MORRISON;A",
+            "Quem escreveu “Ulisses” em 1922?;ERNEST HEMINGWAY;MARCEL PROUST;T.S. ELLIOT;JAMES JOYCE;D",
+            "Qual o símbolo químico do radônio?;Rr;Rd;Rn;Ro;C"
+    }; // Perguntas de nivel 3 - R$ 100.000 até R$ 500.000;
 
     String[] perguntasNivel4 = {}; // Perguntas de nivel 4 - R$ 1.000.000
 
     // =============================================================================================
 
     /** Método random() para gerar número aleatório;
+     *
+     * Ele recebe um parametro que vem do método setIndice() que passa o nome da lista de perguntas
+     * para que seja usado como medida de tamanho a ser percorrida, indo de 0 ao tamanho da lista
+     * de perguntas.
+     *
      * @return Retorna o valor gerado.
      */
-    public Integer random(){
-        int random = (int )(Math.random() * perguntasNivel1.length);
+    public Integer random(String[] nivelPergunta){
+        int random = (int)(Math.random() * nivelPergunta.length);
         return random;
     }
-
-    // Atributos globais;
-    int random = random(); // Atributo que recebe o valor gerado no método random();
-    String sorteio; // atributo que vai receber uma pergunta vindo da lista de perguntas;
-
 
     // Método para gerar as perguntas ==============================================================
 
@@ -62,17 +107,23 @@ public class Perguntas {
      * contador recebe +1 até chegar em 8 quando ele para de gerar números.
      * Caso o valor já tenha dentro do indice o contador recebe -1, assim ele voltaria para o mesmo
      * giro até que o valor gerado seja um número que não exista no indice.
+     *
+     * Ele recebe um parametro que vem da Tela Principal que passa o nome da lista de perguntas
+     * para que seja usado como medida de tamanho a ser percorrida pelo método random() indo de
+     * 0 ao tamanho da lista de perguntas.
+     *
      * @return Retorna o Array indice com um conjunto de 8 números;
      */
-    public ArrayList<Integer> setIndice(){
+    public ArrayList<Integer> setIndice(String[] nivelPergunta){
 
-        //int random = (int)(Math.random() * lisPerNivel.length);
+        //int random = (int)(Math.random() * 21);
+        String[] nivel = nivelPergunta;
 
         ArrayList<Integer> indice = new ArrayList<>(); // Atributo do tipo vetor que vai receber 8 numeros;
 
         // laço que faz o papel de contador para gerar 8 números que serão adicionados no vetor.
         for(int c = 0; c < 8; c++){
-            int valor = random(); // Atributo que recebe um valor aleatório;
+            int valor = random(nivel); // Atributo que recebe um valor aleatório;
 
             if(indice.contains(valor)){ // Verifica se o numero sorteado já existe no vetor indice;
                 c--; // Se existir o contador c recebe -1;
