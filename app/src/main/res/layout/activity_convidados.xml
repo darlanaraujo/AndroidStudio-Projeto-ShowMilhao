@@ -84,7 +84,7 @@
             android:textStyle="bold|italic" />
 
         <ImageView
-            android:id="@+id/imgConvidados"
+            android:id="@+id/imgParticipantes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/img_convidados" />

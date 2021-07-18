@@ -29,7 +29,7 @@ public class Convidados extends AppCompatActivity {
 
         txtMsgConvidados = findViewById(R.id.txtMsgConvidados);
         imgResCerta = findViewById(R.id.imgResCerta);
-        imgConvidados = findViewById(R.id.imgConvidados);
+        imgConvidados = findViewById(R.id.imgParticipantes);
         btnVoltar = findViewById(R.id.btnVoltar);
 
         Convidados();

@@ -38,6 +38,7 @@ public class TelaPrincipal extends AppCompatActivity {
                         "R$ 100.000", "R$ 200.000", "R$ 300.000", "R$ 400.000", "R$ 500.000",
                         "R$ 1.000.000"};
     String errar, parar, acertar; // Recebe o valor do premio baseado no numero da rodada atual;
+    String ganhou;
 
     // Atributos que recebe o valor gerado na tela de ajuda;
     int valorCartas; // Recebe o valor sorteado pelas cartas para indicar quantas respostas serão eliminadas;
@@ -46,10 +47,13 @@ public class TelaPrincipal extends AppCompatActivity {
     int cartas = 1;
     int convidados = 1;
     int placas = 1;
-    int pular = 3;
+    int pulos = 3;
 
     // Esse atributo recebe as opções a, b, c, ou d para indicar o botão que foi selecionado ou quais botões devem ser eliminados;
     String selecionado = "", eliminado1 = "", eliminado2 = "", eliminado3 = "";
+
+    // Atributo que controla o tempo do jogo;
+    int time, tempo = 30;
 
     Random random = new Random(); // Objeto da classe random para gerar números aleatórios;
 
@@ -85,6 +89,9 @@ public class TelaPrincipal extends AppCompatActivity {
         // Comando para receber um valor vindo de outra tela;
         intent = getIntent();
         txtNomeJogador.setText(intent.getExtras().getString("nome"));
+
+        // Controle do tempo do jogo;
+        setTime();
 
         // Início das perguntas;
         nivel();
@@ -158,6 +165,26 @@ public class TelaPrincipal extends AppCompatActivity {
 
     // FERRAMENTAS =================================================================================
 
+    public void setTime(){
+
+        for(time = tempo; time > 0; time--){
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    txtTime.setText(String.valueOf(time));
+
+                }
+            }, 1000);
+
+        }
+
+    }
+
+    /** Esse método permite que um site seja aberto quando o jogador clicar no texto do crétido do
+     * jogo.
+     * @param view Parametro que permite associar o método com o botão;
+     */
     public void creditos(View view){
         Toast.makeText(this, "Você será direcionado para o GitHub Darlan Araujo", Toast.LENGTH_LONG).show();
 
@@ -400,6 +427,9 @@ public class TelaPrincipal extends AppCompatActivity {
                     eliminado3 = "";
                     limparSelecao(false);
 
+                    // Comando que adiciona o valor atual do premio ao jogador;
+                    ganhou = acertar;
+
                     // Verifica qual o proximo nivel da rodada;
                     rodada += 1;
                     nivel();
@@ -412,14 +442,108 @@ public class TelaPrincipal extends AppCompatActivity {
             som = MediaPlayer.create(this, R.raw.frase_erro);
             som.start();
 
+            // Comando que adiciona o valor atual do premio ao jogador;
+            ganhou = errar;
+
+            // TEMPORÁRIO -->> Aqui vai chamar a tela de premiação!
+            AlertDialog.Builder pop = new AlertDialog.Builder(this);
+            pop.setTitle("PREMIAÇÃO!");
+            pop.setIcon(R.drawable.logo);
+            pop.setMessage(String.format("Seu premio é de %s reais", ganhou));
+            pop.show();
+
             // Aqui vai ser chamado o método para o fim do jogo!
         }
 
     }
 
+    public void Parar(View view){
+
+        som.stop();
+        som = MediaPlayer.create(this, R.raw.frase_parar);
+        som.start();
+
+        AlertDialog.Builder pop = new AlertDialog.Builder(this);
+        pop.setTitle("Confirmação!");
+        pop.setIcon(R.drawable.logo);
+        pop.setMessage("Tem certeza que quer Desistir do jogo?");
+
+
+        pop.setNegativeButton("Voltar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                closeContextMenu();
+            }
+        });
+
+        pop.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Comando para adionar o valor do premio ao parar o jogo.
+                ganhou = parar;
+
+                // TEMPORÁRIO -->> Aqui vai chamar a tela de premiação!
+                AlertDialog.Builder pop = new AlertDialog.Builder(TelaPrincipal.this);
+                pop.setIcon(R.drawable.logo);
+                pop.setTitle("PREMIAÇÃO!");
+                pop.setMessage(String.format("Seu premio será de %s reais", ganhou));
+                pop.show();
+            }
+        });
+        pop.show();
+    }
+
 
     // AJUDAS ======================================================================================
 
+    /** Esse método chama a tela Placas passando como parametro a resposta certa atual do jogo.
+     * Depois de gerado as ações na tela Placas, a tela se fecha retornando para a tela Principal,
+     * o método continua a executar os comando para tirar -1 do atributo placas e inutiliza o
+     * uso do botão.
+     * Depois ele gera um retardo no tempo e mostra o botão que corresponde a resposta certa dando
+     * a ele uma cor em destaque.
+     * @param view Parametro que permite o uso do método com o botão;
+     */
+    public void setPlacas(View view){
+        // Comando que chama a tela Placas e passa como parametro a resposta certa da pergunta atual;
+        intent = new Intent(this, Placas.class);
+        intent.putExtra("resposta", respCerta);
+        startActivity(intent);
+
+        // Comando que para o som atual;
+        som.stop();
+
+        // Comando que zera a possibilidade de usar a ajuda convidados novamente;
+        placas -= 1;
+        btnPlacas.setImageResource(R.drawable.placas2); // Muda a imagem do botão;
+        btnPlacas.setEnabled(false);
+
+        // Comando que gera um tempo de 3 segundos para execultar o código que muda a cor do botão;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Condição que muda a cor do botão que corresponde a resposta certa;
+                if(respCerta.equals("A")){
+                    a.setBackgroundColor(getResources().getColor(R.color.primaria));
+                } else if(respCerta.equals("B")){
+                    b.setBackgroundColor(getResources().getColor(R.color.primaria));
+                } else if(respCerta.equals("C")){
+                    c.setBackgroundColor(getResources().getColor(R.color.primaria));
+                } else if(respCerta.equals("D")){
+                    d.setBackgroundColor(getResources().getColor(R.color.primaria));
+                }
+            }
+        }, 3000);
+    }
+
+    /** Esse método chama a tela Convidados passando como parametro a resposta certa atual do jogo.
+     * Depois de gerado as ações na tela Convidados, a tela se fecha retornando para a tela Principal,
+     * o método continua a executar os comando para tirar -1 do atributo convidados e inutiliza o
+     * uso do botão.
+     * Depois ele gera um retardo no tempo e mostra o botão que corresponde a resposta certa dando
+     * a ele uma cor em destaque.
+     * @param view Parametro que permite o uso do método com o botão;
+     */
     public void setConvidados(View view){
         // Comando que chama a tela Convidados e passa como parametro a resposta certa da pergunta atual;
         intent = new Intent(this, Convidados.class);
@@ -471,16 +595,20 @@ public class TelaPrincipal extends AppCompatActivity {
         som = MediaPlayer.create(this, R.raw.frase_pular);
         som.start();
 
-        if(pular == 1){
-            btnPular.setEnabled(false);
-            btnPular.setImageResource(R.drawable.pular2);
-        }
-
+        // Comando que personaliza a tela de PopUp;
         AlertDialog.Builder pop = new AlertDialog.Builder(this);
         pop.setTitle("Confirmação!");
         pop.setIcon(R.drawable.logo);
-        pop.setMessage("Você realmente deseja pular essa pergunta?");
 
+        // Condição que termina o texto que vai ser exibido no PopUp;
+        if(pulos == 1){
+            pop.setMessage(String.format("Você só tem mais %d pulo. Realmente deseja pular essa pergunta", pulos));
+        } else{
+            pop.setMessage(String.format("Você ainda tem %d pulos. Realmente deseja pular essa pergunta", pulos));
+
+        }
+
+        // Botão do PopUp para não confirmar a ação;
         pop.setNegativeButton("Não", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -488,30 +616,42 @@ public class TelaPrincipal extends AppCompatActivity {
             }
         });
 
+        // Botão do PopUp para confirmar a ação;
         pop.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                pular -= 1;
+                pulos -= 1; // A cada confirmação de pulo o atributo pulos recebe -1;
 
-                Perguntas dados = new Perguntas();
+                // Condição que verifica se os pulos acabaram, ela inutiliza o uso do botão pular;
+                if(pulos == 0){
+                    btnPular.setEnabled(false);
+                    btnPular.setImageResource(R.drawable.pular2);
+                }
 
-                int numIndice = indice.get(5);
+                // Atributo local que recebe o indice das perguntas para os pulos;
+                int numIndice = 0;
 
-                if(pular == 3){
+                // Condição que define o indice da pergunta para cada pulo;
+                if(pulos == 3){
                     numIndice = indice.get(5);
-                } else if(pular == 2){
+                } else if(pulos == 2){
                     numIndice = indice.get(6);
-                } else if(pular == 1){
+                } else if(pulos == 1){
                     numIndice = indice.get(7);
                 }
 
+                // Instancimaneto da classe Perguntas;
+                Perguntas dados = new Perguntas();
+
+                // O atributo pergunta recebe uma pergunta gerada pelo método setNivel() passando como parametro o nivel da pergunta e o indice;
                 pergunta = dados.setNivel(nivelPergunta, numIndice);
-                // Teste -->> Toast.makeText(TelaPrincipal.this, "Indice: "+ numIndice, Toast.LENGTH_LONG).show();
+
+                // Chamada do método que formata a pergunta do jogo;
                 formatacaoPergunta(pergunta);
             }
         });
 
-        pop.show();
+        pop.show(); // Comando para mostrar o PopUp.
 
     }
 
@@ -842,7 +982,7 @@ public class TelaPrincipal extends AppCompatActivity {
 
     public void rodada6() {
         // Condição que verifica se as ajudas foram usadas, caso não um som de parabéns é iniciado;
-        if(pular == 3 && cartas == 1 && convidados == 1 && placas == 1){
+        if(pulos == 3 && cartas == 1 && convidados == 1 && placas == 1){
             som = MediaPlayer.create(this, R.raw.frase1);
             som.start();
 
@@ -923,7 +1063,7 @@ public class TelaPrincipal extends AppCompatActivity {
     // INÍCIO DO NÍVEL 3 ===========================================================================
 
     public void rodada11() {
-        if(pular == 3 && cartas == 1 && convidados == 1 && placas == 1){
+        if(pulos == 3 && cartas == 1 && convidados == 1 && placas == 1){
             som = MediaPlayer.create(this, R.raw.frase1);
             som.start();
 
@@ -995,7 +1135,7 @@ public class TelaPrincipal extends AppCompatActivity {
 
     public void rodada15() {
         // Condição que verifica se as ajudas foram usadas, caso não um som de parabéns é iniciado;
-        if(pular == 3 && cartas == 1 && convidados == 1 && placas == 1){
+        if(pulos == 3 && cartas == 1 && convidados == 1 && placas == 1){
             som = MediaPlayer.create(this, R.raw.frase1);
             som.start();
 

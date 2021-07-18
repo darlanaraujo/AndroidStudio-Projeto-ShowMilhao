@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primaria"
+    tools:context=".ui.home.HomeFragment">
+
+    <ImageView
+        android:id="@+id/imageView15"
+        android:layout_width="280dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+    <ImageView
+        android:id="@+id/imageView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/rodape1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView32"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/img_ouro"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView18"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txtDarlan3"
+        android:layout_width="411dp"
+        android:layout_height="wrap_content"
+        android:background="#CB000000"
+        android:gravity="center"
+        android:onClick="creditos"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:text="@string/txtCredito"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView18"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnJogar2"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="32dp"
+        android:onClick="setTelaCadastro"
+        android:text="@string/btn_txtJogar"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/secundaria"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView15" />
+
+    <Button
+        android:id="@+id/btnRanking2"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:onClick="ranking"
+        android:text="@string/txtRanking"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/secundaria"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnJogar2" />
+
+    <Button
+        android:id="@+id/btnJogar4"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:onClick="finalizar"
+        android:text="@string/txtSair"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/secundaria"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnRanking2" />
+</androidx.constraintlayout.widget.ConstraintLayout>
