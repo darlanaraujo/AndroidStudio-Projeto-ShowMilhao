@@ -86,15 +86,15 @@ public class Placas extends AppCompatActivity {
                                             }
                                         });
                                     }
-                                }, 2000);
+                                }, 1000);
                             }
-                        }, 3000);
+                        }, 1500);
 
                     }
-                }, 3000);
+                }, 1500);
 
             }
-        },3000);
+        },1500);
 
     }
 
@@ -113,13 +113,13 @@ public class Placas extends AppCompatActivity {
 
         // Condição que determina a imagem do voto de acordo com a resposta certa;
         if(respCerta.equals("A")){
-            imgVoto1.setImageResource(R.drawable.icon_a_m);
+            imgVoto1.setImageResource(R.drawable.icon_btn_a);
         } else if(respCerta.equals("B")){
-            imgVoto1.setImageResource(R.drawable.icon_b_m);
+            imgVoto1.setImageResource(R.drawable.icon_btn_b);
         } else if(respCerta.equals("C")){
-            imgVoto1.setImageResource(R.drawable.icon_c_m);
+            imgVoto1.setImageResource(R.drawable.icon_btn_c);
         } else if(respCerta.equals("D")){
-            imgVoto1.setImageResource(R.drawable.icon_d_m);
+            imgVoto1.setImageResource(R.drawable.icon_btn_d);
         }
 
         // Comando que retarda o tempo em 1.5 segundos para mostrar a placa e mais 0.5 seg para mostrar a resposta
@@ -158,13 +158,13 @@ public class Placas extends AppCompatActivity {
 
         // Condição que determina a imagem do voto de acordo com a resposta certa;
         if(respCerta.equals("A")){
-            imgVoto2.setImageResource(R.drawable.icon_a_m); // Certa
+            imgVoto2.setImageResource(R.drawable.icon_btn_a); // Certa
         } else if(respCerta.equals("B")){
-            imgVoto2.setImageResource(R.drawable.icon_a_m); // Errada
+            imgVoto2.setImageResource(R.drawable.icon_btn_a); // Errada
         } else if(respCerta.equals("C")){
-            imgVoto2.setImageResource(R.drawable.icon_c_m); // Certa
+            imgVoto2.setImageResource(R.drawable.icon_btn_c); // Certa
         } else if(respCerta.equals("D")){
-            imgVoto2.setImageResource(R.drawable.icon_c_m); // Errada
+            imgVoto2.setImageResource(R.drawable.icon_btn_c); // Errada
         }
 
         // Comando que retarda o tempo em 1.5 segundos para mostrar a placa e mais 0.5 seg para mostrar a resposta
@@ -199,13 +199,13 @@ public class Placas extends AppCompatActivity {
 
         // Condição que determina a imagem do voto de acordo com a resposta certa;
         if(respCerta.equals("A")){
-            imgVoto3.setImageResource(R.drawable.icon_b_m); // Errada
+            imgVoto3.setImageResource(R.drawable.icon_btn_b); // Errada
         } else if(respCerta.equals("B")){
-            imgVoto3.setImageResource(R.drawable.icon_b_m); // Certa
+            imgVoto3.setImageResource(R.drawable.icon_btn_b); // Certa
         } else if(respCerta.equals("C")){
-            imgVoto3.setImageResource(R.drawable.icon_d_m); // Errada
+            imgVoto3.setImageResource(R.drawable.icon_btn_d); // Errada
         } else if(respCerta.equals("D")){
-            imgVoto3.setImageResource(R.drawable.icon_d_m); // Certa
+            imgVoto3.setImageResource(R.drawable.icon_btn_d); // Certa
         }
 
         // Comando que retarda o tempo em 1.5 segundos para mostrar a placa e mais 0.5 seg para mostrar a resposta

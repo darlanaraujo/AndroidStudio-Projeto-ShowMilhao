@@ -27,7 +27,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
+        android:adjustViewBounds="true"
+        app:backgroundTint="@color/secundaria"
+        app:fabSize="normal"
+        app:maxImageSize="40dp"
+        app:srcCompat="@drawable/icon_github" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

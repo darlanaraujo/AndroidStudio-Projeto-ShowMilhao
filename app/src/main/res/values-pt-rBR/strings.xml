@@ -10,4 +10,8 @@
     <string name="txtCartas">Escolha uma das 4 cartas abaixo. Boa sorte!</string>
     <string name="txtRanking">Ranking</string>
     <string name="txtSair">Sair</string>
+    <string name="title_activity_inicio">Início</string>
+    <string name="nav_header_desc">Navegação</string>
+    <string name="action_settings">Configurações</string>
+    <string name="txtVoltar">Voltar</string>
 </resources>

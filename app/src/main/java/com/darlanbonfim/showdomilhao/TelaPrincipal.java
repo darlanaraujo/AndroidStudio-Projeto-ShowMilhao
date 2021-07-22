@@ -15,21 +15,22 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class TelaPrincipal extends AppCompatActivity {
 
-    TextView txtNomeJogador, txtTime, txtPergunta, txtErrar, txtParar, txtAcertar;
+    TextView txtNomeJogador, txtTimer, txtPergunta, txtErrar, txtParar, txtAcertar;
     Intent intent, navegacao;
     Button a, b, c, d;
     MediaPlayer som;
     ImageButton btnCartas, btnPlacas, btnConvidados, btnPular, btnParar;
 
+    String jogador; // Atributo que vai receber o nome do jogador vindo da tela Cadastro;
+
     ArrayList<String> pergunta; // Recebe a pergunta gerada pelo sistema na classe Perguntas;
     String resposta; // Recebe a resposta dada pelo jogador ao selecionar o botão A B C ou D;
-    String respCerta; // Recebe a resposta certa gerada pelo sistema na classe Perguntas;
+    String respCerta = ""; // Recebe a resposta certa gerada pelo sistema na classe Perguntas;
 
     int rodada = 1; // Recebe +1 a cada pergunta certa registrando o numero da rodada atual;
 
@@ -53,7 +54,8 @@ public class TelaPrincipal extends AppCompatActivity {
     String selecionado = "", eliminado1 = "", eliminado2 = "", eliminado3 = "";
 
     // Atributo que controla o tempo do jogo;
-    int time, tempo = 30;
+    private Timer timer; // Instanciamento da classe Timer
+    private long start = 30*1000; // Atributo que recebe o tempo em milessegundos = 00:30 segundos;
 
     Random random = new Random(); // Objeto da classe random para gerar números aleatórios;
 
@@ -74,7 +76,7 @@ public class TelaPrincipal extends AppCompatActivity {
         txtPergunta = findViewById(R.id.txtPergunta);
         txtNomeJogador = findViewById(R.id.txtNomeJogador);
 
-        txtTime = findViewById(R.id.txtTime);
+        txtTimer = findViewById(R.id.txtTimer);
 
         txtErrar = findViewById(R.id.txtErrar);
         txtParar = findViewById(R.id.txtParar);
@@ -88,10 +90,10 @@ public class TelaPrincipal extends AppCompatActivity {
 
         // Comando para receber um valor vindo de outra tela;
         intent = getIntent();
-        txtNomeJogador.setText(intent.getExtras().getString("nome"));
+        jogador = intent.getExtras().getString("nome");
 
-        // Controle do tempo do jogo;
-        setTime();
+        // Comando para mostrar na tela o nome do jogador;
+        txtNomeJogador.setText(jogador);
 
         // Início das perguntas;
         nivel();
@@ -99,87 +101,261 @@ public class TelaPrincipal extends AppCompatActivity {
 
     }
 
-    /** Esse método permite que o jogador faça a escolha da resposta referente a pergunta atual.
-     * Ao clicar no botão a cor do fundo e do texto muda para dar destaque a seleção, o atributo
-     * respota é preenchido com a escolha do botão (a, b, c ou d) assim também como o atributo
-     * selecionado.
-     * Depois é chamado o método de confirmação passando a resposta como parametro.
-     * @param view Parametro que permite associar o método com o botão no layout;
-     */
-    public void opcaoA(View view) {
-        a.setBackgroundColor(getResources().getColor(R.color.amarelo));
-        a.setTextColor(getResources().getColor(R.color.black));
-        resposta = "A"; // Valor atribuido ao botão que representa a escolha A;
-        selecionado = "a"; // Esse atributo recebe esse valor indicando qual foi a opção selecionada;
+    public void setTimer(long tempo){
 
-        confirmacao(resposta); // Chamada do método que verifica se o usuário está certo da resposta;
+        timer = new Timer(this, txtTimer, tempo, 1000, acertar, jogador);
+        timer.start();
+
+
+    }
+
+    public void stopTimer(){
+        timer.cancel();
+    }
+
+    public void setFinal(String ganhou){
+        // Comando para parar o tempo;
+        stopTimer();
+
+        // Para o som atual;
+        som.stop();
+
+        // Inicia um novo audio;
+        som = MediaPlayer.create(this, R.raw.frase_lombardi);
+        som.start();
+
+        // Instanciamento da tela Premio;
+        intent = new Intent(this, TelaPremio.class);
+        intent.putExtra("premio", ganhou); // Passagem de parametro do valor
+        intent.putExtra("jogador", jogador);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(intent);
+                finish();
+            }
+        }, 1500);
+
     }
 
     /** Esse método permite que o jogador faça a escolha da resposta referente a pergunta atual.
      * Ao clicar no botão a cor do fundo e do texto muda para dar destaque a seleção, o atributo
      * respota é preenchido com a escolha do botão (a, b, c ou d) assim também como o atributo
      * selecionado.
+     * Depois é chamado o método de confirmação passando a resposta como parametro.
+     *
+     * O método tem uma condição, ele verifica se a resposta certa está vazia, se estiver é por que
+     * uma nova pergunta ainda não foi gerada, e assim impede o jogador de clicar no botão até que
+     * isso ocorra.
+     *
+     * @param view Parametro que permite associar o método com o botão no layout;
+     */
+    public void opcaoA(View view) {
+        // Condição que verifica se a resposta certa está vazia;
+        if(respCerta.equals("")){
+            // Mostra mensagem na tela;
+            Toast.makeText(this, "Aguarde a pergunta ser gerada!", Toast.LENGTH_LONG).show();
+        } else {
+            a.setBackgroundColor(getResources().getColor(R.color.amarelo));
+            a.setTextColor(getResources().getColor(R.color.black));
+            resposta = "A"; // Valor atribuido ao botão que representa a escolha A;
+            selecionado = "a"; // Esse atributo recebe esse valor indicando qual foi a opção selecionada;
+
+            confirmacao(resposta); // Chamada do método que verifica se o usuário está certo da resposta;
+        }
+
+    }
+
+    /** Esse método permite que o jogador faça a escolha da resposta referente a pergunta atual.
+     * Ao clicar no botão a cor do fundo e do texto muda para dar destaque a seleção, o atributo
+     * respota é preenchido com a escolha do botão (a, b, c ou d) assim também como o atributo
+     * selecionado.
+     *
+     * O método tem uma condição, ele verifica se a resposta certa está vazia, se estiver é por que
+     * uma nova pergunta ainda não foi gerada, e assim impede o jogador de clicar no botão até que
+     * isso ocorra.
+     *
      * Depois é chamado o método de confirmação passando a resposta como parametro.
      * @param view Parametro que permite associar o método com o botão no layout;
      */
     public void opcaoB(View view) {
-        b.setBackgroundColor(getResources().getColor(R.color.amarelo));
-        b.setTextColor(getResources().getColor(R.color.black));
-        resposta = "B";
-        selecionado = "b";
+        // Condição que verifica se a resposta certa está vazia;
+        if(respCerta.equals("")){
+            // Mostra mensagem na tela;
+            Toast.makeText(this, "Aguarde a pergunta ser gerada!", Toast.LENGTH_LONG).show();
+        } else {
+            b.setBackgroundColor(getResources().getColor(R.color.amarelo));
+            b.setTextColor(getResources().getColor(R.color.black));
+            resposta = "B";
+            selecionado = "b";
 
-        confirmacao(resposta);
+            confirmacao(resposta);
+        }
     }
 
     /** Esse método permite que o jogador faça a escolha da resposta referente a pergunta atual.
      * Ao clicar no botão a cor do fundo e do texto muda para dar destaque a seleção, o atributo
      * respota é preenchido com a escolha do botão (a, b, c ou d) assim também como o atributo
      * selecionado.
+     *
+     * O método tem uma condição, ele verifica se a resposta certa está vazia, se estiver é por que
+     * uma nova pergunta ainda não foi gerada, e assim impede o jogador de clicar no botão até que
+     * isso ocorra.
+     *
      * Depois é chamado o método de confirmação passando a resposta como parametro.
      * @param view Parametro que permite associar o método com o botão no layout;
      */
     public void opcaoC(View view) {
-        c.setBackgroundColor(getResources().getColor(R.color.amarelo));
-        c.setTextColor(getResources().getColor(R.color.black));
-        resposta = "C";
-        selecionado = "c";
+        // Condição que verifica se a resposta certa está vazia;
+        if(respCerta.equals("")){
+            // Mostra mensagem na tela;
+            Toast.makeText(this, "Aguarde a pergunta ser gerada!", Toast.LENGTH_LONG).show();
+        } else {
+            c.setBackgroundColor(getResources().getColor(R.color.amarelo));
+            c.setTextColor(getResources().getColor(R.color.black));
+            resposta = "C";
+            selecionado = "c";
 
-        confirmacao(resposta);
+            confirmacao(resposta);
+        }
     }
 
     /** Esse método permite que o jogador faça a escolha da resposta referente a pergunta atual.
      * Ao clicar no botão a cor do fundo e do texto muda para dar destaque a seleção, o atributo
      * respota é preenchido com a escolha do botão (a, b, c ou d) assim também como o atributo
      * selecionado.
+     *
+     * O método tem uma condição, ele verifica se a resposta certa está vazia, se estiver é por que
+     * uma nova pergunta ainda não foi gerada, e assim impede o jogador de clicar no botão até que
+     * isso ocorra.
+     *
      * Depois é chamado o método de confirmação passando a resposta como parametro.
      * @param view Parametro que permite associar o método com o botão no layout;
      */
     public void opcaoD(View view) {
-        d.setBackgroundColor(getResources().getColor(R.color.amarelo));
-        d.setTextColor(getResources().getColor(R.color.black));
-        resposta = "D";
-        selecionado = "d";
+        // Condição que verifica se a resposta certa está vazia;
+        if(respCerta.equals("")){
+            // Mostra mensagem na tela;
+            Toast.makeText(this, "Aguarde a pergunta ser gerada!", Toast.LENGTH_LONG).show();
+        } else {
+            d.setBackgroundColor(getResources().getColor(R.color.amarelo));
+            d.setTextColor(getResources().getColor(R.color.black));
+            resposta = "D";
+            selecionado = "d";
 
-        confirmacao(resposta);
+            confirmacao(resposta);
+        }
+    }
+
+    // BOTÕES DAS AJUDAS ===========================================================================
+
+    /** Esse método é o botão Cartas do jogo, ele chama o método setCartas() que executa o comando
+     * par esse proposito, o método teve que ser criado separado para que pudesse ser usado em outro
+     * momento do jogo, uma vez que não era possível chamar um método do botão com o parametro View
+     *
+     * O método tem uma condição, ele verifica se a resposta certa está vazia, se estiver é por que
+     * uma nova pergunta ainda não foi gerada, e assim impede o jogador de clicar no botão até que
+     * isso ocorra.
+     *
+     * @param view Parametro que permite associar o método com o botão;
+     */
+    public void Cartas(View view){
+        // Condição que verifica se a resposta certa está vazia;
+        if(respCerta.equals("")){
+            // Mostra mensagem na tela;
+            Toast.makeText(this, "Aguarde a pergunta ser gerada!", Toast.LENGTH_LONG).show();
+        } else {
+            // Chama o método setParar() que para o jogo;
+            setCartas();
+        }
+    }
+
+    /** Esse método é o botão Placas do jogo, ele chama o método setPlacas() que executa o comando
+     * par esse proposito, o método teve que ser criado separado para que pudesse ser usado em outro
+     * momento do jogo, uma vez que não era possível chamar um método do botão com o parametro View
+     *
+     * O método tem uma condição, ele verifica se a resposta certa está vazia, se estiver é por que
+     * uma nova pergunta ainda não foi gerada, e assim impede o jogador de clicar no botão até que
+     * isso ocorra.
+     *
+     * @param view Parametro que permite associar o método com o botão;
+     */
+    public void Placas(View view){
+        // Condição que verifica se a resposta certa está vazia;
+        if(respCerta.equals("")){
+            // Mostra mensagem na tela;
+            Toast.makeText(this, "Aguarde a pergunta ser gerada!", Toast.LENGTH_LONG).show();
+        } else {
+            // Chama o método setParar() que para o jogo;
+            setPlacas();
+        }
+    }
+
+    /** Esse método é o botão Convidados do jogo, ele chama o método setConvidados() que executa o comando
+     * par esse proposito, o método teve que ser criado separado para que pudesse ser usado em outro
+     * momento do jogo, uma vez que não era possível chamar um método do botão com o parametro View
+     *
+     * O método tem uma condição, ele verifica se a resposta certa está vazia, se estiver é por que
+     * uma nova pergunta ainda não foi gerada, e assim impede o jogador de clicar no botão até que
+     * isso ocorra.
+     *
+     * @param view Parametro que permite associar o método com o botão;
+     */
+    public void Convidados(View view){
+        // Condição que verifica se a resposta certa está vazia;
+        if(respCerta.equals("")){
+            // Mostra mensagem na tela;
+            Toast.makeText(this, "Aguarde a pergunta ser gerada!", Toast.LENGTH_LONG).show();
+        } else {
+            // Chama o método setParar() que para o jogo;
+            setConvidados();
+        }
+    }
+
+    /** Esse método é o botão Pular do jogo, ele chama o método setPular() que executa o comando
+     * par esse proposito, o método teve que ser criado separado para que pudesse ser usado em outro
+     * momento do jogo, uma vez que não era possível chamar um método do botão com o parametro View
+     *
+     * O método tem uma condição, ele verifica se a resposta certa está vazia, se estiver é por que
+     * uma nova pergunta ainda não foi gerada, e assim impede o jogador de clicar no botão até que
+     * isso ocorra.
+     *
+     * @param view Parametro que permite associar o método com o botão;
+     */
+    public void Pular(View view){
+        // Condição que verifica se a resposta certa está vazia;
+        if(respCerta.equals("")){
+            // Mostra mensagem na tela;
+            Toast.makeText(this, "Aguarde a pergunta ser gerada!", Toast.LENGTH_LONG).show();
+        } else {
+            // Chama o método setParar() que para o jogo;
+            setPular();
+        }
+    }
+
+    /** Esse método é o botão que para o jogo, ele chama o método setParar() que executa o comando
+     * par esse proposito, o método teve que ser criado separado para que pudesse ser usado em outro
+     * momento do jogo, uma vez que não era possível chamar um método do botão com o parametro View
+     *
+     * O método tem uma condição, ele verifica se a resposta certa está vazia, se estiver é por que
+     * uma nova pergunta ainda não foi gerada, e assim impede o jogador de clicar no botão até que
+     * isso ocorra.
+     *
+     * @param view Parametro que permite associar o método com o botão;
+     */
+    public void Parar(View view){
+        // Condição que verifica se a resposta certa está vazia;
+        if(respCerta.equals("")){
+            // Mostra mensagem na tela;
+            Toast.makeText(this, "Aguarde a pergunta ser gerada!", Toast.LENGTH_LONG).show();
+        } else {
+            // Chama o método setParar() que para o jogo;
+            setParar();
+        }
     }
 
     // FERRAMENTAS =================================================================================
-
-    public void setTime(){
-
-        for(time = tempo; time > 0; time--){
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    txtTime.setText(String.valueOf(time));
-
-                }
-            }, 1000);
-
-        }
-
-    }
 
     /** Esse método permite que um site seja aberto quando o jogador clicar no texto do crétido do
      * jogo.
@@ -196,6 +372,24 @@ public class TelaPrincipal extends AppCompatActivity {
             }
         }, 2000);
 
+    }
+
+    /** Esse método faz com que os textos dos botões, o timer e da pergunta do jogo seja limpa antes
+     * de chamar a proxima pergunta;
+     */
+    public void limparTextos(){
+        // Limpa a seleção atual;
+        eliminado1 = "";
+        eliminado2 = "";
+        eliminado3 = "";
+
+        // Limpa o texto;
+        txtPergunta.setText("Processando...");
+        txtTimer.setText("00:00");
+        a.setText("");
+        b.setText("");
+        c.setText("");
+        d.setText("");
     }
 
     /** Esse método faz com que as cores dos botões retornem ao padrão do jogo eliminando a seleção
@@ -300,6 +494,86 @@ public class TelaPrincipal extends AppCompatActivity {
 
     }
 
+    /** Esse método recebe a resposta do jogador e compara com a resposta certa. Se a resposta estiver
+     * correta o método limpa os valores dos atributos eliminado 1, 2 e 3 e limpa a seleção dos
+     * botões com o método limparSelecao(), depois adiciona +1 a rodada e chama o método nível que
+     * vai levar a proxima pergunta.
+     * Caso a resposta esteja errada o jogador será levado a tela que mostra o resultado.
+     * @param rod Parametro que recebe o valor da rodada atual;
+     * @param rc Parametro que recebe a resposta certa gerada pela classe Perguntas;
+     * @param r Parametro que recebe a resposta selecionada pelo jogador;
+     */
+    public void verificaResposta(int rod, String rc, String r) {
+        respCerta = rc;
+        resposta = r;
+        rodada = rod;
+
+        // Condição que verifica se a resposta do jogador está correta;
+        if(resposta.equals(respCerta)) {
+
+            // Comando para executar o som;
+            som.stop();
+
+            // Essa condição verifica se o jogo ainda está em andamento ou se é a pergunta final para tocar o som personalizado;
+            if(rodada == 16){
+                som = MediaPlayer.create(this, R.raw.frase_ganhou_final);
+            } else{
+                som = MediaPlayer.create(this, R.raw.frase_acerto);
+            }
+            som.start();
+
+            stopTimer(); // Para o tempo a cada nova rodada;
+
+            // Comando que retarda por 3 segundos antes de limpar a seleção dos botões e avançar o jogo;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    limparTextos(); // Limpa os textos dos botões até que uma nova pergunta seja gerada;
+
+                    limparSelecao(false); // Limpa a seleção dos botões;
+
+                    // Comando que adiciona o valor atual do premio ao jogador;
+                    ganhou = acertar;
+
+                    if(rodada == 16){
+                        // Essa condição verifica se for a última pergunta do jogo chama o final;
+                        setFinal(ganhou);
+                    } else {
+                        // Chama o proximo nivel da rodada;
+                        respCerta = ""; // Limpa a resposta certa para que os botões fiquem bloqueados até que uma nova pergunta seja gerada;
+                        rodada += 1; // Adiciona +1 do atributo rodada para avançar o jogo;
+                        nivel(); // Chama a proxima rodada;
+                    }
+                }
+            }, 3000);
+
+        } else {
+            // Comando para executar o som;
+            som.stop();
+            som = MediaPlayer.create(this, R.raw.frase_erro);
+            som.start();
+
+            // Essa condição verifica se é a última pergunta;
+            if(rodada == 16){
+                errar = premio[0]; // Adiciona "R$ 0,00" ao premio;
+            }
+
+            // Comando que adiciona o valor atual do premio ao jogador;
+            ganhou = errar;
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // Chama a Tela final passando o valor ganho como parametro;
+                    setFinal(ganhou);
+                }
+            },2000);
+
+        }
+
+    }
+
 
     /** Esse método é a espinha dorsal do jogo, aqui é definido as rodadas de perguntas e o nível
      * atual do jogo.
@@ -365,8 +639,9 @@ public class TelaPrincipal extends AppCompatActivity {
             rodada14();
         } else if(rodada == 15){
             rodada15();
+        } else if(rodada == 16){
+            rodada16();
         }
-        // Continuar até a rodada 16....
     }
 
 
@@ -396,264 +671,7 @@ public class TelaPrincipal extends AppCompatActivity {
         txtAcertar.setText(acertar);
     }
 
-
-    /** Esse método recebe a resposta do jogador e compara com a resposta certa. Se a resposta estiver
-     * correta o método limpa os valores dos atributos eliminado 1, 2 e 3 e limpa a seleção dos
-     * botões com o método limparSelecao(), depois adiciona +1 a rodada e chama o método nível que
-     * vai levar a proxima pergunta.
-     * Caso a resposta esteja errada o jogador será levado a tela que mostra o resultado.
-     * @param rod Parametro que recebe o valor da rodada atual;
-     * @param rc Parametro que recebe a resposta certa gerada pela classe Perguntas;
-     * @param r Parametro que recebe a resposta selecionada pelo jogador;
-     */
-    public void verificaResposta(int rod, String rc, String r) {
-        respCerta = rc;
-        resposta = r;
-        rodada = rod;
-
-        if(resposta.equals(respCerta)) {
-            // Comando para executar o som;
-            som.stop();
-            som = MediaPlayer.create(this, R.raw.frase_acerto);
-            som.start();
-
-            // Comando que retarda por 3 segundos antes de limpar a seleção dos botões e avançar o jogo;
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    // Limpa a seleção atual;
-                    eliminado1 = "";
-                    eliminado2 = "";
-                    eliminado3 = "";
-                    limparSelecao(false);
-
-                    // Comando que adiciona o valor atual do premio ao jogador;
-                    ganhou = acertar;
-
-                    // Verifica qual o proximo nivel da rodada;
-                    rodada += 1;
-                    nivel();
-                }
-            }, 3000);
-
-        } else {
-            // Comando para executar o som;
-            som.stop();
-            som = MediaPlayer.create(this, R.raw.frase_erro);
-            som.start();
-
-            // Comando que adiciona o valor atual do premio ao jogador;
-            ganhou = errar;
-
-            // TEMPORÁRIO -->> Aqui vai chamar a tela de premiação!
-            AlertDialog.Builder pop = new AlertDialog.Builder(this);
-            pop.setTitle("PREMIAÇÃO!");
-            pop.setIcon(R.drawable.logo);
-            pop.setMessage(String.format("Seu premio é de %s reais", ganhou));
-            pop.show();
-
-            // Aqui vai ser chamado o método para o fim do jogo!
-        }
-
-    }
-
-    public void Parar(View view){
-
-        som.stop();
-        som = MediaPlayer.create(this, R.raw.frase_parar);
-        som.start();
-
-        AlertDialog.Builder pop = new AlertDialog.Builder(this);
-        pop.setTitle("Confirmação!");
-        pop.setIcon(R.drawable.logo);
-        pop.setMessage("Tem certeza que quer Desistir do jogo?");
-
-
-        pop.setNegativeButton("Voltar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                closeContextMenu();
-            }
-        });
-
-        pop.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Comando para adionar o valor do premio ao parar o jogo.
-                ganhou = parar;
-
-                // TEMPORÁRIO -->> Aqui vai chamar a tela de premiação!
-                AlertDialog.Builder pop = new AlertDialog.Builder(TelaPrincipal.this);
-                pop.setIcon(R.drawable.logo);
-                pop.setTitle("PREMIAÇÃO!");
-                pop.setMessage(String.format("Seu premio será de %s reais", ganhou));
-                pop.show();
-            }
-        });
-        pop.show();
-    }
-
-
     // AJUDAS ======================================================================================
-
-    /** Esse método chama a tela Placas passando como parametro a resposta certa atual do jogo.
-     * Depois de gerado as ações na tela Placas, a tela se fecha retornando para a tela Principal,
-     * o método continua a executar os comando para tirar -1 do atributo placas e inutiliza o
-     * uso do botão.
-     * Depois ele gera um retardo no tempo e mostra o botão que corresponde a resposta certa dando
-     * a ele uma cor em destaque.
-     * @param view Parametro que permite o uso do método com o botão;
-     */
-    public void setPlacas(View view){
-        // Comando que chama a tela Placas e passa como parametro a resposta certa da pergunta atual;
-        intent = new Intent(this, Placas.class);
-        intent.putExtra("resposta", respCerta);
-        startActivity(intent);
-
-        // Comando que para o som atual;
-        som.stop();
-
-        // Comando que zera a possibilidade de usar a ajuda convidados novamente;
-        placas -= 1;
-        btnPlacas.setImageResource(R.drawable.placas2); // Muda a imagem do botão;
-        btnPlacas.setEnabled(false);
-
-        // Comando que gera um tempo de 3 segundos para execultar o código que muda a cor do botão;
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Condição que muda a cor do botão que corresponde a resposta certa;
-                if(respCerta.equals("A")){
-                    a.setBackgroundColor(getResources().getColor(R.color.primaria));
-                } else if(respCerta.equals("B")){
-                    b.setBackgroundColor(getResources().getColor(R.color.primaria));
-                } else if(respCerta.equals("C")){
-                    c.setBackgroundColor(getResources().getColor(R.color.primaria));
-                } else if(respCerta.equals("D")){
-                    d.setBackgroundColor(getResources().getColor(R.color.primaria));
-                }
-            }
-        }, 3000);
-    }
-
-    /** Esse método chama a tela Convidados passando como parametro a resposta certa atual do jogo.
-     * Depois de gerado as ações na tela Convidados, a tela se fecha retornando para a tela Principal,
-     * o método continua a executar os comando para tirar -1 do atributo convidados e inutiliza o
-     * uso do botão.
-     * Depois ele gera um retardo no tempo e mostra o botão que corresponde a resposta certa dando
-     * a ele uma cor em destaque.
-     * @param view Parametro que permite o uso do método com o botão;
-     */
-    public void setConvidados(View view){
-        // Comando que chama a tela Convidados e passa como parametro a resposta certa da pergunta atual;
-        intent = new Intent(this, Convidados.class);
-        intent.putExtra("resposta", respCerta);
-        startActivity(intent);
-
-        // Comando que para o som atual;
-        som.stop();
-
-        // Comando que zera a possibilidade de usar a ajuda convidados novamente;
-        convidados -= 1;
-        btnConvidados.setImageResource(R.drawable.convidados2); // Muda a imagem do botão;
-        btnConvidados.setEnabled(false);
-
-        // Comando que gera um tempo de 3 segundos para execultar o código que muda a cor do botão;
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Condição que muda a cor do botão que corresponde a resposta certa;
-                if(respCerta.equals("A")){
-                    a.setBackgroundColor(getResources().getColor(R.color.primaria));
-                } else if(respCerta.equals("B")){
-                    b.setBackgroundColor(getResources().getColor(R.color.primaria));
-                } else if(respCerta.equals("C")){
-                    c.setBackgroundColor(getResources().getColor(R.color.primaria));
-                } else if(respCerta.equals("D")){
-                    d.setBackgroundColor(getResources().getColor(R.color.primaria));
-                }
-            }
-        }, 3000);
-
-    }
-
-    /** Método que permite ao jogador efetuar o pulo da pergunta. O jogo começa com 3 pulos e a cada
-     * pulo o valor recebe -1.
-     * Ao clicar no botão pular uma janela de confirmação é exibida dando a possibilidade de voltar
-     * a pergunta atual. Caso o jogador clique em sim é gerado uma nova pergunta, essa ação ocorre
-     * da mesma forma que uma pergunta normal do jogo, passando o parametro com o nivel da pergunta
-     * e o indice. Quando o jogador utiliza os 3 pulos o botão de pular é desativado.
-     * @param view Parametro que permite a associação do método com o botão;
-     *
-     * NOTA: Assim como nas rodadas, a cada 5 rodadas o nível do jogo muda, então as perguntas
-     *       geradas para o pulo acompanham o nivel de perguntas atual do jogo, sendo atualizadas
-     *       a cada 5 rodadas.
-     */
-    public void setPulo(View view) {
-        // Comando para executar um som;
-        som.stop();
-        som = MediaPlayer.create(this, R.raw.frase_pular);
-        som.start();
-
-        // Comando que personaliza a tela de PopUp;
-        AlertDialog.Builder pop = new AlertDialog.Builder(this);
-        pop.setTitle("Confirmação!");
-        pop.setIcon(R.drawable.logo);
-
-        // Condição que termina o texto que vai ser exibido no PopUp;
-        if(pulos == 1){
-            pop.setMessage(String.format("Você só tem mais %d pulo. Realmente deseja pular essa pergunta", pulos));
-        } else{
-            pop.setMessage(String.format("Você ainda tem %d pulos. Realmente deseja pular essa pergunta", pulos));
-
-        }
-
-        // Botão do PopUp para não confirmar a ação;
-        pop.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-
-        // Botão do PopUp para confirmar a ação;
-        pop.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                pulos -= 1; // A cada confirmação de pulo o atributo pulos recebe -1;
-
-                // Condição que verifica se os pulos acabaram, ela inutiliza o uso do botão pular;
-                if(pulos == 0){
-                    btnPular.setEnabled(false);
-                    btnPular.setImageResource(R.drawable.pular2);
-                }
-
-                // Atributo local que recebe o indice das perguntas para os pulos;
-                int numIndice = 0;
-
-                // Condição que define o indice da pergunta para cada pulo;
-                if(pulos == 3){
-                    numIndice = indice.get(5);
-                } else if(pulos == 2){
-                    numIndice = indice.get(6);
-                } else if(pulos == 1){
-                    numIndice = indice.get(7);
-                }
-
-                // Instancimaneto da classe Perguntas;
-                Perguntas dados = new Perguntas();
-
-                // O atributo pergunta recebe uma pergunta gerada pelo método setNivel() passando como parametro o nivel da pergunta e o indice;
-                pergunta = dados.setNivel(nivelPergunta, numIndice);
-
-                // Chamada do método que formata a pergunta do jogo;
-                formatacaoPergunta(pergunta);
-            }
-        });
-
-        pop.show(); // Comando para mostrar o PopUp.
-
-    }
 
     /** Esse método gera um numero aleatorio de 0 a 3. Esse valor é passado como parametro usando
      * o intent junto com a chamada da Activity Cartas, essa Activity permite ao jogador escolher
@@ -661,9 +679,8 @@ public class TelaPrincipal extends AppCompatActivity {
      * serem eliminadas do jogo. A Activity Cartas se fecha apos o uso e retorna para a Tela Principal
      * aonde várias condições são analizadas para verificar a quantidade de respostas que serão
      * bloqueadas e terão as cores do botão alterados para indicar que foram eliminadas.
-     * @param view Parametro para o método ser usado com o botão no layout;
      */
-    public void clickCartas(View view) {
+    public void setCartas() {
         valorCartas = random.nextInt(4);
 
         som.stop();
@@ -685,14 +702,16 @@ public class TelaPrincipal extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                eliminaCarta();
+                eliminaResposta();
             }
         }, 2000);
 
     }
 
-    public void eliminaCarta(){
-
+    /** Esse método é chamado quando o jogador escolhe a carta na Tela Cartas, de acordo com o valor
+     * do sorteio na carta corresponde a quantidade de respostas que serão eliminadas.
+     */
+    public void eliminaResposta(){
         // Condição que define as respostas a serem eliminadas;
         if (respCerta.equals("A")) {
             if (valorCartas == 1) {
@@ -810,6 +829,211 @@ public class TelaPrincipal extends AppCompatActivity {
         }
     }
 
+    /** Esse método chama a tela Placas passando como parametro a resposta certa atual do jogo.
+     * Depois de gerado as ações na tela Placas, a tela se fecha retornando para a tela Principal,
+     * o método continua a executar os comando para tirar -1 do atributo placas e inutiliza o
+     * uso do botão.
+     * Depois ele gera um retardo no tempo e mostra o botão que corresponde a resposta certa dando
+     * a ele uma cor em destaque.
+     */
+    public void setPlacas(){
+        // Comando que chama a tela Placas e passa como parametro a resposta certa da pergunta atual;
+        intent = new Intent(this, Placas.class);
+        intent.putExtra("resposta", respCerta);
+        startActivity(intent);
+
+        // Comando que para o som atual;
+        som.stop();
+
+        // Comando que zera a possibilidade de usar a ajuda convidados novamente;
+        placas -= 1;
+        btnPlacas.setImageResource(R.drawable.placas2); // Muda a imagem do botão;
+        btnPlacas.setEnabled(false);
+
+        // Comando que gera um tempo de 3 segundos para execultar o código que muda a cor do botão;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Condição que muda a cor do botão que corresponde a resposta certa;
+                if(respCerta.equals("A")){
+                    a.setBackgroundColor(getResources().getColor(R.color.primaria));
+                } else if(respCerta.equals("B")){
+                    b.setBackgroundColor(getResources().getColor(R.color.primaria));
+                } else if(respCerta.equals("C")){
+                    c.setBackgroundColor(getResources().getColor(R.color.primaria));
+                } else if(respCerta.equals("D")){
+                    d.setBackgroundColor(getResources().getColor(R.color.primaria));
+                }
+            }
+        }, 3000);
+    }
+
+    /** Esse método chama a tela Convidados passando como parametro a resposta certa atual do jogo.
+     * Depois de gerado as ações na tela Convidados, a tela se fecha retornando para a tela Principal,
+     * o método continua a executar os comando para tirar -1 do atributo convidados e inutiliza o
+     * uso do botão.
+     * Depois ele gera um retardo no tempo e mostra o botão que corresponde a resposta certa dando
+     * a ele uma cor em destaque.
+     */
+    public void setConvidados(){
+        // Comando que chama a tela Convidados e passa como parametro a resposta certa da pergunta atual;
+        intent = new Intent(this, Convidados.class);
+        intent.putExtra("resposta", respCerta);
+        startActivity(intent);
+
+        // Comando que para o som atual;
+        som.stop();
+
+        // Comando que zera a possibilidade de usar a ajuda convidados novamente;
+        convidados -= 1;
+        btnConvidados.setImageResource(R.drawable.convidados2); // Muda a imagem do botão;
+        btnConvidados.setEnabled(false);
+
+        // Comando que gera um tempo de 3 segundos para execultar o código que muda a cor do botão;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Condição que muda a cor do botão que corresponde a resposta certa;
+                if(respCerta.equals("A")){
+                    a.setBackgroundColor(getResources().getColor(R.color.primaria));
+                } else if(respCerta.equals("B")){
+                    b.setBackgroundColor(getResources().getColor(R.color.primaria));
+                } else if(respCerta.equals("C")){
+                    c.setBackgroundColor(getResources().getColor(R.color.primaria));
+                } else if(respCerta.equals("D")){
+                    d.setBackgroundColor(getResources().getColor(R.color.primaria));
+                }
+            }
+        }, 3000);
+
+    }
+
+    /** Método que permite ao jogador efetuar o pulo da pergunta. O jogo começa com 3 pulos e a cada
+     * pulo o valor recebe -1.
+     * Ao clicar no botão pular uma janela de confirmação é exibida dando a possibilidade de voltar
+     * a pergunta atual. Caso o jogador clique em sim é gerado uma nova pergunta, essa ação ocorre
+     * da mesma forma que uma pergunta normal do jogo, passando o parametro com o nivel da pergunta
+     * e o indice. Quando o jogador utiliza os 3 pulos o botão de pular é desativado.
+     *
+     * NOTA: Assim como nas rodadas, a cada 5 rodadas o nível do jogo muda, então as perguntas
+     *       geradas para o pulo acompanham o nivel de perguntas atual do jogo, sendo atualizadas
+     *       a cada 5 rodadas.
+     */
+    public void setPular() {
+        // Comando para executar um som;
+        som.stop();
+        som = MediaPlayer.create(this, R.raw.frase_ajuda1);
+        som.start();
+
+        // Comando que personaliza a tela de PopUp;
+        AlertDialog.Builder pop = new AlertDialog.Builder(this);
+        pop.setTitle("Confirmação!");
+        pop.setIcon(R.drawable.logo);
+
+        // Condição que termina o texto que vai ser exibido no PopUp;
+        if(pulos == 1){
+            pop.setMessage(String.format("Você só tem mais %d pulo. Realmente deseja pular essa pergunta", pulos));
+        } else{
+            pop.setMessage(String.format("Você ainda tem %d pulos. Realmente deseja pular essa pergunta", pulos));
+
+        }
+
+        // Botão do PopUp para não confirmar a ação;
+        pop.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        // Botão do PopUp para confirmar a ação;
+        pop.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                pulos -= 1; // A cada confirmação de pulo o atributo pulos recebe -1;
+
+                // Para o Timer;
+                stopTimer();
+
+                // Limpa os textos do jogo;
+                limparTextos();
+
+                // Condição que verifica se os pulos acabaram, ela inutiliza o uso do botão pular;
+                if(pulos == 0){
+                    btnPular.setEnabled(false);
+                    btnPular.setImageResource(R.drawable.pular2);
+                }
+
+                // Atributo local que recebe o indice das perguntas para os pulos;
+                int numIndice = 0;
+
+                // Condição que define o indice da pergunta para cada pulo;
+                if(pulos == 3){
+                    numIndice = indice.get(5);
+                } else if(pulos == 2){
+                    numIndice = indice.get(6);
+                } else if(pulos == 1){
+                    numIndice = indice.get(7);
+                }
+
+                // Comando para executar um som;
+                som.stop();
+                som = MediaPlayer.create(TelaPrincipal.this, R.raw.frase_pular);
+                som.start();
+
+                // Instancimaneto da classe Perguntas;
+                Perguntas dados = new Perguntas();
+
+                // O atributo pergunta recebe uma pergunta gerada pelo método setNivel() passando como parametro o nivel da pergunta e o indice;
+                pergunta = dados.setNivel(nivelPergunta, numIndice);
+
+                // Chamada do método que formata a pergunta do jogo;
+                formatacaoPergunta(pergunta);
+
+            }
+        });
+
+        pop.show(); // Comando para mostrar o PopUp.
+    }
+
+    /** Esse método tem os comando que faz parar o jogo se o jogador confirmar a intenção.
+     * Ele precisou ser criado separado do botão para que pudesse ser usado em outro momento do
+     * jogo.
+     */
+    public void setParar(){
+        som.stop();
+        som = MediaPlayer.create(this, R.raw.frase_parar);
+        som.start();
+
+        AlertDialog.Builder pop = new AlertDialog.Builder(this);
+        pop.setTitle("Confirmação!");
+        pop.setIcon(R.drawable.logo);
+        pop.setMessage("Tem certeza que quer Desistir do jogo?");
+
+
+        pop.setNegativeButton("Voltar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                closeContextMenu();
+            }
+        });
+
+        pop.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Para o Timer;
+                stopTimer();
+
+                // Comando para adionar o valor do premio ao parar o jogo.
+                ganhou = parar;
+
+                // Chamada da tela final de premiação;
+                setFinal(ganhou);
+            }
+        });
+        pop.show();
+    }
+
     // FORMATAÇÃO DAS PERGUNTAS ====================================================================
 
     /** Esse método recebe como um parametro vindo da rodada, esse parametro é a pergunta que foi
@@ -821,16 +1045,25 @@ public class TelaPrincipal extends AppCompatActivity {
      */
     public void formatacaoPergunta(ArrayList<String> pergunta){
 
-        // Formatação dos dados adicionando-os aos botões;
-        txtPergunta.setText(pergunta.get(0));
-        a.setText(pergunta.get(1));
-        b.setText(pergunta.get(2));
-        c.setText(pergunta.get(3));
-        d.setText(pergunta.get(4));
-        respCerta = pergunta.get(5);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Inicia o Timer
+                setTimer(start);
 
-        // Premiação;
-        premiacao();
+                // Formatação dos dados adicionando-os aos botões;
+                txtPergunta.setText(pergunta.get(0));
+                a.setText(pergunta.get(1));
+                b.setText(pergunta.get(2));
+                c.setText(pergunta.get(3));
+                d.setText(pergunta.get(4));
+                respCerta = pergunta.get(5);
+
+                // Premiação;
+                premiacao();
+            }
+        },3000);
+
     }
 
     // PERGUNTAS POR RODADAS =======================================================================
@@ -855,12 +1088,20 @@ public class TelaPrincipal extends AppCompatActivity {
         som = MediaPlayer.create(this, R.raw.frase_1mil);
         som.start();
 
+        // Instanciamento da classe Perguntas para poder ter acesso ao método que gera uma pergunta;
         Perguntas dados = new Perguntas();
 
-        pergunta = dados.setNivel(nivelPergunta, indice.get(0));
-        // teste -->> Toast.makeText(this, "Indice: "+ indice.indexOf(0), Toast.LENGTH_LONG).show();
+        // Comando que gera um retardo de 4 segundos antes de formatar uma nova pergunta;
+        // Esse retardo é devido ao som da primeira rodada ser um pouco longo;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                pergunta = dados.setNivel(nivelPergunta, indice.get(0));
+                // teste -->> Toast.makeText(this, "Indice: "+ indice.indexOf(0), Toast.LENGTH_LONG).show();
 
-        formatacaoPergunta(pergunta);
+                formatacaoPergunta(pergunta);
+            }
+        }, 4000);
 
     }
 
@@ -980,25 +1221,25 @@ public class TelaPrincipal extends AppCompatActivity {
 
     // INÍCIO DO NÍVEL 2 ===========================================================================
 
+    /** Esse método define uma rodada de perguntas do jogo. São 16 rodadas no total.
+     * Ele faz o instanciamento da classe Perguntas para ter acesso ao método setNivel().
+     * O método setNivel() recebe dois parametros, nivelPergunta e indice, ele gera um pergunta
+     * aleatória e retorna esse dado para dentro do atributo pergunta. Essa pergunta vem sem
+     * formatação tendo o texto separado por posição, para fazer a formatação do texto a ser
+     * apresentado na tela ele chama o método formatacaoPergunta() e recebe a pergutna como parametro.
+     *
+     * NOTA: A cada nova rodada o indice vai mudando de 0 até 5 que são os 5 primeiros números
+     * sorteados no método setIndice() na classe Perguntas. Os outros 3 números são reservados para
+     * os 3 pulos, que podem ocorrer no nivel atual de perguntas.
+     *
+     * Depois de 5 rodadas o método nivel() muda os atributos nivelPergunta para o proximo nivel
+     * e o indice chama o método setIndice() para gerar novos números. Assim a cada 5 rodadas o
+     * jogo atualiza sozinho o nivel de perguntas.
+     */
     public void rodada6() {
-        // Condição que verifica se as ajudas foram usadas, caso não um som de parabéns é iniciado;
-        if(pulos == 3 && cartas == 1 && convidados == 1 && placas == 1){
-            som = MediaPlayer.create(this, R.raw.frase1);
-            som.start();
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    // Comando para executar um som;
-                    som = MediaPlayer.create(TelaPrincipal.this, R.raw.frase_10mil);
-                    som.start();
-                }
-            }, 5000);
-        } else {
-            // Comando para executar um som;
-            som = MediaPlayer.create(this, R.raw.frase_10mil);
-            som.start();
-        }
+        // Comando para executar um som;
+        som = MediaPlayer.create(this, R.raw.frase_10mil);
+        som.start();
 
         Perguntas dados = new Perguntas();
 
@@ -1008,6 +1249,21 @@ public class TelaPrincipal extends AppCompatActivity {
         formatacaoPergunta(pergunta);
     }
 
+    /** Esse método define uma rodada de perguntas do jogo. São 16 rodadas no total.
+     * Ele faz o instanciamento da classe Perguntas para ter acesso ao método setNivel().
+     * O método setNivel() recebe dois parametros, nivelPergunta e indice, ele gera um pergunta
+     * aleatória e retorna esse dado para dentro do atributo pergunta. Essa pergunta vem sem
+     * formatação tendo o texto separado por posição, para fazer a formatação do texto a ser
+     * apresentado na tela ele chama o método formatacaoPergunta() e recebe a pergutna como parametro.
+     *
+     * NOTA: A cada nova rodada o indice vai mudando de 0 até 5 que são os 5 primeiros números
+     * sorteados no método setIndice() na classe Perguntas. Os outros 3 números são reservados para
+     * os 3 pulos, que podem ocorrer no nivel atual de perguntas.
+     *
+     * Depois de 5 rodadas o método nivel() muda os atributos nivelPergunta para o proximo nivel
+     * e o indice chama o método setIndice() para gerar novos números. Assim a cada 5 rodadas o
+     * jogo atualiza sozinho o nivel de perguntas.
+     */
     public void rodada7() {
         // Comando para executar um som;
         som = MediaPlayer.create(this, R.raw.frase_20mil);
@@ -1021,6 +1277,21 @@ public class TelaPrincipal extends AppCompatActivity {
         formatacaoPergunta(pergunta);
     }
 
+    /** Esse método define uma rodada de perguntas do jogo. São 16 rodadas no total.
+     * Ele faz o instanciamento da classe Perguntas para ter acesso ao método setNivel().
+     * O método setNivel() recebe dois parametros, nivelPergunta e indice, ele gera um pergunta
+     * aleatória e retorna esse dado para dentro do atributo pergunta. Essa pergunta vem sem
+     * formatação tendo o texto separado por posição, para fazer a formatação do texto a ser
+     * apresentado na tela ele chama o método formatacaoPergunta() e recebe a pergutna como parametro.
+     *
+     * NOTA: A cada nova rodada o indice vai mudando de 0 até 5 que são os 5 primeiros números
+     * sorteados no método setIndice() na classe Perguntas. Os outros 3 números são reservados para
+     * os 3 pulos, que podem ocorrer no nivel atual de perguntas.
+     *
+     * Depois de 5 rodadas o método nivel() muda os atributos nivelPergunta para o proximo nivel
+     * e o indice chama o método setIndice() para gerar novos números. Assim a cada 5 rodadas o
+     * jogo atualiza sozinho o nivel de perguntas.
+     */
     public void rodada8() {
         // Comando para executar um som;
         som = MediaPlayer.create(this, R.raw.frase_30mil);
@@ -1034,6 +1305,21 @@ public class TelaPrincipal extends AppCompatActivity {
         formatacaoPergunta(pergunta);
     }
 
+    /** Esse método define uma rodada de perguntas do jogo. São 16 rodadas no total.
+     * Ele faz o instanciamento da classe Perguntas para ter acesso ao método setNivel().
+     * O método setNivel() recebe dois parametros, nivelPergunta e indice, ele gera um pergunta
+     * aleatória e retorna esse dado para dentro do atributo pergunta. Essa pergunta vem sem
+     * formatação tendo o texto separado por posição, para fazer a formatação do texto a ser
+     * apresentado na tela ele chama o método formatacaoPergunta() e recebe a pergutna como parametro.
+     *
+     * NOTA: A cada nova rodada o indice vai mudando de 0 até 5 que são os 5 primeiros números
+     * sorteados no método setIndice() na classe Perguntas. Os outros 3 números são reservados para
+     * os 3 pulos, que podem ocorrer no nivel atual de perguntas.
+     *
+     * Depois de 5 rodadas o método nivel() muda os atributos nivelPergunta para o proximo nivel
+     * e o indice chama o método setIndice() para gerar novos números. Assim a cada 5 rodadas o
+     * jogo atualiza sozinho o nivel de perguntas.
+     */
     public void rodada9() {
         // Comando para executar um som;
         som = MediaPlayer.create(this, R.raw.frase_40mil);
@@ -1047,6 +1333,21 @@ public class TelaPrincipal extends AppCompatActivity {
         formatacaoPergunta(pergunta);
     }
 
+    /** Esse método define uma rodada de perguntas do jogo. São 16 rodadas no total.
+     * Ele faz o instanciamento da classe Perguntas para ter acesso ao método setNivel().
+     * O método setNivel() recebe dois parametros, nivelPergunta e indice, ele gera um pergunta
+     * aleatória e retorna esse dado para dentro do atributo pergunta. Essa pergunta vem sem
+     * formatação tendo o texto separado por posição, para fazer a formatação do texto a ser
+     * apresentado na tela ele chama o método formatacaoPergunta() e recebe a pergutna como parametro.
+     *
+     * NOTA: A cada nova rodada o indice vai mudando de 0 até 5 que são os 5 primeiros números
+     * sorteados no método setIndice() na classe Perguntas. Os outros 3 números são reservados para
+     * os 3 pulos, que podem ocorrer no nivel atual de perguntas.
+     *
+     * Depois de 5 rodadas o método nivel() muda os atributos nivelPergunta para o proximo nivel
+     * e o indice chama o método setIndice() para gerar novos números. Assim a cada 5 rodadas o
+     * jogo atualiza sozinho o nivel de perguntas.
+     */
     public void rodada10() {
         // Comando para executar um som;
         som = MediaPlayer.create(this, R.raw.frase_50mil);
@@ -1062,26 +1363,22 @@ public class TelaPrincipal extends AppCompatActivity {
 
     // INÍCIO DO NÍVEL 3 ===========================================================================
 
+    /** Esse método define uma rodada de perguntas do jogo. São 16 rodadas no total.
+     * Ele faz o instanciamento da classe Perguntas para ter acesso ao método setNivel().
+     * O método setNivel() recebe dois parametros, nivelPergunta e indice, ele gera um pergunta
+     * aleatória e retorna esse dado para dentro do atributo pergunta. Essa pergunta vem sem
+     * formatação tendo o texto separado por posição, para fazer a formatação do texto a ser
+     * apresentado na tela ele chama o método formatacaoPergunta() e recebe a pergutna como parametro.
+     *
+     * NOTA: A cada nova rodada o indice vai mudando de 0 até 5 que são os 5 primeiros números
+     * sorteados no método setIndice() na classe Perguntas. Os outros 3 números são reservados para
+     * os 3 pulos, que podem ocorrer no nivel atual de perguntas.
+     *
+     * Depois de 5 rodadas o método nivel() muda os atributos nivelPergunta para o proximo nivel
+     * e o indice chama o método setIndice() para gerar novos números. Assim a cada 5 rodadas o
+     * jogo atualiza sozinho o nivel de perguntas.
+     */
     public void rodada11() {
-        if(pulos == 3 && cartas == 1 && convidados == 1 && placas == 1){
-            som = MediaPlayer.create(this, R.raw.frase1);
-            som.start();
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    // Comando para executar um som;
-                    som = MediaPlayer.create(TelaPrincipal.this, R.raw.frase_100mil);
-                    som.start();
-                }
-            }, 5000);
-        } else {
-            // Comando para executar um som;
-            som = MediaPlayer.create(this, R.raw.frase_100mil);
-            som.start();
-        }
-
-
         // Comando para executar um som;
         som = MediaPlayer.create(this, R.raw.frase_100mil);
         som.start();
@@ -1094,6 +1391,21 @@ public class TelaPrincipal extends AppCompatActivity {
         formatacaoPergunta(pergunta);
     }
 
+    /** Esse método define uma rodada de perguntas do jogo. São 16 rodadas no total.
+     * Ele faz o instanciamento da classe Perguntas para ter acesso ao método setNivel().
+     * O método setNivel() recebe dois parametros, nivelPergunta e indice, ele gera um pergunta
+     * aleatória e retorna esse dado para dentro do atributo pergunta. Essa pergunta vem sem
+     * formatação tendo o texto separado por posição, para fazer a formatação do texto a ser
+     * apresentado na tela ele chama o método formatacaoPergunta() e recebe a pergutna como parametro.
+     *
+     * NOTA: A cada nova rodada o indice vai mudando de 0 até 5 que são os 5 primeiros números
+     * sorteados no método setIndice() na classe Perguntas. Os outros 3 números são reservados para
+     * os 3 pulos, que podem ocorrer no nivel atual de perguntas.
+     *
+     * Depois de 5 rodadas o método nivel() muda os atributos nivelPergunta para o proximo nivel
+     * e o indice chama o método setIndice() para gerar novos números. Assim a cada 5 rodadas o
+     * jogo atualiza sozinho o nivel de perguntas.
+     */
     public void rodada12() {
         // Comando para executar um som;
         som = MediaPlayer.create(this, R.raw.frase_200mil);
@@ -1107,6 +1419,21 @@ public class TelaPrincipal extends AppCompatActivity {
         formatacaoPergunta(pergunta);
     }
 
+    /** Esse método define uma rodada de perguntas do jogo. São 16 rodadas no total.
+     * Ele faz o instanciamento da classe Perguntas para ter acesso ao método setNivel().
+     * O método setNivel() recebe dois parametros, nivelPergunta e indice, ele gera um pergunta
+     * aleatória e retorna esse dado para dentro do atributo pergunta. Essa pergunta vem sem
+     * formatação tendo o texto separado por posição, para fazer a formatação do texto a ser
+     * apresentado na tela ele chama o método formatacaoPergunta() e recebe a pergutna como parametro.
+     *
+     * NOTA: A cada nova rodada o indice vai mudando de 0 até 5 que são os 5 primeiros números
+     * sorteados no método setIndice() na classe Perguntas. Os outros 3 números são reservados para
+     * os 3 pulos, que podem ocorrer no nivel atual de perguntas.
+     *
+     * Depois de 5 rodadas o método nivel() muda os atributos nivelPergunta para o proximo nivel
+     * e o indice chama o método setIndice() para gerar novos números. Assim a cada 5 rodadas o
+     * jogo atualiza sozinho o nivel de perguntas.
+     */
     public void rodada13() {
         // Comando para executar um som;
         som = MediaPlayer.create(this, R.raw.frase_300mil);
@@ -1120,6 +1447,21 @@ public class TelaPrincipal extends AppCompatActivity {
         formatacaoPergunta(pergunta);
     }
 
+    /** Esse método define uma rodada de perguntas do jogo. São 16 rodadas no total.
+     * Ele faz o instanciamento da classe Perguntas para ter acesso ao método setNivel().
+     * O método setNivel() recebe dois parametros, nivelPergunta e indice, ele gera um pergunta
+     * aleatória e retorna esse dado para dentro do atributo pergunta. Essa pergunta vem sem
+     * formatação tendo o texto separado por posição, para fazer a formatação do texto a ser
+     * apresentado na tela ele chama o método formatacaoPergunta() e recebe a pergutna como parametro.
+     *
+     * NOTA: A cada nova rodada o indice vai mudando de 0 até 5 que são os 5 primeiros números
+     * sorteados no método setIndice() na classe Perguntas. Os outros 3 números são reservados para
+     * os 3 pulos, que podem ocorrer no nivel atual de perguntas.
+     *
+     * Depois de 5 rodadas o método nivel() muda os atributos nivelPergunta para o proximo nivel
+     * e o indice chama o método setIndice() para gerar novos números. Assim a cada 5 rodadas o
+     * jogo atualiza sozinho o nivel de perguntas.
+     */
     public void rodada14() {
         // Comando para executar um som;
         som = MediaPlayer.create(this, R.raw.frase_400mil);
@@ -1133,25 +1475,25 @@ public class TelaPrincipal extends AppCompatActivity {
         formatacaoPergunta(pergunta);
     }
 
+    /** Esse método define uma rodada de perguntas do jogo. São 16 rodadas no total.
+     * Ele faz o instanciamento da classe Perguntas para ter acesso ao método setNivel().
+     * O método setNivel() recebe dois parametros, nivelPergunta e indice, ele gera um pergunta
+     * aleatória e retorna esse dado para dentro do atributo pergunta. Essa pergunta vem sem
+     * formatação tendo o texto separado por posição, para fazer a formatação do texto a ser
+     * apresentado na tela ele chama o método formatacaoPergunta() e recebe a pergutna como parametro.
+     *
+     * NOTA: A cada nova rodada o indice vai mudando de 0 até 5 que são os 5 primeiros números
+     * sorteados no método setIndice() na classe Perguntas. Os outros 3 números são reservados para
+     * os 3 pulos, que podem ocorrer no nivel atual de perguntas.
+     *
+     * Depois de 5 rodadas o método nivel() muda os atributos nivelPergunta para o proximo nivel
+     * e o indice chama o método setIndice() para gerar novos números. Assim a cada 5 rodadas o
+     * jogo atualiza sozinho o nivel de perguntas.
+     */
     public void rodada15() {
-        // Condição que verifica se as ajudas foram usadas, caso não um som de parabéns é iniciado;
-        if(pulos == 3 && cartas == 1 && convidados == 1 && placas == 1){
-            som = MediaPlayer.create(this, R.raw.frase1);
-            som.start();
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    // Comando para executar um som;
-                    som = MediaPlayer.create(TelaPrincipal.this, R.raw.frase_500mil);
-                    som.start();
-                }
-            }, 5000);
-        } else {
-            // Comando para executar um som;
-            som = MediaPlayer.create(this, R.raw.frase_500mil);
-            som.start();
-        }
+        // Comando para executar um som;
+        som = MediaPlayer.create(this, R.raw.frase_500mil);
+        som.start();
 
         Perguntas dados = new Perguntas();
 
@@ -1161,6 +1503,66 @@ public class TelaPrincipal extends AppCompatActivity {
         formatacaoPergunta(pergunta);
     }
 
-    // FALTA A ÚLTIMA RODADA - 16 --->>>>
+    /** Esse método corresponde a última pergunta do jogo, quando o método é chamado ele mostra um
+     * popUP na tela para que o jogador confirme a intenção de continuar ou desistir do jogo.
+     * De acordo com a resposta do jogador o método setParar() é chamado ou o código segue o fluxo.
+     * Os botões de ajudas são desabilitados e uma nova pergunta é gerada chamando o método de
+     * formatacaoPergunta();
+     */
+    public void rodada16() {
+
+        AlertDialog.Builder pop = new AlertDialog.Builder(this);
+        pop.setTitle("ARRISCA TUDO!");
+        pop.setIcon(R.drawable.logo);
+        pop.setMessage("Você quer arriscar tudo na última pergunta?");
+
+        pop.setNegativeButton("Desistir!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                som = MediaPlayer.create(TelaPrincipal.this, R.raw.frase_desistiu_500mil);
+                som.start();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        setParar();
+                    }
+                },5000);
+
+            }
+        });
+
+        pop.setPositiveButton("Arriscar!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Na última pergunta as ajudas precisam ser zeradas;
+                btnPular.setEnabled(false);
+                btnPular.setImageResource(R.drawable.pular2);
+
+                btnConvidados.setEnabled(false);
+                btnConvidados.setImageResource(R.drawable.convidados2);
+
+                btnPlacas.setEnabled(false);
+                btnPlacas.setImageResource(R.drawable.placas2);
+
+                btnCartas.setEnabled(false);
+                btnCartas.setImageResource(R.drawable.cartas2);
+
+                // Comando para executar um som;
+                som = MediaPlayer.create(TelaPrincipal.this, R.raw.frase_final);
+                som.start();
+
+                Perguntas dados = new Perguntas();
+
+                pergunta = dados.setNivel(nivelPergunta, indice.get(0));
+                // Teste -->> Toast.makeText(this, "Indice: "+ indice.indexOf(4), Toast.LENGTH_LONG).show();
+
+                formatacaoPergunta(pergunta);
+            }
+        });
+
+        pop.show();
+
+    }
 
 }

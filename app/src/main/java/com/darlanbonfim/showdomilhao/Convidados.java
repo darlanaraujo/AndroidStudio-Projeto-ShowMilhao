@@ -93,10 +93,10 @@ public class Convidados extends AppCompatActivity {
                     public void run() {
                         btnVoltar.setVisibility(View.VISIBLE);
                     }
-                },1500);
+                },1000);
 
             }
-        }, 5000);
+        }, 3000);
 
     }
 

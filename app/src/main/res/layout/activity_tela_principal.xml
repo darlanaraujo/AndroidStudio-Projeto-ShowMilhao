@@ -65,13 +65,13 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/txtTime"
+                    android:id="@+id/txtTimer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="30"
+                    android:text="00:00"
                     android:textColor="@color/black"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -120,7 +120,7 @@
                     android:paddingTop="5dp"
                     android:paddingRight="5dp"
                     android:paddingBottom="5dp"
-                    android:text="Pergunta"
+                    android:text="Processando..."
                     android:textColor="@color/white"
                     android:textSize="16sp" />
 
@@ -321,7 +321,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
-                    android:onClick="clickCartas"
+                    android:onClick="Cartas"
                     android:scaleType="centerInside"
                     app:srcCompat="@drawable/cartas" />
 
@@ -331,7 +331,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
-                    android:onClick="setPlacas"
+                    android:onClick="Placas"
                     android:scaleType="centerInside"
                     app:srcCompat="@drawable/placas" />
 
@@ -341,7 +341,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
-                    android:onClick="setConvidados"
+                    android:onClick="Convidados"
                     android:scaleType="centerInside"
                     app:srcCompat="@drawable/convidados" />
 
@@ -351,7 +351,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
-                    android:onClick="setPulo"
+                    android:onClick="Pular"
                     android:scaleType="centerInside"
                     app:srcCompat="@drawable/pular" />
 

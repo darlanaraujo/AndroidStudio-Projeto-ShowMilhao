@@ -14,10 +14,86 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="nav_header_desc">Navegação</string>
+    <string name="action_settings">Configurações</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_home">Jogar</string>
+    <string name="menu_gallery">Regras</string>
+    <string name="menu_slideshow">Créditos</string>
+    <string name="txtRegras">
+        <b>Rodadas:</b>
+        \n
+        O programa consiste em três rodadas e uma pergunta final: sendo na primeira rodada 5 perguntas,
+        cada uma valendo mil reais cumulativos. A segunda, de 5 perguntas, valendo R$ 10 mil
+        cumulativos cada. A terceira, de 5 perguntas de R$100 mil reais cumulativos cada.
+        A última pergunta valia R$ 1 milhão.
+        \n\n
+
+        <b>Ajudas:</b>
+        \n
+        O candidato conta com vários tipos de ajuda:
+        \n\n
+
+        <b>Convidados - </b>Os convidados irão escolher a resposta mais provável e a escolha da maioria
+        prevalecera sendo a sugestão passada ao jogador. Mas caberá ao jogador confiar ou não.
+        \n\n
+
+        <b>Placas - </b>Três pessoas da plateia de forma independente vai dar sua opinião sobre a
+        resposta certa. O jogo vai levar em conta a resposta mais provável. Mas caberá ao jogador
+        decidir a sua resposta.
+        \n\n
+
+        <b>Cartas - </b>Quatro cartas de baralho viradas para baixo será exibida ao jogador, e o
+        participante pode escolher apenas uma das opções. Ao clicar na carta escolhida vai ser
+        apresentado o número da carta. As opções são 0, 1, 2, 3. O valor da carta corresponde a
+        quantidade de opções de resposta que será elimina do jogo mantendo sempre a resposta certa
+        entre as opções restantes.
+        \n\n
+
+        <b>Pulos - </b>O participante poderá "pular" a pergunta caso não saiba a resposta.
+        Esse recurso pode ser utilizado até três vezes.
+        Na pergunta final, que vale o prêmio máximo, nenhuma das ajudas poderia ser usada.
+        O participante terá de escolher se responde à pergunta ou parava o jogo e saía com R$ 500 mil.
+        \n\n
+
+        <b>Premiação - </b> A qualquer momento o jogador pode parar o jogo, recebendo o valor
+        correspondente a rodada atual. Caso erre a pergunta ele leva o  premio estipulado.
+        \n\n
+
+        <b>Abaixo segue a tabela de premiação:</b>
+
+    </string>
+    <string name="txtVoltar">Voltar</string>
+    <string name="txtTelaCredito">
+        Estudante do quarto período do curso de <b>Analise e Desenvolvimento de Sistema</b> em 2021 esse
+        foi o meu primeiro contato com o desenvolvimento de App para Android. \n\n
+
+        O tempo de desenvolvimento ocorreu em 30 dias, data das férias de junho 2021 entre o terceiro
+        e o quarto período da faculdade. \n\n
+
+        O objetivo desse projeto é estritamente acadêmico, ele não tem nenhuma finalidade comercial
+        ou financeira. O projeto foi desenvolvido com a linguagem Java utilizando os paradigmas da
+        Orientação a Objetos. \n\n
+
+
+        Foi escolhido a opção de fazer o tema do <b>jogo Show do Milhão</b> devido as complexidades
+        necessárias para o seu desenvolvimento. As funcionalidades do jogo exigiram muita logica de
+        programação além da necessidade do desenvolvimento gráfico. \n\n
+
+        O projeto aborda vários pilares da Orientação a Objetos, herança de classes e comunicação
+        entre os métodos. \n\n
+
+        <b><u>Agradecimentos:</u></b> \n\n
+
+        Agradeço a <b>Deus</b> por me dar a sabedoria e a paixão necessária para trabalhar nessa área que
+        tanto amo. \n\n
+
+        Agradeço a <b>família</b> por compreender todas as noites e finais de semanas sacrificados para
+        concluir esse projeto. \n\n
+
+        Deixo registrado meus agradecimentos aos professores <b>Yuri</b> e <b>Gustavo Guanabara</b>, ter estudado
+        com vocês contribuiu muito para o desenvolvimento desse e de outros projeto até aqui. \n\n
+
+        <b>O Senhor é bom!</b>
+    </string>
 </resources>

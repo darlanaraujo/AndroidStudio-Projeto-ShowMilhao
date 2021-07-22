@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,8 +18,11 @@ import com.darlanbonfim.showdomilhao.databinding.FragmentGalleryBinding;
 
 public class GalleryFragment extends Fragment {
 
+    Button btnVoltarRegras;
+
     private GalleryViewModel galleryViewModel;
     private FragmentGalleryBinding binding;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -28,11 +32,14 @@ public class GalleryFragment extends Fragment {
         binding = FragmentGalleryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textGallery;
+        //final TextView textView = binding.textGallery;
+
+
         galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText(s);
+                //textView.setText(s);
+
             }
         });
         return root;

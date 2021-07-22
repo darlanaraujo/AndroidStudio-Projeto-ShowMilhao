@@ -17,7 +17,7 @@ import android.os.Handler;
 public class Cartas extends AppCompatActivity {
 
     ImageButton btnCarta0, btnCarta1, btnCarta2, btnCarta3;
-    TextView txtFrase;
+    TextView txtFrase, txtTimer;
     MediaPlayer som;
     Intent intent;
 

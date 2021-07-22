@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.Menu;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -43,8 +44,17 @@ public class Inicio extends AppCompatActivity {
         binding.appBarInicio.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Você será direcionado para o GitHub do projeto", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        navegacao = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/darlanaraujo/AndroidStudio-Projeto-ShowMilhao"));
+                        startActivity(navegacao);
+                    }
+                },2000);
+
             }
         });
         DrawerLayout drawer = binding.drawerLayout;
@@ -52,7 +62,7 @@ public class Inicio extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_home, R.id.nav_regras, R.id.nav_creditos)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_inicio);
@@ -63,7 +73,6 @@ public class Inicio extends AppCompatActivity {
         // Comando que gera um som no jogo;
         som = MediaPlayer.create(this, R.raw.abertura);
         som.start();
-
     }
 
     @Override
@@ -166,7 +175,7 @@ public class Inicio extends AppCompatActivity {
                 som = MediaPlayer.create(Inicio.this, R.raw.frase_tchau);
                 som.start();
 
-                closeContextMenu();
+                finish();
                 pausa(3000);
 
             }
