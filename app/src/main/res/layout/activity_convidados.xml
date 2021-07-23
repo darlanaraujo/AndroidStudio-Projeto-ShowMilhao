@@ -108,11 +108,11 @@
         android:id="@+id/imgResCerta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/imageView17"
+        app:layout_constraintBottom_toBottomOf="@+id/layPart1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView14"
-        app:layout_constraintVertical_bias="0.47000003"
+        app:layout_constraintVertical_bias="0.18"
         app:srcCompat="@drawable/icon_a_m" />
 
     <ImageView

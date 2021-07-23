@@ -38,8 +38,8 @@ public class TelaPrincipal extends AppCompatActivity {
                         "R$ 10.000", "R$ 20.000", "R$ 30.000", "R$ 40.000", "R$ 50.000",
                         "R$ 100.000", "R$ 200.000", "R$ 300.000", "R$ 400.000", "R$ 500.000",
                         "R$ 1.000.000"};
-    String errar, parar, acertar; // Recebe o valor do premio baseado no numero da rodada atual;
-    String ganhou;
+    String errar = "R$ 0,00", parar = "R$ 0,00", acertar = "R$ 0,00"; // Recebe o valor do premio baseado no numero da rodada atual;
+    String ganhou = "R$ 0,00";
 
     // Atributos que recebe o valor gerado na tela de ajuda;
     int valorCartas; // Recebe o valor sorteado pelas cartas para indicar quantas respostas serão eliminadas;
