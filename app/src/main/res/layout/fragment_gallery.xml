@@ -73,15 +73,11 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp">
 
-            <EditText
-                android:id="@+id/editTextTextMultiLine"
+            <TextView
+                android:id="@+id/textView15"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:gravity="start|top"
-                android:inputType="textMultiLine"
-                android:text="@string/txtRegras"
-                android:textSize="14sp" />
+                android:text="@string/txtRegras" />
 
             <ImageView
                 android:id="@+id/imageView35"

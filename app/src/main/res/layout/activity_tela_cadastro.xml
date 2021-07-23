@@ -29,17 +29,29 @@
         app:layout_constraintTop_toTopOf="@+id/imageView8"
         app:srcCompat="@drawable/nuvem_topo" />
 
+    <ImageView
+        android:id="@+id/imageView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/rodape1" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:background="@color/white"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView8">
+        app:layout_constraintTop_toBottomOf="@+id/imageView11">
 
         <EditText
             android:id="@+id/editNome"
@@ -73,26 +85,14 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/rodape1" />
-
-    <ImageView
         android:id="@+id/imageView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView13"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         app:srcCompat="@drawable/nuvem_base" />
 
     <ImageView

@@ -1,15 +1,15 @@
 <resources>
-    <string name="app_name">Million Show</string>
-    <string name="btn_txtJogar">To Play</string>
-    <string name="txtCredito">App developed by Darlan Araujo</string>
-    <string name="btn_txtSalvar">To save</string>
-    <string name="txtTextoVazio">Please fill in all fields!</string>
-    <string name="txtJogadorSalvo">Player salved successfully!</string>
-    <string name="txtJogador">Player:</string>
-    <string name="txtCartas">Choose one of the 4 cards below. Good luck!</string>
+    <string name="app_name">Show do Milhão by Darlan</string>
+    <string name="btn_txtJogar">Jogar</string>
+    <string name="txtCredito">App desenvolvido por Darlan Araujo</string>
+    <string name="btn_txtSalvar">Salvar</string>
+    <string name="txtTextoVazio">Por favor preencha todos os campos!</string>
+    <string name="txtJogadorSalvo">Jogador salvo com sucesso!</string>
+    <string name="txtJogador">Jogador:</string>
+    <string name="txtCartas">Escolha uma das 4 cartas abaixo. Boa sorte!</string>
     <string name="txtRanking">Ranking</string>
-    <string name="txtSair">Exit</string>
-    <string name="title_activity_inicio">Inicio</string>
+    <string name="txtSair">Sair</string>
+    <string name="title_activity_inicio">Início</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
