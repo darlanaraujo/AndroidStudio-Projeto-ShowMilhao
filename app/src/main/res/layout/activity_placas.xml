@@ -36,6 +36,17 @@
         app:srcCompat="@drawable/silvio" />
 
     <ImageView
+        android:id="@+id/imageView31"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/img_ouro" />
+
+    <ImageView
         android:id="@+id/imageView29"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,25 +58,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/nuvem_topo2" />
 
-    <ImageView
-        android:id="@+id/imageView30"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="192dp"
-        android:adjustViewBounds="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/nuvem_base" />
-
     <LinearLayout
         android:id="@+id/layPart1"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/imageView30"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView29">
@@ -82,48 +80,24 @@
         <ImageView
             android:id="@+id/imgParticipantes"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="130dp"
             android:layout_marginTop="60dp"
+            android:layout_marginBottom="40dp"
+            android:minWidth="130dp"
             app:srcCompat="@drawable/img_placas" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnVoltar2"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="260dp"
-        android:text="Voltar"
-        android:textColor="@color/white"
-        app:backgroundTint="@color/secundaria"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView20"
-        app:layout_constraintVertical_bias="0.16000003" />
-
     <ImageView
-        android:id="@+id/imgPlaca1"
+        android:id="@+id/imageView30"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/imageView20"
+        android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView29"
-        app:layout_constraintVertical_bias="0.39"
-        app:srcCompat="@drawable/icon_placa1" />
-
-    <ImageView
-        android:id="@+id/imgPlaca2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/imageView30"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.72"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView29"
-        app:srcCompat="@drawable/icon_placa2" />
+        app:layout_constraintTop_toBottomOf="@+id/layPart1"
+        app:srcCompat="@drawable/nuvem_base" />
 
     <ImageView
         android:id="@+id/imgPlaca3"
@@ -135,29 +109,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView29"
         app:srcCompat="@drawable/icon_placa3" />
-
-    <ImageView
-        android:id="@+id/imgVoto1"
-        android:layout_width="63dp"
-        android:layout_height="55dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView30"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView29"
-        app:layout_constraintVertical_bias="0.32999998"
-        app:srcCompat="@drawable/icon_btn_a" />
-
-    <ImageView
-        android:id="@+id/imgVoto2"
-        android:layout_width="57dp"
-        android:layout_height="45dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView30"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.72"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView29"
-        app:layout_constraintVertical_bias="0.48000002"
-        app:srcCompat="@drawable/icon_btn_a" />
 
     <ImageView
         android:id="@+id/imgVoto3"
@@ -172,15 +123,62 @@
         app:srcCompat="@drawable/icon_btn_a" />
 
     <ImageView
-        android:id="@+id/imageView31"
+        android:id="@+id/imgPlaca2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="420dp"
-        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toTopOf="@+id/imageView30"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.72"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/img_ouro" />
+        app:layout_constraintTop_toTopOf="@+id/imageView29"
+        app:srcCompat="@drawable/icon_placa2" />
+
+    <ImageView
+        android:id="@+id/imgVoto2"
+        android:layout_width="57dp"
+        android:layout_height="45dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.72"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView29"
+        app:layout_constraintVertical_bias="0.48000002"
+        app:srcCompat="@drawable/icon_btn_a" />
+
+    <ImageView
+        android:id="@+id/imgPlaca1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/layPart1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView29"
+        app:layout_constraintVertical_bias="0.35000002"
+        app:srcCompat="@drawable/icon_placa1" />
+
+    <ImageView
+        android:id="@+id/imgVoto1"
+        android:layout_width="63dp"
+        android:layout_height="55dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView29"
+        app:layout_constraintVertical_bias="0.33999997"
+        app:srcCompat="@drawable/icon_btn_a" />
+
+    <Button
+        android:id="@+id/btnVoltar2"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Voltar"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/secundaria"
+        app:layout_constraintBottom_toBottomOf="@+id/layPart1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView29"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

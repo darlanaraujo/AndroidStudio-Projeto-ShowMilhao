@@ -6,14 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".ui.slideshow.SlideshowFragment">
 
+    <ImageView
+        android:id="@+id/imageView40"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/fundo_ouro"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView40"
+        android:layout_marginBottom="90dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView40"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.48000002">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,7 +35,7 @@
             <ImageView
                 android:id="@+id/imageView41"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="120dp"
                 android:src="@drawable/foto" />
 
             <TextView
@@ -130,15 +141,5 @@
 
         </LinearLayout>
     </ScrollView>
-
-    <ImageView
-        android:id="@+id/imageView40"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:src="@drawable/fundo_ouro"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

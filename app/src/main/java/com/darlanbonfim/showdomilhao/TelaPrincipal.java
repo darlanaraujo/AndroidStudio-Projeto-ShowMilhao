@@ -101,18 +101,41 @@ public class TelaPrincipal extends AppCompatActivity {
 
     }
 
+    // FERRAMENTAS PARA FINALIZAR O JOGO ===========================================================
+
+    /** Esse método recebe um parametro com o tempo determinado para regreção. Fora do método a classe
+     * Timer foi instanciada e criado um objeto timer. Esse objeto passa 6 parametros para a classe,
+     * 1 - Contexto (que é a tela atual);
+     * 2 - O TextView que vai mostrar o relógio;
+     * 3 - O tempo da contagem regressiva. Ex: 30 segundos
+     * 4 - O tempo de intervalo do tempo. Ex: 1 segundo;
+     * 5 - O valor do premio atual do jogador;
+     * 6 - O nome do jogador;
+     * Os dois últimos parametros são usados caso a contagem regressiva acabe, ele passa esses
+     * parametros para a tela de premiação;
+     * @param tempo Parametro que recebe o tempo que será usado como regreção;
+     */
     public void setTimer(long tempo){
 
         timer = new Timer(this, txtTimer, tempo, 1000, acertar, jogador);
         timer.start();
 
-
     }
 
+    /** Esse método é chamado toda vez que a resposta do jogador é confirmada como correta ou
+     * quando o jogo acaba.
+     * Ele faz parar a contagem regressiva;
+     */
     public void stopTimer(){
         timer.cancel();
     }
 
+    /** Esse método é chamado ao termino do jogo, seja pelo tempo, na última resposta, ao errar a
+     * pergunta ou o jogador parar o jogo.
+     * Ele recebe como parametro o premio atual que pode ser quado erra, acerta ou para.
+     * Ele chama a classe Tela Premio e passa o valor do premio e o nome do jogador como parametro
+     * @param ganhou Parametro que recebe o valor do premio atual do jogador;
+     */
     public void setFinal(String ganhou){
         // Comando para parar o tempo;
         stopTimer();

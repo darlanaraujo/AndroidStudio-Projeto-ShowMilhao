@@ -45,7 +45,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/imageView43"
+        app:layout_constraintBottom_toTopOf="@+id/btnVoltarInicio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView14">
@@ -144,8 +144,8 @@
         app:backgroundTint="@color/secundaria"
         app:layout_constraintBottom_toBottomOf="@+id/imageView43"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView43"
-        app:layout_constraintVertical_bias="0.286" />
+        app:layout_constraintVertical_bias="0.434" />
 </androidx.constraintlayout.widget.ConstraintLayout>

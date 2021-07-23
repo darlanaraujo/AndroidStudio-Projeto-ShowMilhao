@@ -48,28 +48,25 @@
         app:srcCompat="@drawable/nuvem_topo2" />
 
     <ImageView
-        android:id="@+id/imageView19"
-        android:layout_width="wrap_content"
+        android:id="@+id/imageView17"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="200dp"
         android:adjustViewBounds="true"
         app:layout_constraintBottom_toBottomOf="@+id/imageView5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/nuvem_base" />
+        app:srcCompat="@drawable/img_ouro" />
 
     <LinearLayout
         android:id="@+id/layPart1"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/imageView19"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView14"
-        app:layout_constraintVertical_bias="0.385">
+        app:layout_constraintTop_toBottomOf="@+id/imageView14">
 
         <TextView
             android:id="@+id/txtMsgConvidados"
@@ -86,33 +83,12 @@
         <ImageView
             android:id="@+id/imgParticipantes"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="250dp"
+            android:adjustViewBounds="true"
+            android:minWidth="250dp"
             app:srcCompat="@drawable/img_convidados" />
 
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/imageView17"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="420dp"
-        android:adjustViewBounds="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/img_ouro" />
-
-    <ImageView
-        android:id="@+id/imgResCerta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/imageView17"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView14"
-        app:layout_constraintVertical_bias="0.19"
-        app:srcCompat="@drawable/icon_a_m" />
 
     <Button
         android:id="@+id/btnVoltar"
@@ -125,7 +101,29 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView17"
-        app:layout_constraintVertical_bias="0.25" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView14"
+        app:layout_constraintVertical_bias="0.78" />
+
+    <ImageView
+        android:id="@+id/imgResCerta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/imageView17"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView14"
+        app:layout_constraintVertical_bias="0.47000003"
+        app:srcCompat="@drawable/icon_a_m" />
+
+    <ImageView
+        android:id="@+id/imageView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layPart1"
+        app:srcCompat="@drawable/nuvem_base" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
