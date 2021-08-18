@@ -9,15 +9,15 @@
 
     <ImageView
         android:id="@+id/imageView36"
-        android:layout_width="230dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="142dp"
+        android:layout_marginTop="8dp"
         android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/logo_jogo_ok" />
 
     <ImageView
         android:id="@+id/imageView37"
@@ -60,13 +60,13 @@
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="36dp"
         android:text="Você ganhou..."
         android:textColor="@color/secundaria"
         android:textSize="34sp"
         android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.157"
+        app:layout_constraintHorizontal_bias="0.173"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView36" />
 

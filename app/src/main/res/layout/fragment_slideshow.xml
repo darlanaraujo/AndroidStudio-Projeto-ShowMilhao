@@ -95,7 +95,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:drawableStart="@drawable/ic_menu_send"
                 android:gravity="fill_vertical"
                 android:text="Sobre"
                 android:textColor="@color/black"
@@ -119,7 +118,8 @@
                 android:text="Compartilhar o Jogo"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:drawableLeft="@drawable/ic_menu_share" />
 
             <ImageView
                 android:id="@+id/imgDownloadApp"
@@ -127,14 +127,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:adjustViewBounds="true"
-                android:src="@drawable/logo" />
+                android:src="@drawable/logo_jogo_ok" />
 
             <TextView
                 android:id="@+id/textView12"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="App Show do Milhão"
+                android:text="App Pergunta do Milhão"
                 android:textColor="@color/secundaria"
                 android:textSize="16sp"
                 android:textStyle="bold|italic" />

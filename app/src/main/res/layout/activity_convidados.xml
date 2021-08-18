@@ -18,15 +18,6 @@
         app:srcCompat="@drawable/rodape1" />
 
     <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="163dp"
-        android:layout_height="124dp"
-        android:adjustViewBounds="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
-
-    <ImageView
         android:id="@+id/imageView9"
         android:layout_width="249dp"
         android:layout_height="141dp"
@@ -125,5 +116,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layPart1"
         app:srcCompat="@drawable/nuvem_base" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="163dp"
+        android:layout_height="124dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo_jogo_ok" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

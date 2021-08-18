@@ -7,18 +7,18 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.darlanbonfim.showdomilhao.ui.home.HomeFragment"
+        android:name="com.darlanbonfim.perguntadomilhao.ui.home.HomeFragment"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_regras"
-        android:name="com.darlanbonfim.showdomilhao.ui.gallery.GalleryFragment"
+        android:name="com.darlanbonfim.perguntadomilhao.ui.gallery.GalleryFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_creditos"
-        android:name="com.darlanbonfim.showdomilhao.ui.slideshow.SlideshowFragment"
+        android:name="com.darlanbonfim.perguntadomilhao.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
 </navigation>

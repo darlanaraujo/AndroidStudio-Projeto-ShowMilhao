@@ -31,14 +31,15 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="146dp"
+        android:layout_width="176dp"
         android:layout_height="106dp"
+        android:layout_marginTop="16dp"
         android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.105"
+        app:layout_constraintHorizontal_bias="0.068"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/logo_jogo_ok" />
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -113,7 +114,7 @@
                     android:id="@+id/txtPergunta"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/secundaria"
+                    android:background="@drawable/fundo_arredondado_vermelho"
                     android:gravity="center"
                     android:minHeight="80dp"
                     android:paddingLeft="5dp"
@@ -296,7 +297,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:background="@color/secundaria"
+                android:background="@drawable/fundo_arredondado_vermelho"
                 android:gravity="center"
                 android:text="----- APOIO -----"
                 android:textColor="@color/white"

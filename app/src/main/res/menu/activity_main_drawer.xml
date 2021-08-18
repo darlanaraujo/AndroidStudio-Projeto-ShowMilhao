@@ -17,5 +17,37 @@
             android:id="@+id/nav_creditos"
             android:icon="@android:drawable/ic_input_get"
             android:title="@string/menu_slideshow" />
+
     </group>
+
+    <!--
+    <group android:checkableBehavior="single">
+        <item
+            android:icon="@drawable/ic_compartilhar"
+            android:title="Compartilhe">
+
+            <menu>
+                <item
+                    android:id="menu_github"
+                    android:icon="@drawable/icon_github"
+                    android:title="GitHub" />
+                <item
+                    android:id="menu_youtube"
+                    android:icon="@drawable/icon_youtube_cinza"
+                    android:title="YoutTube" />
+                <item
+                    android:id="menu_twitter"
+                    android:icon="@drawable/icon_twitter_cinza"
+                    android:title="Twitter" />
+                <item
+                    android:id="menu_linkedin"
+                    android:icon="@drawable/icon_linkdin_cinza"
+                    android:title="Linkedin" />
+            </menu>
+
+
+        </item>
+
+    </group>
+    -->>
 </menu>
